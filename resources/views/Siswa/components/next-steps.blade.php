@@ -25,7 +25,7 @@
       </div>
       <div class="step-item-right">
         <span class="step-status-tag tag-success">Selesai</span>
-        <a href="#akademik" class="btn-step-action btn-outline-action">Edit Data</a>
+        <a href="{{ route('siswa.akademik') }}" class="btn-step-action btn-outline-action">Buka Data</a>
       </div>
     </div>
 
@@ -42,12 +42,12 @@
       </div>
       <div class="step-item-right">
         <span class="step-status-tag tag-warning">Belum Selesai</span>
-        <button type="button" class="btn-step-action btn-accent-action btn-trigger-asesmen" data-modal-target="modalAsesmen" data-modal-toggle="modalAsesmen">
+        <a href="{{ route('siswa.asesmen') }}" class="btn-step-action btn-accent-action">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="5 3 19 12 5 21 5 3"></polygon>
           </svg>
           Mulai Tes
-        </button>
+        </a>
       </div>
     </div>
 
@@ -63,14 +63,10 @@
         </div>
       </div>
       <div class="step-item-right">
-        <span class="step-status-tag tag-locked">Terkunci</span>
-        <button type="button" class="btn-step-action btn-outline-action" disabled title="Selesaikan langkah 2 terlebih dahulu">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
+        <span class="step-status-tag tag-ready">Tersedia</span>
+        <a href="{{ route('siswa.asesmen') }}#kartuRekomendasiSection" class="btn-step-action btn-outline-action">
           Lihat Hasil
-        </button>
+        </a>
       </div>
     </div>
 
@@ -87,9 +83,9 @@
       </div>
       <div class="step-item-right">
         <span class="step-status-tag tag-ready">Siap Dijadwalkan</span>
-        <button type="button" class="btn-step-action btn-primary-action btn-trigger-booking" data-modal-target="modalBooking" data-modal-toggle="modalBooking">
+        <a href="{{ route('siswa.konsultasi') }}" class="btn-step-action btn-primary-action">
           Pilih Jadwal
-        </button>
+        </a>
       </div>
     </div>
   </div>

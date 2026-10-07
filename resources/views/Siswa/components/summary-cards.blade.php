@@ -22,12 +22,12 @@
         Belum Dikerjakan
       </div>
     </div>
-    <button type="button" class="btn-card-action btn-trigger-asesmen" data-modal-target="modalAsesmen" data-modal-toggle="modalAsesmen">
+    <a href="{{ route('siswa.asesmen') }}" class="btn-card-action">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="5 3 19 12 5 21 5 3"></polygon>
       </svg>
       Mulai Asesmen
-    </button>
+    </a>
   </div>
 
   <!-- Card 2: Rekomendasi Prodi -->
@@ -42,9 +42,14 @@
           </svg>
         </div>
       </div>
-      <div class="dash-value">—</div>
+      <div class="dash-value" style="font-size:16px; font-weight:800; color:var(--c-primary); margin:8px 0 4px;">Teknik Informatika (96%)</div>
     </div>
-    <p class="dash-hint">Selesaikan asesmen minat & bakat untuk membuka rekomendasi AI.</p>
+    <a href="{{ route('siswa.asesmen') }}#kartuRekomendasiSection" class="link-action">
+      <span>Lihat Rekomendasi AI</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </a>
   </div>
 
   <!-- Card 3: Jadwal Konsultasi -->
@@ -61,16 +66,16 @@
           </svg>
         </div>
       </div>
-      <div class="schedule-date">Kamis, 15 Okt 2026</div>
-      <div class="schedule-expert">14.00 WIB &bull; Dra. Sarah Amelia, M.Psi</div>
+      <div class="schedule-date">Jumat, 10 Okt 2026</div>
+      <div class="schedule-expert">14.00 WIB &bull; Dr. Maya Sartika, M.Psi</div>
     </div>
     <div>
-      <span class="badge-tag-zoom">
+      <a href="{{ route('siswa.konsultasi') }}" class="badge-tag-zoom" style="text-decoration:none; display:inline-flex;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
           <path d="M4 4h10a2 2 0 0 1 2 2v3.34l4.5-2.25A1 1 0 0 1 22 8v8a1 1 0 0 1-1.5.86L16 14.66V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>
         </svg>
-        Online via Zoom Meeting
-      </span>
+        Buka Ruang Zoom
+      </a>
     </div>
   </div>
 
@@ -85,10 +90,10 @@
           </svg>
         </div>
       </div>
-      <div class="history-meta">2 Sesi Telah Selesai</div>
-      <div class="history-desc">Terakhir: 28 Sep 2026 (Orientasi Minat Karir)</div>
+      <div class="history-meta">3 Sesi Telah Selesai</div>
+      <div class="history-desc">Terakhir: 02 Okt 2026 (Analisis Bakat Saintek)</div>
     </div>
-    <a href="#riwayat-konsultasi" class="link-action">
+    <a href="{{ route('siswa.riwayat_konsultasi') }}" class="link-action">
       <span>Lihat Catatan Konselor</span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"></polyline>
