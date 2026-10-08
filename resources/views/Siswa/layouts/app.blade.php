@@ -20,6 +20,7 @@
 
   <!-- Separated Stylesheet -->
   <link rel="stylesheet" href="{{ asset('css/Siswa/dashboard-siswa.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/Siswa/pages-siswa.css') }}">
 
   @stack('styles')
 </head>
@@ -35,7 +36,7 @@
   <!-- Main Content Wrapper -->
   <div class="main-wrapper">
     <!-- Topbar / Navbar Component -->
-    @include('Siswa.components.navbar')
+    @include('Siswa.components.navbar', ['pageTitle' => $pageTitle ?? 'Beranda'])
 
     <!-- Page Content Container -->
     <main class="content-container">
@@ -52,6 +53,7 @@
 
 <!-- Dashboard Interaction Script -->
 <script src="{{ asset('js/Siswa/dashboard-siswa.js') }}"></script>
+<script src="{{ asset('js/Siswa/pages-siswa.js') }}"></script>
 
 @stack('scripts')
 </body>

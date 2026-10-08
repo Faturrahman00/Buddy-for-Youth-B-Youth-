@@ -11,7 +11,7 @@
         <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
-    <h1 class="topbar-title">Beranda</h1>
+    <h1 class="topbar-title">{{ $pageTitle ?? 'Beranda' }}</h1>
   </div>
 
   <div class="topbar-right">
