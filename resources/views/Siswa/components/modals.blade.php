@@ -3,66 +3,7 @@
   File: resources/views/Siswa/components/modals.blade.php
 --}}
 
-<!-- 1. Modal Booking Konsultasi Baru -->
-<div class="modal-overlay hidden" id="modalBooking" tabindex="-1" aria-hidden="true">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h4 class="modal-title">Booking Konsultasi Baru</h4>
-      <button type="button" class="modal-close-btn modal-close-trigger" data-modal-hide="modalBooking" aria-label="Tutup Modal">&times;</button>
-    </div>
-    <form id="bookingConsultationForm">
-      <div class="modal-body" style="display:flex; flex-direction:column; gap:16px;">
-        <div>
-          <label style="display:block; font-size:14px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Pilih Topik Konseling</label>
-          <select style="width:100%; padding:10px 12px; border:1.5px solid var(--c-border); border-radius:var(--radius-sm); font-family:inherit; font-size:14px; outline:none;" required>
-            <option value="">-- Pilih Topik Diskusi --</option>
-            <option value="1">Penentuan Jurusan SNBP / SNBT</option>
-            <option value="2">Eksplorasi Minat, Bakat & Kepribadian</option>
-            <option value="3">Diskusi Penyelarasan Aspirasi Orang Tua</option>
-            <option value="4">Peluang Karir & Industri Masa Depan</option>
-          </select>
-        </div>
-
-        <div>
-          <label style="display:block; font-size:14px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Pilih Psikolog / Konselor</label>
-          <select style="width:100%; padding:10px 12px; border:1.5px solid var(--c-border); border-radius:var(--radius-sm); font-family:inherit; font-size:14px; outline:none;" required>
-            <option value="">-- Pilih Psikolog Tersertifikasi --</option>
-            <option value="1">Dra. Sarah Amelia, M.Psi (Spesialis Karir Remaja)</option>
-            <option value="2">Bambang Wicaksono, M.Psi (Spesialis Saintek & STEM)</option>
-            <option value="3">Nadia Salsabila, S.Psi, M.Ed (Spesialis Soshum & Desain)</option>
-          </select>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-          <div>
-            <label style="display:block; font-size:14px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Pilih Tanggal</label>
-            <input type="date" style="width:100%; padding:10px 12px; border:1.5px solid var(--c-border); border-radius:var(--radius-sm); font-family:inherit; font-size:14px; outline:none;" required value="{{ date('Y-m-d', strtotime('+3 days')) }}">
-          </div>
-          <div>
-            <label style="display:block; font-size:14px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Pilih Sesi Jam</label>
-            <select style="width:100%; padding:10px 12px; border:1.5px solid var(--c-border); border-radius:var(--radius-sm); font-family:inherit; font-size:14px; outline:none;" required>
-              <option value="10:00">10:00 - 11:00 WIB</option>
-              <option value="14:00" selected>14:00 - 15:00 WIB</option>
-              <option value="16:00">16:00 - 17:00 WIB</option>
-              <option value="19:30">19:30 - 20:30 WIB</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label style="display:block; font-size:14px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Catatan Tambahan untuk Konselor</label>
-          <textarea rows="3" placeholder="Tuliskan kendala atau pertanyaan utama yang ingin dibahas..." style="width:100%; padding:10px 12px; border:1.5px solid var(--c-border); border-radius:var(--radius-sm); font-family:inherit; font-size:14px; outline:none; resize:vertical;"></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-step-action btn-outline-action modal-close-trigger" data-modal-hide="modalBooking">Batal</button>
-        <button type="submit" class="btn-step-action btn-accent-action" style="padding:10px 20px;">Konfirmasi Booking</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- 2. Modal Mulai Asesmen -->
+<!-- 1. Modal Mulai Asesmen -->
 <div class="modal-overlay hidden" id="modalAsesmen" tabindex="-1" aria-hidden="true">
   <div class="modal-box">
     <div class="modal-header">
@@ -71,14 +12,13 @@
     </div>
     <div class="modal-body" style="display:flex; flex-direction:column; gap:16px;">
       <div style="background:var(--c-amber-subtle); border:1px solid var(--c-amber-light); padding:16px; border-radius:var(--radius-md); display:flex; gap:12px;">
-        <span style="font-size:24px;">⏱️</span>
         <div style="font-size:14px; color:#714600;">
           <strong>Petunjuk Pengerjaan:</strong>
           <ul style="margin-top:6px; padding-left:18px; line-height:1.5;">
             <li>Durasi tes: <strong>45 Menit</strong> tanpa jeda.</li>
             <li>Terdiri dari 60 pertanyaan pilihan ganda adaptif.</li>
             <li>Jawablah secara jujur sesuai preferensi diri Anda sendiri.</li>
-            <li>Hasil AI akan langsung dikalkulasikan setelah selesai.</li>
+            <li>Hasil rekomendasi akan langsung dikalkulasikan setelah selesai.</li>
           </ul>
         </div>
       </div>
@@ -110,60 +50,55 @@
   </div>
 </div>
 
-<!-- 4. Modal Tambah Nilai Rapor (Wireframe 1) -->
+<!-- 4. Modal Tambah / Masukkan Nilai Rapor -->
 <div class="modal-overlay hidden" id="modalTambahNilai" tabindex="-1" aria-hidden="true">
-  <div class="modal-box" style="max-width:550px;">
+  <div class="modal-box" style="max-width:520px;">
     <div class="modal-header">
-      <h4 class="modal-title">Input Nilai Rapor Baru</h4>
+      <h4 class="modal-title">Masukkan Nilai Rapor</h4>
       <button type="button" class="modal-close-btn modal-close-trigger" aria-label="Tutup Modal">&times;</button>
     </div>
-    <form onsubmit="event.preventDefault(); alert('Nilai berhasil disimpan ke sistem data akademik!'); document.getElementById('modalTambahNilai').classList.remove('active'); document.body.style.overflow='';">
+    <form id="formTambahNilai">
       <div class="modal-body" style="display:flex; flex-direction:column; gap:16px;">
+        <div style="background:rgba(48,97,140,0.06); border:1px solid rgba(48,97,140,0.18); border-radius:var(--radius-sm); padding:10px 14px; font-size:12.5px; color:var(--c-primary);">
+          Siswa hanya dapat memasukkan atau memperbarui nilai untuk 4 mata pelajaran penentu yang disediakan admin sekolah.
+        </div>
+
+        <div>
+          <label class="form-label">Mata Pelajaran</label>
+          <select class="form-select" id="tambahMapelNama" required>
+            <option value="IPAS">IPAS (Ilmu Pengetahuan Alam &amp; Sosial)</option>
+            <option value="MTK">MTK (Matematika)</option>
+            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+            <option value="Bahasa Inggris">Bahasa Inggris</option>
+          </select>
+        </div>
+
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
           <div>
             <label class="form-label">Semester</label>
-            <select class="form-select" required>
-              <option value="Semester 1">Semester 1 (Ganjil Kls X)</option>
-              <option value="Semester 2">Semester 2 (Genap Kls X)</option>
-              <option value="Semester 3">Semester 3 (Ganjil Kls XI)</option>
-              <option value="Semester 4">Semester 4 (Genap Kls XI)</option>
-              <option value="Semester 5" selected>Semester 5 (Ganjil Kls XII)</option>
+            <select class="form-select" id="tambahSemester" required>
+              <option value="Semester 5" selected>Semester 5 (Kelas XII Ganjil)</option>
+              <option value="Semester 4">Semester 4 (Kelas XI Genap)</option>
+              <option value="Semester 3">Semester 3 (Kelas XI Ganjil)</option>
+              <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
+              <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
             </select>
           </div>
-          <div>
-            <label class="form-label">Kelompok Mapel</label>
-            <select class="form-select" required>
-              <option value="Wajib Umum">Wajib Umum (A)</option>
-              <option value="Peminatan Saintek" selected>Peminatan Saintek (B)</option>
-              <option value="Peminatan Soshum">Peminatan Soshum (C)</option>
-              <option value="Muatan Lokal">Muatan Lokal</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label class="form-label">Nama Mata Pelajaran</label>
-          <input type="text" class="form-input" placeholder="Contoh: Matematika Peminatan / Fisika" required value="">
-        </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
           <div>
             <label class="form-label">KKM Sekolah</label>
-            <input type="number" class="form-input" value="75" min="50" max="100" required>
-          </div>
-          <div>
-            <label class="form-label">Nilai Pengetahuan</label>
-            <input type="number" class="form-input" placeholder="0-100" min="0" max="100" required>
-          </div>
-          <div>
-            <label class="form-label">Nilai Keterampilan</label>
-            <input type="number" class="form-input" placeholder="0-100" min="0" max="100" required>
+            <input type="number" class="form-input" id="tambahKkm" value="75" min="50" max="100" readonly style="background:#F8FAFC;">
           </div>
         </div>
 
-        <div>
-          <label class="form-label">Catatan Guru / Rapor (Opsional)</label>
-          <textarea class="form-textarea" rows="2" placeholder="Catatan capaian kompetensi siswa..."></textarea>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div>
+            <label class="form-label">Nilai Pengetahuan (0-100)</label>
+            <input type="number" class="form-input" id="tambahNilaiPengetahuan" placeholder="Contoh: 88" min="0" max="100" required>
+          </div>
+          <div>
+            <label class="form-label">Nilai Keterampilan (0-100)</label>
+            <input type="number" class="form-input" id="tambahNilaiKeterampilan" placeholder="Contoh: 90" min="0" max="100" required>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -231,8 +166,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn-step-action btn-outline-action modal-close-trigger">Tutup</button>
-      <button type="button" class="btn-primary-action" onclick="alert('Laporan PDF Hasil Asesmen sedang diunduh...');" style="padding:9px 18px;">Unduh Laporan PDF</button>
+      <button type="button" class="btn-step-action btn-outline-action modal-close-trigger">Tutup Rincian</button>
     </div>
   </div>
 </div>
@@ -256,27 +190,26 @@
       <div>
         <h5 style="font-size:13.5px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Topik Pembahasan:</h5>
         <div style="font-size:13.5px; color:var(--c-text-body); background:#FAFCFE; padding:10px 14px; border-radius:var(--radius-sm); border:1px solid var(--c-border-light);">
-          Pemilihan Jurusan & Analisis Potensi Bakat Saintek vs Soshum
+          Pemilihan Program Studi &amp; Analisis Potensi Bakat Saintek vs Soshum
         </div>
       </div>
 
       <div>
-        <h5 style="font-size:13.5px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Catatan & Rekomendasi Psikolog:</h5>
+        <h5 style="font-size:13.5px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Catatan &amp; Rekomendasi Psikolog:</h5>
         <p style="font-size:13.5px; color:var(--c-text-body); line-height:1.55;">
-          Siswa menunjukkan minat kuat dan ketertarikan tinggi pada logika pemrograman dan analisis data kuantitatif. Kemampuan problem-solving sangat menonjol. Perlu pendampingan untuk meminimalisasi overthinking saat menghadapi tryout SNBT. Dianjurkan membuat target mingguan belajar mandiri.
+          Siswa menunjukkan minat kuat dan ketertarikan tinggi pada logika pemrograman dan analisis data kuantitatif. Kemampuan pemecahan masalah sangat menonjol. Perlu pendampingan untuk menjaga ketenangan saat menghadapi persiapan ujian. Dianjurkan membuat target mingguan belajar terarah.
         </p>
       </div>
 
       <div style="background:#ECFDF3; border:1px solid #A6F4C5; border-radius:var(--radius-md); padding:12px;">
         <span style="font-size:12.5px; font-weight:700; color:#027A48;">Tindak Lanjut yang Disepakati:</span>
         <div style="font-size:12.5px; color:#05603A; margin-top:4px;">
-          Jadwal konsultasi lanjutan disepakati tanggal 10 Oktober 2026 untuk review pemilihan prodi PTN.
+          Jadwal konsultasi lanjutan disepakati tanggal 10 Oktober 2026 untuk peninjauan pilihan program studi di perguruan tinggi.
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn-step-action btn-outline-action modal-close-trigger">Tutup</button>
-      <button type="button" class="btn-primary-action" onclick="alert('Membuka resume resmi...');" style="padding:9px 18px;">Unduh Resume</button>
+      <button type="button" class="btn-step-action btn-outline-action modal-close-trigger">Tutup Catatan</button>
     </div>
   </div>
 </div>
@@ -295,19 +228,75 @@
           <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
         </svg>
       </div>
-      <h4 style="font-size:18px; font-weight:800; color:var(--c-text-heading); margin-bottom:6px;">Konsultasi Online Terjadwal</h4>
+      <h4 style="font-size:18px; font-weight:800; color:var(--c-text-heading); margin-bottom:6px;">Konsultasi Daring Terjadwal</h4>
       <p style="font-size:14px; color:var(--c-text-muted); margin-bottom:18px;">
         Bersama <strong>Dr. Maya Sartika, M.Psi., Psikolog</strong><br>
-        Ruang Zoom sudah dibuka. Silakan klik tombol di bawah untuk bergabung.
+        Ruang pertemuan sudah dibuka. Silakan klik tombol di bawah untuk bergabung.
       </p>
       <div style="background:#F8FAFC; border:1px solid var(--c-border); border-radius:var(--radius-md); padding:12px; margin-bottom:20px; font-size:13px; text-align:left;">
-        <div><strong>Meeting ID:</strong> 892 3841 9920</div>
-        <div><strong>Passcode:</strong> BYOUTH2026</div>
+        <div><strong>ID Pertemuan:</strong> 892 3841 9920</div>
+        <div><strong>Kode Masuk:</strong> BYOUTH2026</div>
       </div>
       <div style="display:flex; justify-content:center; gap:12px;">
         <button type="button" class="btn-step-action btn-outline-action modal-close-trigger">Nanti Saja</button>
-        <a href="https://zoom.us" target="_blank" class="btn-zoom-action" style="padding:10px 24px; font-size:14px;">Buka Aplikasi Zoom</a>
+        <a href="https://zoom.us" target="_blank" class="btn-zoom-action" style="padding:10px 24px; font-size:14px;">Buka Ruang Zoom</a>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- 8. Modal Ubah Nilai Rapor -->
+<div class="modal-overlay hidden" id="modalEditNilai" tabindex="-1" aria-hidden="true">
+  <div class="modal-box" style="max-width:520px;">
+    <div class="modal-header">
+      <h4 class="modal-title">Masukkan / Ubah Nilai Rapor</h4>
+      <button type="button" class="modal-close-btn modal-close-trigger" aria-label="Tutup Modal">&times;</button>
+    </div>
+    <form id="formEditNilai">
+      <input type="hidden" id="editRowIndex" value="">
+      <div class="modal-body" style="display:flex; flex-direction:column; gap:16px;">
+        <div>
+          <label class="form-label">Mata Pelajaran (Disediakan Admin)</label>
+          <select class="form-select" id="editMapelNama" required>
+            <option value="IPAS">IPAS (Ilmu Pengetahuan Alam &amp; Sosial)</option>
+            <option value="MTK">MTK (Matematika)</option>
+            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+            <option value="Bahasa Inggris">Bahasa Inggris</option>
+          </select>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div>
+            <label class="form-label">Semester</label>
+            <select class="form-select" id="editSemester" required>
+              <option value="Semester 5" selected>Semester 5 (Kelas XII Ganjil)</option>
+              <option value="Semester 4">Semester 4 (Kelas XI Genap)</option>
+              <option value="Semester 3">Semester 3 (Kelas XI Ganjil)</option>
+              <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
+              <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">KKM Sekolah</label>
+            <input type="number" class="form-input" id="editKkm" value="75" min="50" max="100" readonly style="background:#F8FAFC;">
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div>
+            <label class="form-label">Nilai Pengetahuan (0-100)</label>
+            <input type="number" class="form-input" id="editNilaiPengetahuan" min="0" max="100" required>
+          </div>
+          <div>
+            <label class="form-label">Nilai Keterampilan (0-100)</label>
+            <input type="number" class="form-input" id="editNilaiKeterampilan" min="0" max="100" required>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-step-action btn-outline-action modal-close-trigger">Batal</button>
+        <button type="submit" class="btn-primary-action" style="padding:9px 18px;">Simpan Perubahan</button>
+      </div>
+    </form>
   </div>
 </div>

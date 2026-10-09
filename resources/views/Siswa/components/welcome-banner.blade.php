@@ -7,7 +7,6 @@
     <p class="welcome-lead">Selamat datang kembali,</p>
     <h2 class="welcome-name">
       Ahmad Rizky Pratama
-      <span class="badge-target">🎯 Target SNBP & SNBT 2027</span>
     </h2>
     <p class="welcome-school">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--c-primary);">
@@ -15,8 +14,7 @@
         <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
       </svg>
       <span class="school-tag">SMAN 1 Jakarta</span> &bull; 
-      <span>Kelas XII MIPA 2</span> &bull; 
-      <span>NISN: 0072918234</span>
+      <span>Kelas XII</span>
     </p>
   </div>
 

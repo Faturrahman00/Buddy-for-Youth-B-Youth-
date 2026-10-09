@@ -46,9 +46,9 @@
         </span>
         <h3>Konseling Bersama: Dr. Maya Sartika, M.Psi., Psikolog</h3>
         <p>
-          <span>📅 <strong>Jumat, 10 Oktober 2026</strong></span>
-          <span>⏰ <strong>14:00 - 15:00 WIB</strong></span>
-          <span>📌 <strong>Topik:</strong> Validasi Pilihan Jurusan Teknik & Kesiapan SNBP/SNBT</span>
+          <span><strong>Hari:</strong> Jumat, 10 Oktober 2026</span>
+          <span><strong>Waktu:</strong> 14:00 - 15:00 WIB</span>
+          <span><strong>Topik:</strong> Validasi Pilihan Program Studi Teknik & Kesiapan SNBP/SNBT</span>
         </p>
       </div>
     </div>
@@ -82,7 +82,7 @@
           <option value="all">Semua Spesialisasi Konselor</option>
           <option value="STEM">Psikolog Pendidikan & STEM (Saintek)</option>
           <option value="Soshum">Konselor Karier Soshum & Humaniora</option>
-          <option value="BK">Guru BK & Pemetaan Portofolio Siswa</option>
+          <option value="Portofolio">Konselor Pemetaan Portofolio Siswa</option>
         </select>
 
         <button type="button" class="btn-filter-reset" onclick="document.getElementById('searchKonselor').value=''; document.getElementById('filterKonselor').value='all'; document.getElementById('filterKonselor').dispatchEvent(new Event('change'));">
@@ -220,7 +220,6 @@
         <!-- Slot 1 -->
         <button type="button" class="slot-item-btn" data-slot-time="09:00 - 10:00 WIB">
           <div style="display:flex; align-items:center; gap:10px;">
-            <span style="font-size:16px;">☀️</span>
             <span class="slot-time">09:00 - 10:00 WIB</span>
           </div>
           <span class="slot-status-badge available">Tersedia</span>
@@ -229,16 +228,14 @@
         <!-- Slot 2 -->
         <button type="button" class="slot-item-btn booked" data-slot-time="10:30 - 11:30 WIB" disabled>
           <div style="display:flex; align-items:center; gap:10px;">
-            <span style="font-size:16px;">⏱️</span>
             <span class="slot-time" style="color:#94A3B8;">10:30 - 11:30 WIB</span>
           </div>
-          <span class="slot-status-badge booked">Sudah Dibooking</span>
+          <span class="slot-status-badge booked">Sudah Terisi</span>
         </button>
 
         <!-- Slot 3 (Selected) -->
         <button type="button" class="slot-item-btn selected" data-slot-time="13:30 - 14:30 WIB">
           <div style="display:flex; align-items:center; gap:10px;">
-            <span style="font-size:16px;">🌤️</span>
             <span class="slot-time">13:30 - 14:30 WIB</span>
           </div>
           <span class="slot-status-badge available">Tersedia (Dipilih)</span>
@@ -247,7 +244,6 @@
         <!-- Slot 4 -->
         <button type="button" class="slot-item-btn" data-slot-time="15:00 - 16:00 WIB">
           <div style="display:flex; align-items:center; gap:10px;">
-            <span style="font-size:16px;">☕</span>
             <span class="slot-time">15:00 - 16:00 WIB</span>
           </div>
           <span class="slot-status-badge available">Tersedia</span>
@@ -256,7 +252,6 @@
         <!-- Slot 5 -->
         <button type="button" class="slot-item-btn" data-slot-time="16:30 - 17:30 WIB">
           <div style="display:flex; align-items:center; gap:10px;">
-            <span style="font-size:16px;">🌇</span>
             <span class="slot-time">16:30 - 17:30 WIB</span>
           </div>
           <span class="slot-status-badge available">Tersedia</span>
@@ -265,13 +260,13 @@
 
       <!-- Selected summary & Booking Action -->
       <div class="booking-confirm-box">
-        <div>📅 Tanggal: <strong id="selectedDateSummary">Rabu, 14 Okt 2026</strong></div>
-        <div style="margin-top:3px;">⏰ Sesi Waktu: <strong id="selectedSlotSummary">13:30 - 14:30 WIB</strong></div>
-        <div style="margin-top:3px;">👩‍🏫 Psikolog: <strong>Dr. Maya Sartika, M.Psi., Psikolog</strong></div>
+        <div><strong>Tanggal:</strong> <span id="selectedDateSummary">Rabu, 14 Okt 2026</span></div>
+        <div style="margin-top:3px;"><strong>Sesi Waktu:</strong> <span id="selectedSlotSummary">13:30 - 14:30 WIB</span></div>
+        <div style="margin-top:3px;"><strong>Psikolog:</strong> <span>Dr. Maya Sartika, M.Psi., Psikolog</span></div>
       </div>
 
       <div style="margin-top:auto;">
-        <button type="button" class="btn-primary-action" style="width:100%; justify-content:center; padding:12px;" onclick="alert('Pengajuan konsultasi berhasil dikirim! Menunggu konfirmasi psikolog.');">
+        <button type="button" class="btn-primary-action" style="width:100%; justify-content:center; padding:12px;" onclick="if(window.showGlassLoading){ window.showGlassLoading('Mengirim pengajuan jadwal konsultasi...', 850, function(){ if(window.showToastSuccess){ window.showToastSuccess('Konsultasi Berhasil Diajukan', 'Pengajuan jadwal konsultasi Anda telah berhasil dikirim ke psikolog.'); } else { alert('Pengajuan jadwal konsultasi berhasil dikirim!'); } }); } else { if(window.showToastSuccess){ window.showToastSuccess('Konsultasi Berhasil Diajukan', 'Pengajuan konsultasi berhasil dikirim.'); } }">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>

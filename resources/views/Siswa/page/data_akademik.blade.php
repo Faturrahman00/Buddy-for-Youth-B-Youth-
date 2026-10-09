@@ -1,16 +1,190 @@
-{{-- 
-  B-YOUTH: DATA AKADEMIK PAGE (Siswa)
-  File: resources/views/Siswa/page/data_akademik.blade.php
-  Matches Wireframe 1: Data Akademik, Nilai Rapor, + Tambah Nilai, Search, Filter, Pagination
---}}
 @extends('Siswa.layouts.app', [
     'title' => 'Data Akademik — Buddy For Youth (B-Youth)',
     'pageTitle' => 'Data Akademik',
     'active' => 'akademik'
 ])
 
+@push('styles')
+<style>
+  /* ── Ringkasan Esensial 2 Kolom ── */
+  .stats-summary-grid-compact {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 640px) {
+    .stats-summary-grid-compact {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ── Kartu Visualisasi Grafik 4 Mapel ── */
+  .chart-academic-wrapper {
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1.5px solid #D0DCE8;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(48, 97, 140, 0.06);
+  }
+
+  .chart-academic-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .chart-academic-title h3 {
+    font-size: 17px;
+    font-weight: 800;
+    color: #1A2535;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .chart-academic-title p {
+    font-size: 13px;
+    color: #60748A;
+    margin: 3px 0 0;
+  }
+
+  .chart-curriculum-badge {
+    font-size: 12px;
+    font-weight: 700;
+    color: #30618C;
+    background: rgba(48, 97, 140, 0.09);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(48, 97, 140, 0.15);
+  }
+
+  /* Grid 4 Baris Horizontal Bar Modern */
+  .academic-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 768px) {
+    .academic-metric-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .metric-bar-card {
+    background: #F8FAFD;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 16px 20px;
+    transition: all 0.25s ease;
+  }
+  .metric-bar-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(48, 97, 140, 0.08);
+    border-color: #B9D0E4;
+  }
+
+  .metric-bar-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .metric-name-wrap h4 {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1A2535;
+    margin: 0;
+  }
+
+  .metric-name-wrap span {
+    font-size: 12px;
+    color: #60748A;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .metric-score-wrap {
+    text-align: right;
+  }
+
+  .metric-score-val {
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1;
+    color: #1A2535;
+  }
+
+  .metric-grade-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-top: 4px;
+  }
+
+  .metric-track {
+    width: 100%;
+    height: 12px;
+    background: #E2E8F0;
+    border-radius: 100px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+
+  .metric-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Warna Tiap Mapel */
+  .fill-ipas {
+    background: linear-gradient(90deg, #10B981, #059669);
+  }
+  .score-ipas { color: #059669; }
+  .badge-ipas { background: #ECFDF3; color: #027A48; border: 1px solid #A6F4C5; }
+
+  .fill-mtk {
+    background: linear-gradient(90deg, #30618C, #1D4363);
+  }
+  .score-mtk { color: #30618C; }
+  .badge-mtk { background: #EFF8FF; color: #175CD3; border: 1px solid #B2DDFF; }
+
+  .fill-indo {
+    background: linear-gradient(90deg, #F2B705, #D49A00);
+  }
+  .score-indo { color: #D49A00; }
+  .badge-indo { background: #FEF0C7; color: #B54708; border: 1px solid #FEDF89; }
+
+  .fill-ing {
+    background: linear-gradient(90deg, #4A88C0, #296091);
+  }
+  .score-ing { color: #296091; }
+  .badge-ing { background: #F0F9FF; color: #026AA2; border: 1px solid #B9E6FE; }
+
+  .metric-bar-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #94A3B8;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+</style>
+@endpush
+
 @section('content')
-  <!-- Top Action Header matching Wireframe 1 -->
+  <!-- Top Action Header -->
   <div class="page-top-action-bar">
     <div class="page-title-wrap">
       <h2>
@@ -22,21 +196,12 @@
         </svg>
         Data Akademik
       </h2>
-      <p>Kelola riwayat nilai rapor semester untuk mendukung akurasi rekomendasi program studi AI.</p>
+      <p>Kelola nilai rapor 4 mata pelajaran pokok untuk menentukan akurasi rekomendasi program studi.</p>
     </div>
-
-    <!-- + Tambah Nilai button from Wireframe 1 -->
-    <button type="button" class="btn-primary-action btn-open-tambah-nilai" id="btnTambahNilai">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-      </svg>
-      <span>Tambah Nilai</span>
-    </button>
   </div>
 
-  <!-- Summary Mini Badges -->
-  <div class="stats-summary-grid">
+  <!-- Summary Mini Badges (Card Esensial yang Berguna Saja) -->
+  <div class="stats-summary-grid-compact">
     <div class="stat-summary-card">
       <div class="stat-icon-wrapper blue">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -47,8 +212,8 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">88.4</div>
-        <div class="stat-label">Rata-Rata Nilai Rapor</div>
+        <div class="stat-val" id="statRataRataNilai">89.3</div>
+        <div class="stat-label">Rata-Rata Nilai Rapor (4 Mata Pelajaran)</div>
       </div>
     </div>
 
@@ -60,39 +225,119 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">95 (A)</div>
-        <div class="stat-label">Mapel Tertinggi (Informatika)</div>
-      </div>
-    </div>
-
-    <div class="stat-summary-card">
-      <div class="stat-icon-wrapper amber">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-        </svg>
-      </div>
-      <div class="stat-summary-info">
-        <div class="stat-val">12 Mapel</div>
-        <div class="stat-label">Total Mapel Terdata</div>
-      </div>
-    </div>
-
-    <div class="stat-summary-card">
-      <div class="stat-icon-wrapper purple">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
-      </div>
-      <div class="stat-summary-info">
-        <div class="stat-val">5 / 5 Sem</div>
-        <div class="stat-label">Kelengkapan Rapor</div>
+        <div class="stat-val" id="statMapelTertinggi">92.0 (MTK)</div>
+        <div class="stat-label">Capaian Mata Pelajaran Tertinggi</div>
       </div>
     </div>
   </div>
 
-  <!-- Search & Filter Card (User Request: Pencarian & Filter di setiap halaman) -->
+  <!-- Grafik Visualisasi Nilai 4 Mata Pelajaran Pokok (Modern, Rapih & Kokoh) -->
+  <div class="chart-academic-wrapper">
+    <div class="chart-academic-header">
+      <div class="chart-academic-title">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          Grafik Nilai 4 Mata Pelajaran Pokok
+        </h3>
+        <p>Visualisasi capaian kompetensi untuk penyesuaian kecocokan program studi.</p>
+      </div>
+      <div class="chart-curriculum-badge">
+        Kurikulum Merdeka • Skala 0 - 100
+      </div>
+    </div>
+
+    <div class="academic-metric-grid">
+      <!-- 1. IPAS -->
+      <div class="metric-bar-card">
+        <div class="metric-bar-top">
+          <div class="metric-name-wrap">
+            <h4>IPAS</h4>
+            <span>Ilmu Pengetahuan Alam &amp; Sosial</span>
+          </div>
+          <div class="metric-score-wrap">
+            <div class="metric-score-val score-ipas" id="chartScoreIpas">88.0</div>
+            <span class="metric-grade-tag badge-ipas" id="chartGradeIpas">Predikat A</span>
+          </div>
+        </div>
+        <div class="metric-track">
+          <div class="metric-fill fill-ipas" id="pillarIpas" style="width: 88%;"></div>
+        </div>
+        <div class="metric-bar-footer">
+          <span>KKM: 75</span>
+          <span id="chartPercentIpas">88% Tercapai</span>
+        </div>
+      </div>
+
+      <!-- 2. MTK -->
+      <div class="metric-bar-card">
+        <div class="metric-bar-top">
+          <div class="metric-name-wrap">
+            <h4>Matematika (MTK)</h4>
+            <span>Logika &amp; Kuantitatif</span>
+          </div>
+          <div class="metric-score-wrap">
+            <div class="metric-score-val score-mtk" id="chartScoreMtk">92.0</div>
+            <span class="metric-grade-tag badge-mtk" id="chartGradeMtk">Predikat A</span>
+          </div>
+        </div>
+        <div class="metric-track">
+          <div class="metric-fill fill-mtk" id="pillarMtk" style="width: 92%;"></div>
+        </div>
+        <div class="metric-bar-footer">
+          <span>KKM: 75</span>
+          <span id="chartPercentMtk">92% Tercapai</span>
+        </div>
+      </div>
+
+      <!-- 3. Bahasa Indonesia -->
+      <div class="metric-bar-card">
+        <div class="metric-bar-top">
+          <div class="metric-name-wrap">
+            <h4>Bahasa Indonesia</h4>
+            <span>Komunikasi &amp; Literasi</span>
+          </div>
+          <div class="metric-score-wrap">
+            <div class="metric-score-val score-indo" id="chartScoreIndo">87.0</div>
+            <span class="metric-grade-tag badge-indo" id="chartGradeIndo">Predikat A</span>
+          </div>
+        </div>
+        <div class="metric-track">
+          <div class="metric-fill fill-indo" id="pillarIndo" style="width: 87%;"></div>
+        </div>
+        <div class="metric-bar-footer">
+          <span>KKM: 75</span>
+          <span id="chartPercentIndo">87% Tercapai</span>
+        </div>
+      </div>
+
+      <!-- 4. Bahasa Inggris -->
+      <div class="metric-bar-card">
+        <div class="metric-bar-top">
+          <div class="metric-name-wrap">
+            <h4>Bahasa Inggris</h4>
+            <span>Bahasa Internasional</span>
+          </div>
+          <div class="metric-score-wrap">
+            <div class="metric-score-val score-ing" id="chartScoreIng">90.0</div>
+            <span class="metric-grade-tag badge-ing" id="chartGradeIng">Predikat A</span>
+          </div>
+        </div>
+        <div class="metric-track">
+          <div class="metric-fill fill-ing" id="pillarIng" style="width: 90%;"></div>
+        </div>
+        <div class="metric-bar-footer">
+          <span>KKM: 75</span>
+          <span id="chartPercentIng">90% Tercapai</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search & Filter Card (Tanpa Tombol Reset) -->
   <div class="filter-card">
     <div class="filter-row">
       <!-- Search Input -->
@@ -101,7 +346,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="searchMapel" class="search-input" placeholder="Cari mata pelajaran atau catatan...">
+        <input type="text" id="searchMapel" class="search-input" placeholder="Cari mata pelajaran...">
       </div>
 
       <!-- Filters Group -->
@@ -109,42 +354,25 @@
         <!-- Filter Semester -->
         <select id="filterSemester" class="filter-select" data-filter-key="semester">
           <option value="all">Semua Semester</option>
-          <option value="Semester 5" selected>Semester 5 (Kls XII Ganjil)</option>
-          <option value="Semester 4">Semester 4 (Kls XI Genap)</option>
-          <option value="Semester 3">Semester 3 (Kls XI Ganjil)</option>
-          <option value="Semester 2">Semester 2 (Kls X Genap)</option>
-          <option value="Semester 1">Semester 1 (Kls X Ganjil)</option>
+          <option value="Semester 5" selected>Semester 5 (Kelas XII Ganjil)</option>
+          <option value="Semester 4">Semester 4 (Kelas XI Genap)</option>
+          <option value="Semester 3">Semester 3 (Kelas XI Ganjil)</option>
+          <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
+          <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
         </select>
-
-        <!-- Filter Kelompok Mapel -->
-        <select id="filterKelompok" class="filter-select" data-filter-key="kelompok">
-          <option value="all">Semua Kelompok</option>
-          <option value="Peminatan Saintek">Peminatan Saintek</option>
-          <option value="Wajib Umum">Wajib Umum</option>
-          <option value="Muatan Lokal">Muatan Lokal</option>
-        </select>
-
-        <!-- Reset Button -->
-        <button type="button" id="btnResetAkademik" class="btn-filter-reset" title="Reset filter">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1 4 1 10 7 10"></polyline>
-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-          </svg>
-          Reset
-        </button>
       </div>
     </div>
   </div>
 
-  <!-- Table Container (Nilai Rapor matching Wireframe 1) -->
+  <!-- Table Container (4 Mata Pelajaran Disediakan Admin) -->
   <div class="data-card">
     <div class="data-card-header">
       <div class="data-card-title">
-        <span>Nilai Rapor</span>
-        <span class="data-count-badge" data-count-for="akademikTableBody">8 Data Ditampilkan</span>
+        <span>Daftar Nilai Rapor</span>
+        <span class="data-count-badge" data-count-for="akademikTableBody">4 Mata Pelajaran</span>
       </div>
       <div style="font-size:12.5px; color:var(--c-text-muted);">
-        Kurikulum Merdeka • SMAN 1 Batam
+        4 Mata Pelajaran Penentu Kurikulum
       </div>
     </div>
 
@@ -154,7 +382,6 @@
           <tr>
             <th style="width: 50px;">No</th>
             <th>Mata Pelajaran</th>
-            <th>Kelompok</th>
             <th>Semester</th>
             <th style="text-align: center;">Pengetahuan</th>
             <th style="text-align: center;">Keterampilan</th>
@@ -165,170 +392,82 @@
           </tr>
         </thead>
         <tbody id="akademikTableBody">
-          <!-- Row 1 -->
-          <tr data-searchable="Informatika & Pemrograman Peminatan Saintek Semester 5 A" data-semester="Semester 5" data-kelompok="Peminatan Saintek">
-            <td style="font-weight:700; color:var(--c-text-muted);">1</td>
+          <!-- 1. IPAS -->
+          <tr data-searchable="IPAS Ilmu Pengetahuan Alam dan Sosial Semester 5 A" data-semester="Semester 5" data-mapel="IPAS" data-kkm="75" data-pengetahuan="88" data-keterampilan="88">
+            <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">1</td>
             <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Informatika & Pemrograman</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Kode: INF-301 • KKM: 75</div>
+              <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">IPAS</div>
+              <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">Ilmu Pengetahuan Alam &amp; Sosial • KKM: <span class="row-kkm-val">75</span></div>
             </td>
-            <td><span class="status-pill primary">Peminatan Saintek</span></td>
-            <td><span style="font-weight:600;">Semester 5</span></td>
-            <td style="text-align: center; font-weight:700;">96</td>
-            <td style="text-align: center; font-weight:700;">94</td>
-            <td style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">95.0</td>
-            <td style="text-align: center;"><span class="grade-badge a">A</span></td>
+            <td><span class="row-semester-val" style="font-weight:600;">Semester 5</span></td>
+            <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">88</td>
+            <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">88</td>
+            <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">88.0</td>
+            <td class="row-predikat-val" style="text-align: center;"><span class="grade-badge a">A</span></td>
             <td><span class="status-pill success">Terverifikasi</span></td>
             <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action outline" onclick="alert('Membuka edit nilai Informatika...');">Edit</button>
+              <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
+                <button type="button" class="btn-table-action outline btn-edit-row">Masukkan / Ubah Nilai</button>
               </div>
             </td>
           </tr>
 
-          <!-- Row 2 -->
-          <tr data-searchable="Matematika Tingkat Lanjut Peminatan Saintek Semester 5 A" data-semester="Semester 5" data-kelompok="Peminatan Saintek">
-            <td style="font-weight:700; color:var(--c-text-muted);">2</td>
+          <!-- 2. MTK -->
+          <tr data-searchable="MTK Matematika Semester 5 A" data-semester="Semester 5" data-mapel="MTK" data-kkm="75" data-pengetahuan="92" data-keterampilan="92">
+            <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">2</td>
             <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Matematika Tingkat Lanjut</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Kode: MAT-302 • KKM: 75</div>
+              <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">MTK</div>
+              <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">Matematika • KKM: <span class="row-kkm-val">75</span></div>
             </td>
-            <td><span class="status-pill primary">Peminatan Saintek</span></td>
-            <td><span style="font-weight:600;">Semester 5</span></td>
-            <td style="text-align: center; font-weight:700;">92</td>
-            <td style="text-align: center; font-weight:700;">90</td>
-            <td style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">91.0</td>
-            <td style="text-align: center;"><span class="grade-badge a">A</span></td>
+            <td><span class="row-semester-val" style="font-weight:600;">Semester 5</span></td>
+            <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">92</td>
+            <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">92</td>
+            <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">92.0</td>
+            <td class="row-predikat-val" style="text-align: center;"><span class="grade-badge a">A</span></td>
             <td><span class="status-pill success">Terverifikasi</span></td>
             <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action outline" onclick="alert('Membuka edit nilai Matematika...');">Edit</button>
+              <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
+                <button type="button" class="btn-table-action outline btn-edit-row">Masukkan / Ubah Nilai</button>
               </div>
             </td>
           </tr>
 
-          <!-- Row 3 -->
-          <tr data-searchable="Fisika Modern Peminatan Saintek Semester 5 A" data-semester="Semester 5" data-kelompok="Peminatan Saintek">
-            <td style="font-weight:700; color:var(--c-text-muted);">3</td>
+          <!-- 3. Bahasa Indonesia -->
+          <tr data-searchable="Bahasa Indonesia Semester 5 A" data-semester="Semester 5" data-mapel="Bahasa Indonesia" data-kkm="75" data-pengetahuan="86" data-keterampilan="88">
+            <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">3</td>
             <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Fisika Modern</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Kode: FIS-301 • KKM: 75</div>
+              <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">Bahasa Indonesia</div>
+              <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">Bahasa Indonesia • KKM: <span class="row-kkm-val">75</span></div>
             </td>
-            <td><span class="status-pill primary">Peminatan Saintek</span></td>
-            <td><span style="font-weight:600;">Semester 5</span></td>
-            <td style="text-align: center; font-weight:700;">88</td>
-            <td style="text-align: center; font-weight:700;">90</td>
-            <td style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">89.0</td>
-            <td style="text-align: center;"><span class="grade-badge a">A</span></td>
+            <td><span class="row-semester-val" style="font-weight:600;">Semester 5</span></td>
+            <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">86</td>
+            <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">88</td>
+            <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">87.0</td>
+            <td class="row-predikat-val" style="text-align: center;"><span class="grade-badge a">A</span></td>
             <td><span class="status-pill success">Terverifikasi</span></td>
             <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action outline" onclick="alert('Membuka edit nilai Fisika...');">Edit</button>
+              <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
+                <button type="button" class="btn-table-action outline btn-edit-row">Masukkan / Ubah Nilai</button>
               </div>
             </td>
           </tr>
 
-          <!-- Row 4 -->
-          <tr data-searchable="Bahasa Inggris Lanjutan Wajib Umum Semester 5 A" data-semester="Semester 5" data-kelompok="Wajib Umum">
-            <td style="font-weight:700; color:var(--c-text-muted);">4</td>
+          <!-- 4. Bahasa Inggris -->
+          <tr data-searchable="Bahasa Inggris Semester 5 A" data-semester="Semester 5" data-mapel="Bahasa Inggris" data-kkm="75" data-pengetahuan="90" data-keterampilan="90">
+            <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">4</td>
             <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Bahasa Inggris Lanjutan</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Kode: ENG-301 • KKM: 75</div>
+              <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">Bahasa Inggris</div>
+              <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">Bahasa Inggris • KKM: <span class="row-kkm-val">75</span></div>
             </td>
-            <td><span class="status-pill pending">Wajib Umum</span></td>
-            <td><span style="font-weight:600;">Semester 5</span></td>
-            <td style="text-align: center; font-weight:700;">89</td>
-            <td style="text-align: center; font-weight:700;">91</td>
-            <td style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">90.0</td>
-            <td style="text-align: center;"><span class="grade-badge a">A</span></td>
+            <td><span class="row-semester-val" style="font-weight:600;">Semester 5</span></td>
+            <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">90</td>
+            <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">90</td>
+            <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">90.0</td>
+            <td class="row-predikat-val" style="text-align: center;"><span class="grade-badge a">A</span></td>
             <td><span class="status-pill success">Terverifikasi</span></td>
             <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action outline" onclick="alert('Membuka edit nilai...');">Edit</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 5 -->
-          <tr data-searchable="Kimia Organik & Polimer Peminatan Saintek Semester 5 B+" data-semester="Semester 5" data-kelompok="Peminatan Saintek">
-            <td style="font-weight:700; color:var(--c-text-muted);">5</td>
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Kimia Terapan</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Kode: KIM-301 • KKM: 75</div>
-            </td>
-            <td><span class="status-pill primary">Peminatan Saintek</span></td>
-            <td><span style="font-weight:600;">Semester 5</span></td>
-            <td style="text-align: center; font-weight:700;">84</td>
-            <td style="text-align: center; font-weight:700;">86</td>
-            <td style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">85.0</td>
-            <td style="text-align: center;"><span class="grade-badge b">B+</span></td>
-            <td><span class="status-pill success">Terverifikasi</span></td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action outline" onclick="alert('Membuka edit nilai...');">Edit</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 6 -->
-          <tr data-searchable="Bahasa Indonesia Wajib Umum Semester 5 A" data-semester="Semester 5" data-kelompok="Wajib Umum">
-            <td style="font-weight:700; color:var(--c-text-muted);">6</td>
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Bahasa Indonesia</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Kode: IND-301 • KKM: 75</div>
-            </td>
-            <td><span class="status-pill pending">Wajib Umum</span></td>
-            <td><span style="font-weight:600;">Semester 5</span></td>
-            <td style="text-align: center; font-weight:700;">86</td>
-            <td style="text-align: center; font-weight:700;">88</td>
-            <td style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">87.0</td>
-            <td style="text-align: center;"><span class="grade-badge a">A</span></td>
-            <td><span class="status-pill success">Terverifikasi</span></td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action outline" onclick="alert('Membuka edit nilai...');">Edit</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 7 -->
-          <tr data-searchable="Pendidikan Pancasila Wajib Umum Semester 4 A" data-semester="Semester 4" data-kelompok="Wajib Umum">
-            <td style="font-weight:700; color:var(--c-text-muted);">7</td>
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Pendidikan Pancasila</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Kode: PPK-202 • KKM: 75</div>
-            </td>
-            <td><span class="status-pill pending">Wajib Umum</span></td>
-            <td><span style="font-weight:600;">Semester 4</span></td>
-            <td style="text-align: center; font-weight:700;">90</td>
-            <td style="text-align: center; font-weight:700;">92</td>
-            <td style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">91.0</td>
-            <td style="text-align: center;"><span class="grade-badge a">A</span></td>
-            <td><span class="status-pill success">Terverifikasi</span></td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action outline" onclick="alert('Membuka edit nilai...');">Edit</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 8 -->
-          <tr data-searchable="Muatan Lokal Budaya Melayu Riau Muatan Lokal Semester 4 A" data-semester="Semester 4" data-kelompok="Muatan Lokal">
-            <td style="font-weight:700; color:var(--c-text-muted);">8</td>
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Muatan Lokal Budaya Melayu</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Kode: BMR-202 • KKM: 75</div>
-            </td>
-            <td><span class="status-pill primary" style="background:#F4EBFF; color:#6941C6; border-color:#E9D7FE;">Muatan Lokal</span></td>
-            <td><span style="font-weight:600;">Semester 4</span></td>
-            <td style="text-align: center; font-weight:700;">88</td>
-            <td style="text-align: center; font-weight:700;">90</td>
-            <td style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">89.0</td>
-            <td style="text-align: center;"><span class="grade-badge a">A</span></td>
-            <td><span class="status-pill success">Terverifikasi</span></td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action outline" onclick="alert('Membuka edit nilai...');">Edit</button>
+              <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
+                <button type="button" class="btn-table-action outline btn-edit-row">Masukkan / Ubah Nilai</button>
               </div>
             </td>
           </tr>
@@ -336,47 +475,10 @@
       </table>
     </div>
 
-    <!-- Table Pagination Footer (matching bottom wireframe pagination icons) -->
-    <div class="table-pagination-footer">
-      <div class="pagination-info">
-        Menampilkan <strong>1 - 8</strong> dari <strong>12</strong> data rapor
-      </div>
-
-      <div class="pagination-nav">
-        <!-- First Page -->
-        <button type="button" class="pagination-btn" title="Halaman Pertama" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="11 17 6 12 11 7"></polyline>
-            <polyline points="18 17 13 12 18 7"></polyline>
-          </svg>
-        </button>
-
-        <!-- Previous Page -->
-        <button type="button" class="pagination-btn" title="Sebelumnya" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-
-        <!-- Page Numbers -->
-        <button type="button" class="pagination-btn active">1</button>
-        <button type="button" class="pagination-btn" onclick="alert('Halaman 2');">2</button>
-
-        <!-- Next Page -->
-        <button type="button" class="pagination-btn" title="Berikutnya" onclick="alert('Halaman 2');">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
-
-        <!-- Last Page -->
-        <button type="button" class="pagination-btn" title="Halaman Terakhir" onclick="alert('Halaman Terakhir');">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="13 17 18 12 13 7"></polyline>
-            <polyline points="6 17 11 12 6 7"></polyline>
-          </svg>
-        </button>
-      </div>
+    <!-- Table Footer Note -->
+    <div style="padding:16px 20px; border-top:1px solid var(--c-border-light); font-size:13px; color:var(--c-text-muted); display:flex; justify-content:space-between; align-items:center;">
+      <div>Hanya 4 mata pelajaran pokok ini yang disediakan oleh pihak sekolah/admin untuk kalkulasi program studi.</div>
+      <div style="font-weight:700; color:var(--c-primary);">Total 4 Mata Pelajaran</div>
     </div>
   </div>
 @endsection

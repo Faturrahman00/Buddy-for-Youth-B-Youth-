@@ -31,7 +31,7 @@
         <line x1="12" y1="5" x2="12" y2="19"></line>
         <line x1="5" y1="12" x2="19" y2="12"></line>
       </svg>
-      <span>+ Jadwalkan Sesi Baru</span>
+      <span>Jadwalkan Sesi Baru</span>
     </a>
   </div>
 
@@ -81,12 +81,13 @@
     <div class="stat-summary-card">
       <div class="stat-icon-wrapper purple">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          <path d="M9 11l3 3L22 4"></path>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">4.9 / 5.0</div>
-        <div class="stat-label">Kepuasan Bimbingan Siswa</div>
+        <div class="stat-val">3 Catatan</div>
+        <div class="stat-label">Rekomendasi Tindak Lanjut</div>
       </div>
     </div>
   </div>
@@ -119,14 +120,6 @@
           <option value="Bambang">Bambang Wicaksono, M.A.</option>
         </select>
 
-        <!-- Reset Button -->
-        <button type="button" id="btnResetRiwayatKonsul" class="btn-filter-reset" title="Reset filter">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1 4 1 10 7 10"></polyline>
-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-          </svg>
-          Reset
-        </button>
       </div>
     </div>
   </div>
@@ -156,7 +149,7 @@
         </thead>
         <tbody id="riwayatKonsulTableBody">
           <!-- Row 1 (Mendatang / Terjadwal) -->
-          <tr data-searchable="10 Okt 2026 Maya Sartika Validasi Pilihan Jurusan Teknik Terjadwal 60 Menit" data-status="Terjadwal" data-psikolog="Maya">
+          <tr data-searchable="10 Okt 2026 Maya Sartika Validasi Pilihan Program Studi Teknik Terjadwal 60 Menit" data-status="Terjadwal" data-psikolog="Maya">
             <td>
               <div style="font-weight:700; color:var(--c-text-heading);">10 Oktober 2026</div>
               <div style="font-size:12px; color:var(--c-text-muted);">14:00 - 15:00 WIB (Mendatang)</div>
@@ -174,7 +167,7 @@
               <span style="font-weight:600;">60 Menit</span>
             </td>
             <td>
-              <div style="font-weight:700; color:var(--c-primary);">Validasi Jurusan Teknik Informatika & Kesiapan PTN</div>
+              <div style="font-weight:700; color:var(--c-primary);">Validasi Program Studi Teknik Informatika & Kesiapan PTN</div>
               <div><span class="status-pill success" style="font-size:11px; padding:2px 8px;">Disetujui • Via Zoom</span></div>
             </td>
             <td style="text-align: right;">
@@ -188,7 +181,7 @@
           </tr>
 
           <!-- Row 2 (Selesai) -->
-          <tr data-searchable="02 Okt 2026 Maya Sartika Pemilihan Jurusan Analisis Potensi Bakat Saintek Selesai 60 Menit" data-status="Selesai" data-psikolog="Maya">
+          <tr data-searchable="02 Okt 2026 Maya Sartika Pemilihan Program Studi Analisis Potensi Bakat Saintek Selesai 60 Menit" data-status="Selesai" data-psikolog="Maya">
             <td>
               <div style="font-weight:700; color:var(--c-text-heading);">02 Oktober 2026</div>
               <div style="font-size:12px; color:var(--c-text-muted);">15:30 - 16:30 WIB</div>
@@ -206,7 +199,7 @@
               <span style="font-weight:600;">60 Menit</span>
             </td>
             <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Pemilihan Jurusan & Analisis Potensi Bakat Saintek</div>
+              <div style="font-weight:700; color:var(--c-text-heading);">Pemilihan Program Studi & Analisis Potensi Bakat Saintek</div>
               <div><span class="status-pill success" style="font-size:11px; padding:2px 8px;">Selesai Dilaksanakan</span></div>
             </td>
             <td style="text-align: right;">
@@ -214,9 +207,6 @@
                 <button type="button" class="btn-table-action primary" data-open-modal="modalCatatanKonseling">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
                   Catatan
-                </button>
-                <button type="button" class="btn-table-action outline" onclick="alert('Mengunduh resume sesi konseling 02 Okt 2026...');">
-                  Resume
                 </button>
               </div>
             </td>
@@ -250,9 +240,6 @@
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
                   Catatan
                 </button>
-                <button type="button" class="btn-table-action outline" onclick="alert('Mengunduh resume...');">
-                  Resume
-                </button>
               </div>
             </td>
           </tr>
@@ -284,9 +271,6 @@
                 <button type="button" class="btn-table-action primary" data-open-modal="modalCatatanKonseling">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
                   Catatan
-                </button>
-                <button type="button" class="btn-table-action outline" onclick="alert('Mengunduh resume...');">
-                  Resume
                 </button>
               </div>
             </td>

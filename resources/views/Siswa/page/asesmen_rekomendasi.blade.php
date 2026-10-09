@@ -24,9 +24,9 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
         </svg>
-        Asesmen Minat &amp; Bakat
+        Asesmen Minat &amp; Bakat Program Studi
       </h2>
-      <p>Jawab setiap pertanyaan secara jujur untuk mendapatkan rekomendasi jurusan yang paling sesuai denganmu.</p>
+      <p>Jawab 60 pertanyaan secara objektif untuk mendapatkan rekomendasi program studi yang paling sesuai dengan potensi dan minatmu.</p>
     </div>
   </div>
 
@@ -37,7 +37,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
-        <span>Progress: <strong id="asesmenProgressText">0 / 6 Pertanyaan</strong></span>
+        <span>Progress: <strong id="asesmenProgressText">0 / 60 Pertanyaan</strong></span>
       </div>
       <span class="asesmen-progress-badge" id="asesmenProgressBadge">0% Selesai</span>
     </div>
@@ -77,10 +77,10 @@
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F2B705" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
     <h3>Asesmen Selesai!</h3>
-    <p>Semua pertanyaan telah dijawab. Sistem AI B-Youth sedang menganalisis profilmu dan menyiapkan rekomendasi jurusan terbaik.</p>
+    <p>Semua 60 pertanyaan telah dijawab. Sistem sedang menganalisis profilmu dan menyiapkan rekomendasi program studi terbaik.</p>
     <button type="button" class="btn-lihat-rekomendasi" id="btnShowRec">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      Lihat Rekomendasi Jurusan
+      Lihat Rekomendasi Program Studi
     </button>
   </div>
 
@@ -97,28 +97,28 @@
         <span class="rec-match">91% Kecocokan</span>
         <h4 class="rec-title">Sistem Informasi &amp; Manajemen Bisnis Digital</h4>
         <p class="rec-desc">Menjembatani keahlian teknologi dengan manajemen strategis organisasi dan inovasi startup modern.</p>
-        <div class="rec-karier-label">Peluang Karier:</div>
+        <div class="rec-karier-label">Prospek Karier Terkait:</div>
         <div class="rec-tags">
           <span class="rec-tag">Product Manager</span>
           <span class="rec-tag">IT Consultant</span>
           <span class="rec-tag">Business Analyst</span>
         </div>
         <div class="rec-kampus"><strong>Kampus:</strong> UI, ITS, Binus, Telkom University</div>
-        <a href="{{ route('siswa.konsultasi') }}" class="btn-rec-cta btn-rec-secondary">Konsultasikan Jurusan</a>
+        <a href="{{ route('siswa.konsultasi') }}" class="btn-rec-cta btn-rec-secondary">Konsultasikan Program Studi</a>
       </div>
 
       {{-- Card 2 - Primary --}}
       <div class="rec-card primary-rec">
-        <span class="rec-top-badge">Terbaik untukmu</span>
+        <span class="rec-top-badge">Rekomendasi Utama</span>
         <div class="rec-cluster">Sains &amp; Rekayasa Teknologi</div>
         <span class="rec-match high">96% Kesesuaian</span>
-        <h4 class="rec-title">Teknik Informatika &amp; Rekayasa AI</h4>
-        <p class="rec-desc">Sangat selaras dengan skor logika tinggimu dan ketertarikan pada problem solving algoritmik serta teknologi mutakhir.</p>
-        <div class="rec-karier-label">Peluang Karier:</div>
+        <h4 class="rec-title">Teknik Informatika &amp; Rekayasa Komputer</h4>
+        <p class="rec-desc">Sangat selaras dengan skor logika tinggi dan ketertarikan pada problem solving algoritmik serta komputasi.</p>
+        <div class="rec-karier-label">Prospek Karier Terkait:</div>
         <div class="rec-tags">
-          <span class="rec-tag">AI/ML Engineer</span>
-          <span class="rec-tag">Software Architect</span>
-          <span class="rec-tag">Data Scientist</span>
+          <span class="rec-tag">Software Engineer</span>
+          <span class="rec-tag">System Analyst</span>
+          <span class="rec-tag">Data Specialist</span>
         </div>
         <div class="rec-kampus"><strong>Kampus:</strong> ITB, UI, UGM, ITS, Polibatam</div>
         <a href="{{ route('siswa.konsultasi') }}" class="btn-rec-cta btn-rec-primary">
@@ -133,14 +133,14 @@
         <span class="rec-match">86% Kecocokan</span>
         <h4 class="rec-title">Desain Komunikasi Visual &amp; UI/UX</h4>
         <p class="rec-desc">Menggabungkan kepekaan estetika desain visual dengan psikologi interaksi pengguna dalam produk digital.</p>
-        <div class="rec-karier-label">Peluang Karier:</div>
+        <div class="rec-karier-label">Prospek Karier Terkait:</div>
         <div class="rec-tags">
           <span class="rec-tag">UI/UX Designer</span>
-          <span class="rec-tag">Creative Director</span>
-          <span class="rec-tag">Interaction Designer</span>
+          <span class="rec-tag">Creative Designer</span>
+          <span class="rec-tag">Visual Strategist</span>
         </div>
         <div class="rec-kampus"><strong>Kampus:</strong> ITB (FSRD), ISI Yogyakarta, UMN, Telkom</div>
-        <a href="{{ route('siswa.konsultasi') }}" class="btn-rec-cta btn-rec-secondary">Konsultasikan Jurusan</a>
+        <a href="{{ route('siswa.konsultasi') }}" class="btn-rec-cta btn-rec-secondary">Konsultasikan Program Studi</a>
       </div>
 
     </div>

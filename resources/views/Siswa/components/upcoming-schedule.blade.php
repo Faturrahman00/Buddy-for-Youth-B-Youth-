@@ -20,7 +20,7 @@
       </div>
       <div class="counselor-info">
         <span class="counselor-name">Dra. Sarah Amelia, M.Psi</span>
-        <span class="counselor-role">Psikolog Pendidikan & Karir Remaja</span>
+        <span class="counselor-role">Psikolog Pendidikan Remaja</span>
       </div>
     </div>
 
@@ -45,17 +45,17 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M15 10l5-5-5-5v3H9a6 6 0 0 0-6 6v3h3v-3a3 3 0 0 1 3-3h6v3z"/>
         </svg>
-        <span>Topik: Validasi Jurusan Teknik vs Kedokteran</span>
+        <span>Topik: Validasi Program Studi Teknik vs Kedokteran</span>
       </div>
     </div>
   </div>
 
-  <!-- Primary Button: + Booking konsultasi baru -->
-  <button type="button" class="btn-booking-new btn-trigger-booking" data-modal-target="modalBooking" data-modal-toggle="modalBooking">
+  <!-- Primary Action: Langsung ke Halaman Konsultasi -->
+  <a href="{{ route('siswa.konsultasi') }}" class="btn-booking-new">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <line x1="12" y1="5" x2="12" y2="19"></line>
       <line x1="5" y1="12" x2="19" y2="12"></line>
     </svg>
-    + Booking konsultasi baru
-  </button>
+    <span>Jadwalkan Konsultasi Baru</span>
+  </a>
 </div>

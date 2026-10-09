@@ -110,19 +110,96 @@ document.addEventListener('DOMContentLoaded', () => {
   if (bookingForm) {
     bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const submitBtn = bookingForm.querySelector('button[type="submit"]');
-      const originalText = submitBtn.innerHTML;
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Memproses Jadwal...';
+      closeModal(modalBooking);
 
-      setTimeout(() => {
-        alert('Jadwal konsultasi berhasil diajukan! Anda akan menerima konfirmasi via WhatsApp & Notifikasi Portal.');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-        closeModal(modalBooking);
-      }, 800);
+      window.showGlassLoading('Menjadwalkan Konsultasi...', 850, () => {
+        alert('Jadwal konsultasi berhasil diajukan! Anda akan menerima konfirmasi via WhatsApp.');
+      });
     });
   }
 
   console.log('B-Youth Student Dashboard loaded successfully.');
 });
+
+// Global Glassmorphism Loading Helper
+window.showGlassLoading = function(message = 'Memproses data...', duration = 800, callback = null) {
+  const overlay = document.getElementById('glassLoadingOverlay');
+  const textEl = document.getElementById('glassLoadingText');
+
+  if (!overlay) {
+    if (callback) setTimeout(callback, duration);
+    return;
+  }
+
+  if (textEl && message) {
+    textEl.textContent = message;
+  }
+
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  if (duration > 0) {
+    setTimeout(() => {
+      window.hideGlassLoading();
+      if (typeof callback === 'function') {
+        callback();
+      }
+    }, duration);
+  }
+};
+
+window.hideGlassLoading = function() {
+  const overlay = document.getElementById('glassLoadingOverlay');
+  if (overlay) {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+};
+
+// Global Glassmorphism Toast Helpers (Berhasil & Gagal)
+window.showToast = function(type, title, message, duration = 3500) {
+  const container = document.getElementById('appToastContainer');
+  if (!container) return;
+
+  const isSuccess = type === 'success';
+  const toast = document.createElement('div');
+  toast.className = `app-toast toast-${type}`;
+
+  const iconSvg = isSuccess
+    ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`
+    : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+
+  toast.innerHTML = `
+    <div class="app-toast-icon">${iconSvg}</div>
+    <div class="app-toast-content">
+      <div class="app-toast-title">${title}</div>
+      <div class="app-toast-message">${message}</div>
+    </div>
+    <button type="button" class="app-toast-close" aria-label="Tutup notifikasi">&times;</button>
+  `;
+
+  const closeBtn = toast.querySelector('.app-toast-close');
+  const removeToast = () => {
+    toast.classList.remove('active');
+    setTimeout(() => toast.remove(), 350);
+  };
+
+  closeBtn.addEventListener('click', removeToast);
+
+  container.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('active'));
+
+  if (duration > 0) {
+    setTimeout(removeToast, duration);
+  }
+};
+
+window.showToastSuccess = function(title = 'Berhasil!', message = 'Operasi berhasil dilakukan.') {
+  window.showToast('success', title, message);
+};
+
+window.showToastError = function(title = 'Gagal!', message = 'Terjadi kesalahan pada input data.') {
+  window.showToast('error', title, message);
+};
+
+

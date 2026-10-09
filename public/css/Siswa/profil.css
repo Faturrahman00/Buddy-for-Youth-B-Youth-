@@ -1,11 +1,6 @@
 /* ==========================================================================
    PROFIL SISWA — Page CSS
-   Color Palette: #30618C | #F2B705 | #FAE08F | #D6D494 | #B9D0E4 | #FFFFFF
    ========================================================================== */
-
-/* Profil sudah menggunakan class dari pages-siswa.css */
-/* File ini adalah tempat override spesifik halaman profil */
-
 .profil-header-card {
   background: linear-gradient(135deg, #30618C 0%, #1E4A6E 100%);
   border-radius: 18px;

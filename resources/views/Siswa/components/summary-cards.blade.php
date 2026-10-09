@@ -34,8 +34,8 @@
   <div class="card-summary">
     <div>
       <div class="summary-header">
-        <span class="summary-title">Rekomendasi Prodi</span>
-        <div class="summary-icon-mini" title="Rekomendasi Prodi">
+        <span class="summary-title">Rekomendasi Program Studi</span>
+        <div class="summary-icon-mini" title="Rekomendasi Program Studi">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
@@ -45,7 +45,7 @@
       <div class="dash-value" style="font-size:16px; font-weight:800; color:var(--c-primary); margin:8px 0 4px;">Teknik Informatika (96%)</div>
     </div>
     <a href="{{ route('siswa.asesmen') }}#kartuRekomendasiSection" class="link-action">
-      <span>Lihat Rekomendasi AI</span>
+      <span>Lihat Rekomendasi Program Studi</span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"></polyline>
       </svg>

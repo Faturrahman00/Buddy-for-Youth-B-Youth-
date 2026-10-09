@@ -57,7 +57,7 @@
         <div class="step-badge-num">3</div>
         <div class="step-text-content">
           <div class="step-name">
-            Eksplorasi Rekomendasi Program Studi & Karir Berbasis AI
+            Eksplorasi Rekomendasi Program Studi Terarah
           </div>
           <p class="step-desc">Rekomendasi 5 program studi terbaik dan pemetaan peluang lolos di PTN favorit.</p>
         </div>
@@ -70,15 +70,15 @@
       </div>
     </div>
 
-    <!-- Step 4: Konsultasi 1-on-1 dengan Psikolog -->
+    <!-- Step 4: Konsultasi dengan Psikolog -->
     <div class="step-item">
       <div class="step-item-left">
         <div class="step-badge-num">4</div>
         <div class="step-text-content">
           <div class="step-name">
-            Konsultasi 1-on-1 dengan Psikolog Pendidikan
+            Konsultasi Terarah dengan Psikolog Pendidikan
           </div>
-          <p class="step-desc">Sesi konseling personal untuk validasi minat, aspirasi orang tua, dan roadmap studi.</p>
+          <p class="step-desc">Sesi konseling personal untuk validasi minat, aspirasi orang tua, dan rencana studi.</p>
         </div>
       </div>
       <div class="step-item-right">

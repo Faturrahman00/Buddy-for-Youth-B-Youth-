@@ -1,9 +1,5 @@
 /* ==========================================================================
    B-YOUTH: PAGES SISWA STYLESHEET
-   File: public/css/Siswa/pages-siswa.css
-   Style for: Data Akademik, Asesmen & Rekomendasi (MBTI-style Likert),
-              Riwayat Asesmen, Konsultasi (Kalender + Jam + Zoom),
-              Riwayat Konsultasi, and Profil Siswa
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -409,6 +405,18 @@
   border-color: #94A3B8;
 }
 
+.btn-table-action.danger {
+  background: #FEF3F2;
+  color: #B42318;
+  border-color: #FECDCA;
+}
+
+.btn-table-action.danger:hover {
+  background: #B42318;
+  color: #FFFFFF;
+  border-color: #B42318;
+}
+
 /* Pagination Row */
 .table-pagination-footer {
   padding: 14px 24px;
@@ -603,17 +611,10 @@
   position: relative;
 }
 
-/* Subtle line connecting circles */
+/* Hapus garis penghubung bulatan likert */
 .likert-circles-row::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  right: 20px;
-  height: 2px;
-  background: #E2E8F0;
-  z-index: 0;
-  transform: translateY(-50%);
+  display: none !important;
+  content: none !important;
 }
 
 .likert-option-wrapper {
@@ -1729,4 +1730,215 @@
   .profil-field-group:nth-last-child(-n+2) { border-bottom: 1px solid var(--c-border-light); }
   .profil-field-group:last-child { border-bottom: none; }
 }
+
+/* --------------------------------------------------------------------------
+   GRAFIK VISUALISASI NILAI 4 MAPEL (IPAS, MTK, B. INDO, B. ING)
+   -------------------------------------------------------------------------- */
+.akademik-chart-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--c-border);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.chart-title-wrap h3 {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-title-wrap p {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+
+.chart-bars-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  padding: 12px 0 6px;
+}
+
+@media (max-width: 768px) {
+  .chart-bars-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+.chart-bar-item {
+  background: #F8FAFD;
+  border: 1.5px solid var(--c-border-light);
+  border-radius: var(--radius-md);
+  padding: 18px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.chart-bar-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(48, 97, 140, 0.09);
+  border-color: var(--c-sky-soft);
+}
+
+.chart-bar-visual-wrap {
+  width: 100%;
+  height: 140px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 10px 0;
+  position: relative;
+}
+
+.chart-bar-pillar {
+  width: 44px;
+  border-radius: 8px 8px 4px 4px;
+  transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  box-shadow: 0 4px 12px rgba(48, 97, 140, 0.15);
+}
+
+.chart-bar-pillar.ipas { background: linear-gradient(180deg, #10B981 0%, #059669 100%); }
+.chart-bar-pillar.mtk { background: linear-gradient(180deg, #30618C 0%, #1D4363 100%); }
+.chart-bar-pillar.indo { background: linear-gradient(180deg, #F2B705 0%, #D49A00 100%); }
+.chart-bar-pillar.ing { background: linear-gradient(180deg, #4A88C0 0%, #296091 100%); }
+
+.chart-bar-score {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+  margin-top: 10px;
+}
+
+.chart-bar-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-text-heading);
+  margin-top: 2px;
+}
+
+.chart-bar-sub {
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   TOAST NOTIFIKASI BERHASIL & GAGAL (Clean Glassmorphism)
+   -------------------------------------------------------------------------- */
+.app-toast-container {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.app-toast {
+  pointer-events: auto;
+  min-width: 320px;
+  max-width: 420px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 16px 40px rgba(15, 37, 59, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transform: translateY(30px) scale(0.95);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 1.5px solid transparent;
+}
+
+.app-toast.active {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.app-toast.toast-success {
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+.app-toast.toast-error {
+  border-color: rgba(239, 68, 68, 0.45);
+}
+
+.app-toast-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toast-success .app-toast-icon {
+  background: #ECFDF3;
+  color: #027A48;
+}
+
+.toast-error .app-toast-icon {
+  background: #FEF3F2;
+  color: #D92D20;
+}
+
+.app-toast-content {
+  flex: 1;
+}
+
+.app-toast-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.toast-success .app-toast-title { color: #027A48; }
+.toast-error .app-toast-title { color: #B42318; }
+
+.app-toast-message {
+  font-size: 13px;
+  color: var(--c-text-body);
+  margin-top: 2px;
+  line-height: 1.45;
+}
+
+.app-toast-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #94A3B8;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.app-toast-close:hover {
+  color: #475569;
+}
+
 

@@ -9,19 +9,17 @@
 <aside class="sidebar" id="sidebar" aria-label="Sidebar Siswa">
   <!-- Brand / Logo Area -->
   <div class="sidebar-brand">
-    <div class="brand-icon-box" title="Buddy For Youth Logo">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-        <path d="M2 17l10 5 10-5"></path>
-        <path d="M2 12l10 5 10-5"></path>
-      </svg>
-    </div>
-    <div class="brand-info">
-      <div class="brand-title">
-        B-Youth <span class="brand-badge">Siswa</span>
+    <a href="{{ route('dashboard_siswa') }}" style="display:flex; align-items:center; gap:12px; text-decoration:none; width:100%;">
+      <div class="brand-logo-img" style="width:38px; height:38px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+        <img src="{{ asset('foto/logo.png') }}" alt="Buddy For Youth Logo" style="width:100%; height:100%; object-fit:contain;">
       </div>
-      <span class="brand-subtitle">Buddy For Youth Portal</span>
-    </div>
+      <div class="brand-info">
+        <div class="brand-title">
+          B-Youth <span class="brand-badge">Siswa</span>
+        </div>
+        <span class="brand-subtitle">Buddy For Youth Portal</span>
+      </div>
+    </a>
   </div>
 
   <!-- Navigation Menu List -->

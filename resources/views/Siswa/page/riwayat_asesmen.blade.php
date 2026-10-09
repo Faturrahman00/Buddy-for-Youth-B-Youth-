@@ -80,8 +80,8 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">100%</div>
-        <div class="stat-label">Verifikasi Guru BK & AI</div>
+        <div class="stat-val">3 Sesi</div>
+        <div class="stat-label">Hasil Asesmen Selesai</div>
       </div>
     </div>
   </div>
@@ -115,14 +115,6 @@
           <option value="2025">Tahun 2025</option>
         </select>
 
-        <!-- Reset Button -->
-        <button type="button" id="btnResetRiwayatAsesmen" class="btn-filter-reset" title="Reset filter">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1 4 1 10 7 10"></polyline>
-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-          </svg>
-          Reset
-        </button>
       </div>
     </div>
   </div>
@@ -135,7 +127,7 @@
         <span class="data-count-badge" data-count-for="riwayatAsesmenTableBody">4 Sesi Terdata</span>
       </div>
       <div style="font-size:12.5px; color:var(--c-text-muted);">
-        Terintegrasi dengan Model Rekomendasi B-Youth AI v2.4
+        Tercatat dalam Portofolio Siswa B-Youth
       </div>
     </div>
 
@@ -155,7 +147,7 @@
           <tr data-searchable="05 Okt 2026 Teknik Informatika Sains Data Selesai 28 Menit" data-status="Selesai" data-periode="2026">
             <td>
               <div style="font-weight:700; color:var(--c-text-heading);">05 Oktober 2026</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Pukul 14:30 WIB • Sesi #ASY-08</div>
+              <div style="font-size:12px; color:var(--c-text-muted);">Pukul 14:20 WIB • Sesi #ASY-08</div>
             </td>
             <td>
               <span style="font-weight:600; display:inline-flex; align-items:center; gap:5px;">
@@ -168,7 +160,7 @@
             </td>
             <td>
               <div style="font-weight:700; color:var(--c-primary); font-size:14px;">
-                Teknik Informatika (96%)
+                Teknik Informatika (95%)
               </div>
               <div style="font-size:12px; color:var(--c-text-muted);">
                 Alternatif: Sains Data (91%), Sistem Informasi (88%)
@@ -178,11 +170,7 @@
               <div class="action-btn-group" style="justify-content: flex-end;">
                 <button type="button" class="btn-table-action primary" data-open-modal="modalDetailAsesmen">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Detail
-                </button>
-                <button type="button" class="btn-table-action outline" onclick="alert('Mengunduh sertifikat & rapor asesmen PDF...');">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                  PDF
+                  Rincian
                 </button>
               </div>
             </td>
@@ -215,11 +203,7 @@
               <div class="action-btn-group" style="justify-content: flex-end;">
                 <button type="button" class="btn-table-action primary" data-open-modal="modalDetailAsesmen">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Detail
-                </button>
-                <button type="button" class="btn-table-action outline" onclick="alert('Mengunduh hasil asesmen...');">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                  PDF
+                  Rincian
                 </button>
               </div>
             </td>
@@ -252,11 +236,7 @@
               <div class="action-btn-group" style="justify-content: flex-end;">
                 <button type="button" class="btn-table-action primary" data-open-modal="modalDetailAsesmen">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Detail
-                </button>
-                <button type="button" class="btn-table-action outline" onclick="alert('Mengunduh hasil asesmen...');">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                  PDF
+                  Rincian
                 </button>
               </div>
             </td>
@@ -275,25 +255,21 @@
               </span>
             </td>
             <td>
-              <span class="status-pill pending">Menunggu Review</span>
+              <span class="status-pill pending">Menunggu Verifikasi</span>
             </td>
             <td>
               <div style="font-weight:700; color:var(--c-text-heading); font-size:14px;">
                 Teknik Komputer & Jaringan (84%)
               </div>
               <div style="font-size:12px; color:var(--c-text-muted);">
-                Tinjauan awal Guru BK Semester 3
+                Tinjauan Portofolio Semester 3
               </div>
             </td>
             <td style="text-align: right;">
               <div class="action-btn-group" style="justify-content: flex-end;">
                 <button type="button" class="btn-table-action primary" data-open-modal="modalDetailAsesmen">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Detail
-                </button>
-                <button type="button" class="btn-table-action outline" onclick="alert('Mengunduh hasil asesmen...');">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                  PDF
+                  Rincian
                 </button>
               </div>
             </td>
