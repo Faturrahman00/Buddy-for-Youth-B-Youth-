@@ -69,6 +69,53 @@ Route::prefix('siswa')->name('siswa.')->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
-        return view('Admin.dashboard');
+        return view('Admin.page.dashboard');
     })->name('dashboard');
+
+    Route::get('/pengguna', function () {
+        return view('Admin.page.kelola_pengguna');
+    })->name('pengguna');
+
+    Route::get('/prodi', function () {
+        return view('Admin.page.kelola_prodi');
+    })->name('prodi');
+
+    Route::get('/asesmen', function () {
+        return view('Admin.page.kelola_asesmen');
+    })->name('asesmen');
+
+    Route::get('/profil', function () {
+        return view('Admin.page.profil');
+    })->name('profil');
 });
+
+// ══════════════════════════════════════════════════════════════════════════
+// PSIKOLOG ROUTES
+// ══════════════════════════════════════════════════════════════════════════
+
+Route::prefix('psikolog')->name('psikolog.')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('psikolog.dashboard');
+    });
+
+    Route::get('/beranda', function () {
+        return view('Psikolog.page.beranda');
+    })->name('dashboard');
+
+    Route::get('/dashboard', function () {
+        return redirect()->route('psikolog.dashboard');
+    });
+
+    Route::get('/jadwal', function () {
+        return view('Psikolog.page.kelola_jadwal');
+    })->name('jadwal');
+
+    Route::get('/riwayat', function () {
+        return view('Psikolog.page.riwayat_konsultasi');
+    })->name('riwayat');
+
+    Route::get('/profil', function () {
+        return view('Psikolog.page.profil');
+    })->name('profil');
+});
+

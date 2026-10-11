@@ -1,0 +1,1440 @@
+/* ==========================================================================
+   B-YOUTH: PAGES PSIKOLOG STYLESHEET
+   File: public/css/Psikolog/pages-psikolog.css
+   Style for: Beranda (3 Metric Cards & Sesi Mendatang),
+              Kelola Jadwal Konsultasi (Slot Manager & Form Tambah),
+              Riwayat Konsultasi (Tabel & Modal Catatan Lengkap),
+              Profil Psikolog Konselor
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. COMMON ACTION HEADER & TITLES
+   -------------------------------------------------------------------------- */
+.page-top-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.page-title-wrap h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-title-wrap p {
+  font-size: 13.5px;
+  color: var(--c-text-muted);
+  margin-top: 4px;
+}
+
+.btn-primary-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--c-primary);
+  color: var(--c-white);
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(48, 97, 140, 0.25);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn-primary-action:hover {
+  background: var(--c-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(48, 97, 140, 0.35);
+  color: var(--c-white);
+}
+
+/* Common Card Container */
+.psikolog-card {
+  background: var(--c-surface);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.psikolog-card:hover {
+  border-color: #BACFDF;
+}
+
+.card-header-wrap {
+  padding: 18px 22px;
+  border-bottom: 1.5px solid var(--c-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #FCFDFE;
+}
+
+.card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-title-text {
+  font-size: 15.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-text-heading);
+}
+
+.card-body-content {
+  padding: 22px;
+}
+
+/* --------------------------------------------------------------------------
+   2. TOP 3 METRIC CARDS (BERANDA)
+   Ultra-Creative, Modern, and Interactive
+   -------------------------------------------------------------------------- */
+.metrics-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.metric-card-box {
+  background: var(--c-surface);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(48, 97, 140, 0.04);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 170px;
+}
+
+.metric-card-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+.metric-card-box.amber::before {
+  background: linear-gradient(90deg, #F2B705 0%, #FAE08F 100%);
+}
+
+.metric-card-box.primary::before {
+  background: linear-gradient(90deg, #30618C 0%, #4278a8 100%);
+}
+
+.metric-card-box.emerald::before {
+  background: linear-gradient(90deg, #10B981 0%, #6EE7B7 100%);
+}
+
+.metric-card-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(48, 97, 140, 0.1);
+  border-color: #B9D0E4;
+}
+
+.metric-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.metric-title {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-text-muted);
+}
+
+.metric-icon-bubble {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.metric-card-box:hover .metric-icon-bubble {
+  transform: scale(1.08) rotate(3deg);
+}
+
+.metric-icon-bubble.amber {
+  background: #FFF9E6;
+  color: #B48200;
+  border: 1px solid #FCE49E;
+}
+
+.metric-icon-bubble.primary {
+  background: #EAF2F8;
+  color: var(--c-primary);
+  border: 1px solid #C7DDEE;
+}
+
+.metric-icon-bubble.emerald {
+  background: #EBFDF2;
+  color: #027A48;
+  border: 1px solid #B6F4CC;
+}
+
+.metric-value-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.metric-number {
+  font-family: 'Outfit', sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+  line-height: 1;
+}
+
+.metric-subtext {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--c-text-body);
+}
+
+.metric-footer-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--c-border-light);
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+
+.metric-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.metric-tag-chip.amber {
+  background: #FFF9E6;
+  color: #946900;
+  border: 1px solid #FCE49E;
+}
+
+.metric-tag-chip.primary {
+  background: #EAF2F8;
+  color: var(--c-primary);
+  border: 1px solid #B9D0E4;
+}
+
+.metric-tag-chip.emerald {
+  background: #EBFDF2;
+  color: #027A48;
+  border: 1px solid #B6F4CC;
+}
+
+.metric-action-link {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--c-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap var(--transition-fast);
+}
+
+.metric-action-link:hover {
+  gap: 8px;
+  color: var(--c-primary-dark);
+}
+
+/* --------------------------------------------------------------------------
+   3. BERANDA SPLIT GRID (Jadwal Mendatang & Ringkasan Bulan Ini)
+   -------------------------------------------------------------------------- */
+.beranda-split-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 24px;
+}
+
+/* Active Zoom Featured Card */
+.featured-session-card {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8FBFE 100%);
+  border: 1.5px solid #C4D8E8;
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 14px rgba(48, 97, 140, 0.05);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.featured-session-card:hover {
+  border-color: var(--c-primary-light);
+  box-shadow: 0 8px 20px rgba(48, 97, 140, 0.09);
+}
+
+.session-top-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.session-badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #EBFDF2;
+  color: #027A48;
+  border: 1px solid #A6F4C5;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
+  animation: pulse-ring 1.8s infinite;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.session-time-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #EAF2F8;
+  color: var(--c-primary);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid #B9D0E4;
+}
+
+.student-identity-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.student-avatar-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-light) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-white);
+  font-weight: 800;
+  font-size: 15px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 8px rgba(48, 97, 140, 0.2);
+}
+
+.student-info h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+  line-height: 1.2;
+}
+
+.student-info p {
+  font-size: 12.5px;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+
+.session-topic-box {
+  background: var(--c-white);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.session-topic-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 3px;
+}
+
+.session-topic-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--c-text-heading);
+}
+
+.session-topic-desc {
+  font-size: 12px;
+  color: var(--c-text-body);
+  margin-top: 2px;
+}
+
+.session-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-zoom-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #2D8CFF 0%, #1665D8 100%);
+  color: var(--c-white);
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(45, 140, 255, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.btn-zoom-primary:hover {
+  background: linear-gradient(135deg, #1C7BF4 0%, #1153B8 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(45, 140, 255, 0.4);
+  color: var(--c-white);
+}
+
+.btn-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--c-white);
+  color: var(--c-text-body);
+  border: 1.5px solid var(--c-border);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary-link:hover {
+  background: var(--c-sky-subtle);
+  border-color: var(--c-primary-light);
+  color: var(--c-primary);
+}
+
+/* Secondary Upcoming Card */
+.upcoming-item-compact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--c-white);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  margin-bottom: 10px;
+}
+
+.upcoming-item-compact:hover {
+  border-color: var(--c-primary-light);
+  background: #FCFDFE;
+  transform: translateX(3px);
+}
+
+.compact-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.compact-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--c-sky-soft);
+  color: var(--c-primary);
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compact-details h5 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-text-heading);
+}
+
+.compact-details p {
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   4. STATISTIK RINGKASAN BULAN INI (Right column)
+   -------------------------------------------------------------------------- */
+.stat-summary-vbox {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.mini-stat-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--c-bg);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.mini-stat-card:hover {
+  background: var(--c-white);
+  border-color: var(--c-sky-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xs);
+}
+
+.mini-stat-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mini-stat-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.mini-stat-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--c-text-muted);
+}
+
+.mini-stat-value {
+  font-family: 'Outfit', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+}
+
+.chart-container-widget {
+  background: var(--c-white);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.chart-header-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-text-heading);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quick-tools-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.quick-tool-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px;
+  background: var(--c-white);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--c-text-heading);
+  transition: all var(--transition-fast);
+}
+
+.quick-tool-btn:hover {
+  background: var(--c-primary);
+  color: var(--c-white);
+  border-color: var(--c-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(48, 97, 140, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   5. KELOLA JADWAL KONSULTASI PAGE
+   Tabs, Slot Manager Calendar, Active Slots & Tambah Form
+   -------------------------------------------------------------------------- */
+.subtabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px solid var(--c-border);
+  margin-bottom: 24px;
+  padding-bottom: 2px;
+}
+
+.tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--c-text-muted);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.tab-btn:hover {
+  color: var(--c-primary);
+  background: var(--c-sky-subtle);
+}
+
+.tab-btn.active {
+  color: var(--c-primary);
+  font-weight: 800;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--c-primary);
+  border-radius: var(--radius-full);
+}
+
+.tab-badge {
+  background: var(--c-accent);
+  color: #1a1a1a;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+}
+
+.jadwal-two-columns {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 24px;
+}
+
+/* Interactive Calendar Widget */
+.calendar-widget-box {
+  background: #FCFDFE;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+.calendar-top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.calendar-month-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+}
+
+.calendar-nav-arrows {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-arrow-calendar {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--c-border);
+  background: var(--c-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-text-heading);
+  transition: all var(--transition-fast);
+}
+
+.btn-arrow-calendar:hover {
+  background: var(--c-sky-subtle);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+
+.calendar-grid-table {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.cal-day-header {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--c-text-muted);
+  padding: 6px 0;
+  text-transform: uppercase;
+}
+
+.cal-day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-white);
+  border: 1px solid var(--c-border-light);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-text-body);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.cal-day-cell:hover {
+  background: var(--c-sky-subtle);
+  border-color: var(--c-primary-light);
+  color: var(--c-primary);
+}
+
+.cal-day-cell.other-month {
+  color: var(--c-text-light);
+  background: #F9FBFC;
+}
+
+.cal-day-cell.selected {
+  background: var(--c-primary);
+  color: var(--c-white);
+  border-color: var(--c-primary-dark);
+  font-weight: 800;
+  box-shadow: 0 3px 8px rgba(48, 97, 140, 0.35);
+}
+
+.cal-day-cell.today {
+  border: 2px solid var(--c-accent);
+}
+
+.cal-dots-row {
+  display: flex;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.cal-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.cal-dot.available { background: var(--c-emerald); }
+.cal-dot.approved { background: var(--c-primary); }
+.cal-dot.pending { background: var(--c-accent); }
+
+.calendar-legend-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--c-border-light);
+  font-size: 12px;
+  color: var(--c-text-muted);
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Slot Card Items (Matching Wireframe) */
+.slot-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.slot-card-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  background: var(--c-white);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.slot-card-item:hover {
+  border-color: var(--c-primary-light);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
+
+.slot-left-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.slot-date-badge {
+  padding: 8px 12px;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  min-width: 90px;
+}
+
+.slot-date-badge .day-txt {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+.slot-date-badge .date-txt {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+}
+
+.slot-detail-meta h5 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.slot-detail-meta p {
+  font-size: 12.5px;
+  color: var(--c-text-muted);
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.status-tag.tersedia {
+  background: #EBFDF2;
+  color: #027A48;
+  border: 1.5px solid #A6F4C5;
+}
+
+.status-tag.disetujui {
+  background: #EAF2F8;
+  color: var(--c-primary);
+  border: 1.5px solid #B9D0E4;
+}
+
+.status-tag.menunggu {
+  background: #FFF9E6;
+  color: #946900;
+  border: 1.5px solid #FCE49E;
+}
+
+.slot-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Form Tambah Slot */
+.form-input-group {
+  margin-bottom: 16px;
+}
+
+.form-label-custom {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-text-heading);
+  margin-bottom: 6px;
+}
+
+.form-control-custom {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--c-text-heading);
+  background: #FAFCFE;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.form-control-custom:focus {
+  background: var(--c-white);
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 3px rgba(48, 97, 140, 0.12);
+}
+
+.time-row-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.btn-publish-slot {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 20px;
+  background: var(--c-text-heading);
+  color: var(--c-white);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: all var(--transition-fast);
+  margin-top: 10px;
+  box-shadow: 0 4px 14px rgba(23, 44, 64, 0.25);
+}
+
+.btn-publish-slot:hover {
+  background: var(--c-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(48, 97, 140, 0.35);
+  color: var(--c-white);
+}
+
+/* --------------------------------------------------------------------------
+   6. RIWAYAT KONSULTASI PAGE
+   Table, Search Bar & Catatan Lengkap Modal
+   -------------------------------------------------------------------------- */
+.filter-search-bar {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.search-input-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 280px;
+}
+
+.search-input-wrap .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--c-text-muted);
+  pointer-events: none;
+}
+
+.search-input-wrap input {
+  width: 100%;
+  padding: 10px 14px 10px 42px;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  background: var(--c-white);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.search-input-wrap input:focus {
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 3px rgba(48, 97, 140, 0.12);
+}
+
+.select-filter-custom {
+  padding: 10px 34px 10px 14px;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  background: var(--c-white);
+  color: var(--c-text-body);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B8299' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.table-responsive-box {
+  overflow-x: auto;
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-white);
+}
+
+.table-riwayat {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13.5px;
+}
+
+.table-riwayat thead tr {
+  background-color: var(--c-bg);
+  border-bottom: 1.5px solid var(--c-border);
+}
+
+.table-riwayat th {
+  padding: 14px 16px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.table-riwayat tbody tr {
+  border-bottom: 1px solid var(--c-border-light);
+  transition: background-color var(--transition-fast);
+}
+
+.table-riwayat tbody tr:hover {
+  background-color: #F8FAFD;
+}
+
+.table-riwayat td {
+  padding: 16px;
+  vertical-align: middle;
+}
+
+.badge-student-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.student-initial-pill {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--c-sky-soft);
+  color: var(--c-primary);
+  font-weight: 800;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-catatan-action {
+  padding: 7px 14px;
+  background: var(--c-white);
+  color: var(--c-text-heading);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-catatan-action:hover {
+  background: var(--c-primary);
+  color: var(--c-white);
+  border-color: var(--c-primary);
+  box-shadow: 0 2px 8px rgba(48, 97, 140, 0.25);
+}
+
+.pagination-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-top: 1px solid var(--c-border);
+  font-size: 13px;
+  color: var(--c-text-muted);
+  background: #FCFDFE;
+}
+
+.pagination-nav-group {
+  display: flex;
+  gap: 4px;
+}
+
+.btn-page-step {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--c-border);
+  background: var(--c-white);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--c-text-heading);
+  transition: all var(--transition-fast);
+}
+
+.btn-page-step.active {
+  background: var(--c-text-heading);
+  color: var(--c-white);
+  border-color: var(--c-text-heading);
+}
+
+/* --------------------------------------------------------------------------
+   7. PROFIL PSIKOLOG PAGE
+   Top Card & Bottom Card matching Wireframe 4
+   -------------------------------------------------------------------------- */
+.profil-header-box {
+  background: var(--c-surface);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: var(--shadow-xs);
+  flex-wrap: wrap;
+}
+
+.profil-left-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profil-photo-square {
+  width: 90px;
+  height: 90px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-accent) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-white);
+  font-size: 32px;
+  font-weight: 800;
+  position: relative;
+  box-shadow: 0 4px 14px rgba(48, 97, 140, 0.25);
+  border: 2px solid var(--c-white);
+}
+
+.profil-photo-square img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.profil-meta-details h3 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+}
+
+.profil-meta-details .email-txt {
+  font-size: 14px;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+
+.profil-badges-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge-sip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--c-amber-subtle);
+  color: #7A5400;
+  border: 1px solid var(--c-amber-light);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.badge-role-psikolog {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--c-primary-subtle);
+  color: var(--c-primary);
+  border: 1px solid var(--c-sky-soft);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.profil-info-details-box {
+  background: var(--c-surface);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-xs);
+}
+
+.info-details-title-bar {
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-text-heading);
+  padding-bottom: 14px;
+  border-bottom: 1.5px solid var(--c-border-light);
+  margin-bottom: 22px;
+}
+
+.info-grid-two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.profil-field-unit {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profil-field-title {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  letter-spacing: 0.04em;
+}
+
+.profil-field-val {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--c-text-heading);
+}
+
+/* --------------------------------------------------------------------------
+   8. MODALS & DIALOGS
+   -------------------------------------------------------------------------- */
+.modal-overlay-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 44, 64, 0.6);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay-custom.active {
+  display: flex;
+}
+
+.modal-dialog-box {
+  background: var(--c-white);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  max-width: 620px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: modalPop 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-header-custom {
+  padding: 18px 24px;
+  border-bottom: 1.5px solid var(--c-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FCFDFE;
+}
+
+.modal-header-custom h3 {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--c-text-heading);
+}
+
+.modal-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-text-muted);
+  transition: all var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  background: #EDF2F7;
+  color: var(--c-text-heading);
+}
+
+.modal-body-custom {
+  padding: 24px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.modal-footer-custom {
+  padding: 16px 24px;
+  border-top: 1.5px solid var(--c-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  background: #FAFCFE;
+}
+
+/* Toast Notification */
+.toast-notice {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--c-text-heading);
+  color: var(--c-white);
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 2000;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.toast-notice.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .metrics-grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .beranda-split-grid {
+    grid-template-columns: 1fr;
+  }
+  .jadwal-two-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .info-grid-two-cols {
+    grid-template-columns: 1fr;
+  }
+  .profil-header-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

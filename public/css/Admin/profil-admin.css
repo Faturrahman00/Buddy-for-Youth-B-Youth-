@@ -1,0 +1,191 @@
+/* ==========================================================================
+   PROFIL SISWA — Page CSS
+   Color Palette: #30618C | #F2B705 | #FAE08F | #D6D494 | #B9D0E4 | #FFFFFF
+   ========================================================================== */
+
+/* Profil sudah menggunakan class dari pages-siswa.css */
+/* File ini adalah tempat override spesifik halaman profil */
+
+.profil-header-card {
+  background: linear-gradient(135deg, #30618C 0%, #1E4A6E 100%);
+  border-radius: 18px;
+  padding: 32px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 32px rgba(48,97,140,0.22);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.profil-header-left { display: flex; align-items: center; gap: 20px; }
+
+.profil-avatar-wrap { position: relative; }
+
+.profil-avatar {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, #F2B705, #E8A800);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; font-weight: 800;
+  color: #1A2535;
+  border: 3px solid rgba(255,255,255,0.25);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.20);
+}
+
+.profil-avatar-status {
+  position: absolute;
+  bottom: 3px; right: 3px;
+  width: 14px; height: 14px;
+  background: #22C55E;
+  border-radius: 50%;
+  border: 2.5px solid #30618C;
+}
+
+.profil-header-name  { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin-bottom: 4px; }
+.profil-header-email { font-size: 14px; color: rgba(255,255,255,0.65); margin-bottom: 8px; }
+
+.profil-header-badge {
+  display: inline-block;
+  font-size: 11.5px; font-weight: 700;
+  background: rgba(242,183,5,0.20);
+  border: 1px solid rgba(242,183,5,0.35);
+  color: #FAE08F;
+  padding: 3px 12px;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+}
+
+.profil-header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btn-profil-edit {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 22px;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.30);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 13.5px; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+  transition: all 0.22s ease;
+  backdrop-filter: blur(8px);
+}
+
+.btn-profil-edit:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.50); }
+
+/* Info Card */
+.profil-info-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid #D0DCE8;
+  box-shadow: 0 2px 12px rgba(48,97,140,0.07);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.profil-info-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 18px 28px;
+  border-bottom: 1px solid #D0DCE8;
+  font-size: 14px; font-weight: 700;
+  color: #30618C;
+  background: #F4F7FA;
+}
+
+.profil-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 0;
+}
+
+@media (max-width: 640px) { .profil-info-grid { grid-template-columns: 1fr; } }
+
+.profil-field-group {
+  padding: 20px 28px;
+  border-bottom: 1px solid #EEF3F8;
+  border-right: 1px solid #EEF3F8;
+}
+
+.profil-field-group:nth-child(even) { border-right: none; }
+.profil-field-group:nth-last-child(-n+2) { border-bottom: none; }
+
+.profil-field-label {
+  font-size: 11.5px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #60748A;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.profil-field-value {
+  font-size: 14.5px; font-weight: 600;
+  color: #1A2535;
+}
+
+.profil-field-input {
+  width: 100%;
+  padding: 9px 13px;
+  border: 1.5px solid #B9D0E4;
+  border-radius: 8px;
+  font-size: 14px; font-family: inherit;
+  color: #1A2535;
+  background: #F9FBFD;
+  outline: none;
+  transition: all 0.22s ease;
+}
+
+.profil-field-input:focus {
+  border-color: #30618C;
+  box-shadow: 0 0 0 3px rgba(48,97,140,0.12);
+  background: #fff;
+}
+
+.profil-role-tag {
+  display: inline-block;
+  font-size: 12px; font-weight: 700;
+  background: #B9D0E4;
+  color: #30618C;
+  padding: 3px 12px;
+  border-radius: 100px;
+}
+
+.profil-status-active {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 13px; font-weight: 600; color: #15803D;
+}
+
+.profil-status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #22C55E;
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+}
+
+.profil-edit-actions {
+  display: flex; gap: 10px; padding: 18px 28px;
+  border-top: 1px solid #EEF3F8;
+  background: #F9FBFD;
+}
+
+/* Toast */
+.profil-toast {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  background: linear-gradient(135deg, #30618C, #1E4A6E);
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-size: 14px; font-weight: 600;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 8px 28px rgba(48,97,140,0.35);
+  z-index: 9999;
+  transition: opacity 0.4s ease;
+}
