@@ -22,7 +22,7 @@
             </div>
         </div>
         <div>
-            <div class="dash-value" style="font-size: 32px; color: var(--c-text-heading);">3</div>
+            <div class="dash-value" style="font-size: 32px; color: var(--c-text-heading);">{{ $totalSiswa ?? 0 }}</div>
             <p class="dash-hint">Siswa SMA/SMK terdaftar</p>
         </div>
     </div>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div>
-            <div class="dash-value" style="font-size: 32px; color: var(--c-text-heading);">2</div>
+            <div class="dash-value" style="font-size: 32px; color: var(--c-text-heading);">{{ $totalPsikolog ?? 0 }}</div>
             <p class="dash-hint">Psikolog konselor aktif</p>
         </div>
     </div>
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div>
-            <div class="dash-value" style="font-size: 32px; color: var(--c-text-heading);">5</div>
+            <div class="dash-value" style="font-size: 32px; color: var(--c-text-heading);">{{ $totalProdi ?? 0 }}</div>
             <p class="dash-hint">Program studi rekomendasi</p>
         </div>
     </div>
@@ -78,8 +78,8 @@
             </div>
         </div>
         <div>
-            <div class="dash-value" style="font-size: 32px; color: var(--c-text-heading);">3</div>
-            <p class="dash-hint">Minat, Bakat, & Potensi</p>
+            <div class="dash-value" style="font-size: 32px; color: var(--c-text-heading);">{{ $totalSoal ?? 0 }}</div>
+            <p class="dash-hint">Bank instrumen soal aktif</p>
         </div>
     </div>
 </div>
@@ -96,24 +96,24 @@
         </div>
     </div>
 
-    <!-- Right Column: Pintasan Navigasi & Log Sistem -->
+    <!-- Right Column: Pintasan Navigasi -->
     <div style="display: flex; flex-direction: column; gap: 24px;">
         <div class="steps-card-container">
             <div class="section-title-wrap" style="margin-bottom: 16px; border-bottom: 1px solid var(--c-border); padding-bottom: 12px;">
                 <h2 class="section-title" style="font-size: 16px; text-transform: uppercase;">Pintasan Navigasi</h2>
             </div>
             <div style="display: flex; flex-direction: column; gap: 12px;">
-                <a href="{{ route('admin.pengguna') }}" style="display: flex; justify-content: space-between; padding: 12px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-weight: bold; color: var(--c-text-heading); align-items: center;">
+                <a href="{{ route('admin.pengguna') }}" style="display: flex; justify-content: space-between; padding: 12px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-weight: bold; color: var(--c-text-heading); align-items: center; text-decoration: none;">
                     <span>— KELOLA AKUN PENGGUNA</span>
-                    <span style="font-size: 13px; color: var(--c-text-muted);">5 AKUN</span>
+                    <span style="font-size: 13px; color: var(--c-text-muted);">{{ $totalPengguna ?? 0 }} AKUN</span>
                 </a>
-                <a href="{{ route('admin.prodi') }}" style="display: flex; justify-content: space-between; padding: 12px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-weight: bold; color: var(--c-text-heading); align-items: center;">
+                <a href="{{ route('admin.prodi') }}" style="display: flex; justify-content: space-between; padding: 12px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-weight: bold; color: var(--c-text-heading); align-items: center; text-decoration: none;">
                     <span>— KELOLA PROGRAM STUDI</span>
-                    <span style="font-size: 13px; color: var(--c-text-muted);">5 PRODI</span>
+                    <span style="font-size: 13px; color: var(--c-text-muted);">{{ $totalProdi ?? 0 }} PRODI</span>
                 </a>
-                <a href="{{ route('admin.asesmen') }}" style="display: flex; justify-content: space-between; padding: 12px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-weight: bold; color: var(--c-text-heading); align-items: center;">
+                <a href="{{ route('admin.asesmen') }}" style="display: flex; justify-content: space-between; padding: 12px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-weight: bold; color: var(--c-text-heading); align-items: center; text-decoration: none;">
                     <span>— KELOLA SOAL ASESMEN</span>
-                    <span style="font-size: 13px; color: var(--c-text-muted);">3 SOAL</span>
+                    <span style="font-size: 13px; color: var(--c-text-muted);">{{ $totalSoal ?? 0 }} SOAL</span>
                 </a>
             </div>
         </div>

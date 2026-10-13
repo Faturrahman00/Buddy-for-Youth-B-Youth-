@@ -1,7 +1,6 @@
 @extends('Psikolog.layout.app', [
     'title' => 'Profil Psikolog — Buddy For Youth (B-Youth)',
     'pageTitle' => 'Profil',
-    'specTitle' => 'Wireframe Low-Fidelity Desain Grayscale Desktop 1440x900 px',
     'active' => 'profil'
 ])
 

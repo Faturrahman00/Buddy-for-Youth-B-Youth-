@@ -24,8 +24,8 @@
     <!-- User profile box matching Wireframe (Psikolog: Maya) -->
     <a href="{{ route('psikolog.profil') }}" class="topbar-user" title="Lihat Profil Psikolog Maya">
       <div class="user-text">
-        <div class="user-name-small">Psikolog: Maya</div>
-        <div class="user-role-small">Konselor Pendidikan</div>
+        <div class="user-name-small">{{ Auth::check() ? Auth::user()->name : 'Psikolog: Maya' }}</div>
+        <div class="user-role-small">{{ Auth::check() ? (Auth::user()->spesialisasi ?? 'Konselor Pendidikan') : 'Konselor Pendidikan' }}</div>
       </div>
       <div class="avatar-box">
         MI

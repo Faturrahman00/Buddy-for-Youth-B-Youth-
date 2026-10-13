@@ -1,7 +1,6 @@
 @extends('Psikolog.layout.app', [
     'title' => 'Riwayat Konsultasi — Buddy For Youth (B-Youth)',
     'pageTitle' => 'Riwayat Konsultasi',
-    'specTitle' => 'Spesifikasi: Tabel Riwayat Konseling (Tanggal, Siswa, Sekolah, Durasi, Topik, Status)',
     'active' => 'riwayat'
 ])
 

@@ -10,12 +10,14 @@ Route::get('/', function () {
     return view('landing_page');
 })->name('home');
 
-// Auth pages (static views, no middleware)
-Route::get('/login',    function () { return view('auth.login'); })->name('login');
-Route::get('/register', function () { return view('auth.register'); })->name('register');
-Route::post('/login',   function () { return redirect()->route('dashboard_siswa'); })->name('login.post');
-Route::post('/register',function () { return redirect()->route('dashboard_siswa'); })->name('register.post');
-Route::post('/logout',  function () { return redirect()->route('home'); })->name('logout');
+use App\Http\Controllers\AuthController;
+
+// Auth pages
+Route::get('/login',     [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login',    [AuthController::class, 'login'])->name('login.post');
+Route::get('/register',  [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ══════════════════════════════════════════════════════════════════════════
 // SISWA ROUTES — No auth for now
@@ -63,26 +65,40 @@ Route::prefix('siswa')->name('siswa.')->group(function () {
     })->name('profil');
 });
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\ProgramStudiController as AdminProgramStudiController;
+use App\Http\Controllers\Admin\AsesmenController as AdminAsesmenController;
+
 // ══════════════════════════════════════════════════════════════════════════
 // ADMIN ROUTES
 // ══════════════════════════════════════════════════════════════════════════
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('Admin.page.dashboard');
-    })->name('dashboard');
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard');
+    });
 
-    Route::get('/pengguna', function () {
-        return view('Admin.page.kelola_pengguna');
-    })->name('pengguna');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/prodi', function () {
-        return view('Admin.page.kelola_prodi');
-    })->name('prodi');
+    // CRUD Pengguna
+    Route::get('/pengguna', [AdminUserController::class, 'index'])->name('pengguna');
+    Route::post('/pengguna', [AdminUserController::class, 'store'])->name('pengguna.store');
+    Route::put('/pengguna/{user}', [AdminUserController::class, 'update'])->name('pengguna.update');
+    Route::delete('/pengguna/{user}', [AdminUserController::class, 'destroy'])->name('pengguna.destroy');
 
-    Route::get('/asesmen', function () {
-        return view('Admin.page.kelola_asesmen');
-    })->name('asesmen');
+    // CRUD Program Studi
+    Route::get('/prodi', [AdminProgramStudiController::class, 'index'])->name('prodi');
+    Route::post('/prodi', [AdminProgramStudiController::class, 'store'])->name('prodi.store');
+    Route::put('/prodi/{prodi}', [AdminProgramStudiController::class, 'update'])->name('prodi.update');
+    Route::delete('/prodi/{prodi}', [AdminProgramStudiController::class, 'destroy'])->name('prodi.destroy');
+
+    // CRUD Asesmen & Soal
+    Route::get('/asesmen', [AdminAsesmenController::class, 'index'])->name('asesmen');
+    Route::post('/asesmen', [AdminAsesmenController::class, 'store'])->name('asesmen.store');
+    Route::put('/asesmen/{soal}', [AdminAsesmenController::class, 'update'])->name('asesmen.update');
+    Route::delete('/asesmen/{soal}', [AdminAsesmenController::class, 'destroy'])->name('asesmen.destroy');
+    Route::delete('/asesmen-siswa/{asesmen}', [AdminAsesmenController::class, 'destroyAsesmenSiswa'])->name('asesmen.destroy_siswa');
 
     Route::get('/profil', function () {
         return view('Admin.page.profil');

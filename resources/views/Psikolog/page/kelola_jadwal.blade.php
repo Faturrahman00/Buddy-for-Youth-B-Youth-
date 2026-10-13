@@ -1,7 +1,6 @@
 @extends('Psikolog.layout.app', [
     'title' => 'Kelola Jadwal Konsultasi — Buddy For Youth (B-Youth)',
     'pageTitle' => 'Kelola Jadwal Konsultasi',
-    'specTitle' => 'Spesifikasi: Slot Manager, Form Tambah Slot (Tanggal, Jam, Zoom URL), Verifikasi Booking Siswa',
     'active' => 'jadwal'
 ])
 

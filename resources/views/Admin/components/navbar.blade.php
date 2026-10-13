@@ -14,8 +14,8 @@
     <!-- User profile preview box -->
     <div class="topbar-user" title="Profil Admin">
       <div class="user-text">
-        <div class="user-name-small">Admin: Super</div>
-        <div class="user-role-small">Administrator</div>
+        <div class="user-name-small">{{ Auth::check() ? Auth::user()->name : 'Admin: Super' }}</div>
+        <div class="user-role-small">{{ Auth::check() ? ucfirst(Auth::user()->role) : 'Administrator' }}</div>
       </div>
       <div class="avatar-box">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

@@ -91,7 +91,7 @@
         </svg>
       </div>
       <h4 style="font-size:17px; font-weight:800; color:#172C40; margin-bottom:6px;">Apakah Anda yakin ingin keluar?</h4>
-      <p style="font-size:13px; color:#6B8299;">Sesi login Anda sebagai Psikolog Dra. Maya Indriani, M.Psi. akan diakhiri.</p>
+      <p style="font-size:13px; color:#6B8299;">Sesi login Anda sebagai {{ Auth::check() ? Auth::user()->name : 'Psikolog Dra. Maya Indriani, M.Psi.' }} akan diakhiri.</p>
     </div>
     <div class="modal-footer-custom" style="justify-content:center;">
       <button type="button" class="btn-secondary-link" data-close-modal="modalLogout">Batal</button>
