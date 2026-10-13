@@ -41,11 +41,14 @@
       <button type="button" class="modal-close-btn modal-close-trigger" data-modal-hide="modalLogout" aria-label="Tutup Modal">&times;</button>
     </div>
     <div class="modal-body" style="font-size:15px; color:var(--c-text-body);">
-      Apakah Anda yakin ingin keluar dari akun <strong>Ahmad Rizky Pratama</strong>?
+      Apakah Anda yakin ingin keluar dari akun <strong>{{ Auth::check() ? Auth::user()->name : 'Siswa' }}</strong>?
     </div>
     <div class="modal-footer">
       <button type="button" class="btn-step-action btn-outline-action modal-close-trigger" data-modal-hide="modalLogout">Batal</button>
-      <a href="{{ url('/') }}" class="btn-step-action" style="background:#B42318; color:#fff; padding:9px 18px; border-radius:var(--radius-sm); font-weight:700;">Ya, Keluar</a>
+      <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+        @csrf
+        <button type="submit" class="btn-step-action" style="background:#B42318; color:#fff; padding:9px 18px; border-radius:var(--radius-sm); font-weight:700; border:none; cursor:pointer;">Ya, Keluar</button>
+      </form>
     </div>
   </div>
 </div>

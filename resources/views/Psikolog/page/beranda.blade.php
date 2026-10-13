@@ -1,7 +1,6 @@
 @extends('Psikolog.layout.app', [
     'title' => 'Beranda Psikolog — Buddy For Youth (B-Youth)',
     'pageTitle' => 'Beranda',
-    'specTitle' => 'Spesifikasi: 3 Card Metrics (Booking Baru, Sesi Mendatang, Sesi Selesai) & Jadwal Mendatang',
     'active' => 'beranda'
 ])
 

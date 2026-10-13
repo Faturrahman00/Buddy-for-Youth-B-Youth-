@@ -9,6 +9,11 @@
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2330618C'/%3E%3Cpolygon points='16,7 26,12 16,17 6,12' fill='%23F2B705'/%3E%3Cpath d='M9 14.5v5c0 2 3.1 3.5 7 3.5s7-1.5 7-3.5v-5' fill='none' stroke='%23FFFFFF' stroke-width='2'/%3E%3C/svg%3E">
 
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <!-- Stylesheet -->
   <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 </head>
@@ -101,6 +106,15 @@
         <p class="form-sub-title">Lengkapi formulir di bawah untuk mendaftar akun baru.</p>
       </div>
 
+      {{-- Error Alerts --}}
+      @if($errors->any())
+        <div style="background: #FFF4F2; border: 1px solid #FECDCA; color: #B42318; padding: 12px 16px; border-radius: 10px; margin-bottom: 18px; font-size: 13px; font-weight: 600;">
+          @foreach($errors->all() as $err)
+            <div>{{ $err }}</div>
+          @endforeach
+        </div>
+      @endif
+
       <!-- Register Form -->
       <form action="{{ route('register.post') }}" method="POST" class="modern-auth-form" id="registerForm">
         @csrf
@@ -119,6 +133,7 @@
               type="text" 
               id="regName" 
               name="name" 
+              value="{{ old('name') }}"
               class="modern-input" 
               placeholder="Masukkan Nama Anda" 
               required 
@@ -142,6 +157,7 @@
               type="email" 
               id="regEmail" 
               name="email" 
+              value="{{ old('email') }}"
               class="modern-input" 
               placeholder="Masukkan Email Anda" 
               required 
@@ -169,6 +185,7 @@
                 type="text" 
                 id="regSekolah" 
                 name="asal_sekolah" 
+                value="{{ old('asal_sekolah') }}"
                 class="modern-input" 
                 placeholder="SMA / SMK / MA" 
                 required

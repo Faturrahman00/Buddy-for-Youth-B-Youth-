@@ -29,8 +29,8 @@
     <!-- User profile preview box -->
     <div class="topbar-user" title="Profil Siswa">
       <div class="user-text">
-        <div class="user-name-small">Ahmad Rizky Pratama</div>
-        <div class="user-role-small">Siswa SMA</div>
+        <div class="user-name-small">{{ Auth::check() ? Auth::user()->name : 'Ahmad Rizky Pratama' }}</div>
+        <div class="user-role-small">{{ Auth::check() ? (Auth::user()->dataAkademik->kelas ?? 'Siswa') : 'Siswa SMA' }}</div>
       </div>
       <div class="avatar-box">
         AR
