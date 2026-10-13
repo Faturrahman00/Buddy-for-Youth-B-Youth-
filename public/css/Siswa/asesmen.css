@@ -68,20 +68,20 @@
 
 .asesmen-step-dots {
   display: grid;
-  grid-template-columns: repeat(30, 1fr);
+  grid-template-columns: repeat(21, 1fr);
   gap: 4px;
   margin-top: 14px;
 }
 
 @media (max-width: 768px) {
   .asesmen-step-dots {
-    grid-template-columns: repeat(20, 1fr);
+    grid-template-columns: repeat(14, 1fr);
   }
 }
 
 @media (max-width: 480px) {
   .asesmen-step-dots {
-    grid-template-columns: repeat(15, 1fr);
+    grid-template-columns: repeat(7, 1fr);
   }
 }
 
@@ -131,10 +131,12 @@
   border-radius: 0 0 3px 3px;
 }
 
-.asesmen-question-card.dim-logika::before  { background: linear-gradient(90deg, var(--asesmen-primary), #4A88C0); }
-.asesmen-question-card.dim-kreatif::before { background: linear-gradient(90deg, var(--asesmen-accent), #FFD050); }
-.asesmen-question-card.dim-sosial::before  { background: linear-gradient(90deg, var(--asesmen-olive), #8FA86E); }
-.asesmen-question-card.dim-bisnis::before  { background: linear-gradient(90deg, #9B59B6, #BF8AE0); }
+.asesmen-question-card.dim-logika::before    { background: linear-gradient(90deg, var(--asesmen-primary), #4A88C0); }
+.asesmen-question-card.dim-teknik::before    { background: linear-gradient(90deg, #2B6CB0, #4299E1); }
+.asesmen-question-card.dim-kesehatan::before { background: linear-gradient(90deg, #2E8B57, #48BB78); }
+.asesmen-question-card.dim-kreatif::before   { background: linear-gradient(90deg, var(--asesmen-accent), #FFD050); }
+.asesmen-question-card.dim-sosial::before    { background: linear-gradient(90deg, var(--asesmen-olive), #8FA86E); }
+.asesmen-question-card.dim-bisnis::before    { background: linear-gradient(90deg, #9B59B6, #BF8AE0); }
 
 .asesmen-q-meta {
   display: flex;
@@ -261,7 +263,7 @@
 /* Warna lingkaran (border saja) sesuai setuju atau tidak setuju */
 .likert-circle-btn.opt-sts { border: 3px solid #EF4444 !important; }
 .likert-circle-btn.opt-ts  { border: 2.5px solid #F97316 !important; }
-.likert-circle-btn.opt-netral { border: 2.5px solid #94A3B8 !important; }
+.likert-circle-btn.opt-ag { border: 2.5px solid #F59E0B !important; }
 .likert-circle-btn.opt-s   { border: 2.5px solid #10B981 !important; }
 .likert-circle-btn.opt-ss  { border: 3px solid #059669 !important; }
 
@@ -276,9 +278,9 @@
   box-shadow: 0 4px 16px rgba(249, 115, 22, 0.22) !important;
   transform: scale(1.08);
 }
-.likert-option.selected .likert-circle-btn.opt-netral {
-  background: #F1F5F9 !important; /* Abu-abu pastel lembut */
-  box-shadow: 0 4px 14px rgba(148, 163, 184, 0.22) !important;
+.likert-option.selected .likert-circle-btn.opt-ag {
+  background: #FEF3C7 !important; /* Amber pastel lembut */
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.22) !important;
   transform: scale(1.08);
 }
 .likert-option.selected .likert-circle-btn.opt-s {
@@ -307,76 +309,120 @@
 }
 .likert-option.selected.opt-sts .likert-caption { color: #DC2626; }
 .likert-option.selected.opt-ts .likert-caption  { color: #EA580C; }
-.likert-option.selected.opt-netral .likert-caption { color: #334155; }
+.likert-option.selected.opt-ag .likert-caption { color: #D97706; }
 .likert-option.selected.opt-s .likert-caption   { color: #059669; }
 .likert-option.selected.opt-ss .likert-caption  { color: #047857; }
 
-/* ── Navigation Buttons ── */
+/* ── Navigation Row inside Card ── */
+.asesmen-card-nav,
 .asesmen-nav-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 32px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #E8EEF5;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.asesmen-card-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .btn-asesmen-prev,
 .btn-asesmen-next {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 26px;
-  border-radius: 10px;
-  font-size: 14.5px;
-  font-weight: 700;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 600;
   cursor: pointer;
   font-family: inherit;
-  transition: all 0.22s ease;
+  transition: all 0.2s ease;
   border: none;
+  line-height: 1.4;
 }
 
 .btn-asesmen-prev {
   background: var(--asesmen-white);
   color: var(--asesmen-primary);
-  border: 2px solid var(--asesmen-border);
+  border: 1.5px solid var(--asesmen-border);
 }
 
-.btn-asesmen-prev:hover { border-color: var(--asesmen-primary); background: var(--asesmen-blue-soft); }
+.btn-asesmen-prev:hover {
+  border-color: var(--asesmen-primary);
+  background: #F0F6FB;
+  transform: translateY(-1px);
+}
 
 .btn-asesmen-next {
   background: linear-gradient(135deg, var(--asesmen-primary), #4A88C0);
   color: #fff;
-  box-shadow: 0 6px 20px rgba(48,97,140,0.30);
+  box-shadow: 0 3px 12px rgba(48,97,140,0.22);
 }
 
-.btn-asesmen-next:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(48,97,140,0.40); }
-.btn-asesmen-next:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn-asesmen-next:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(48,97,140,0.32);
+}
+
+.btn-asesmen-next:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
 
 .btn-asesmen-finish {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 13px 30px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 800;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 700;
   cursor: pointer;
   font-family: inherit;
-  transition: all 0.22s ease;
+  transition: all 0.2s ease;
   border: none;
   background: linear-gradient(135deg, var(--asesmen-accent), #E8A800);
   color: #1A2535;
-  box-shadow: 0 6px 20px rgba(242,183,5,0.38);
+  box-shadow: 0 3px 12px rgba(242,183,5,0.28);
+  line-height: 1.4;
 }
 
-.btn-asesmen-finish:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(242,183,5,0.50); }
+.btn-asesmen-finish:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(242,183,5,0.40);
+}
 
 .asesmen-hint {
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--asesmen-muted);
   text-align: center;
-  padding: 8px 0;
+  padding: 0;
+}
+
+@media (max-width: 640px) {
+  .asesmen-question-card {
+    padding: 24px 20px 18px !important;
+  }
+  .asesmen-card-nav,
+  .asesmen-nav-row {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .asesmen-hint {
+    order: 3;
+    width: 100%;
+    margin-top: 4px;
+    font-size: 11.5px;
+  }
 }
 
 /* ── Completion Panel ── */

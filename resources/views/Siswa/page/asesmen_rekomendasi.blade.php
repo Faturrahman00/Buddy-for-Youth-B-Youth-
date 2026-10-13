@@ -26,7 +26,7 @@
         </svg>
         Asesmen Minat &amp; Bakat Program Studi
       </h2>
-      <p>Jawab 60 pertanyaan secara objektif untuk mendapatkan rekomendasi program studi yang paling sesuai dengan potensi dan minatmu.</p>
+      <p>Jawab 42 pertanyaan secara objektif untuk mendapatkan rekomendasi program studi yang paling sesuai dengan potensi dan minatmu.</p>
     </div>
   </div>
 
@@ -37,7 +37,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
-        <span>Progress: <strong id="asesmenProgressText">0 / 60 Pertanyaan</strong></span>
+        <span>Progress: <strong id="asesmenProgressText">0 / 42 Pertanyaan</strong></span>
       </div>
       <span class="asesmen-progress-badge" id="asesmenProgressBadge">0% Selesai</span>
     </div>
@@ -47,27 +47,29 @@
     <div class="asesmen-step-dots" id="asesmenStepDots"></div>
   </div>
 
-  {{-- ── Single Question Wrapper (JS renders here) ── --}}
-  <div class="asesmen-question-wrapper" id="asesmenQuestionWrapper"></div>
+  {{-- ── Single Question Card with Navigation inside Card ── --}}
+  <div class="asesmen-question-card" id="asesmenQuestionCard">
+    <div id="asesmenCardContent"></div>
 
-  {{-- ── Navigation Row ── --}}
-  <div class="asesmen-nav-row" id="asesmenNavRow">
-    <button type="button" class="btn-asesmen-prev" id="btnAsesmenPrev" style="display:none">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      Sebelumnya
-    </button>
-
-    <span class="asesmen-hint" id="asesmenHint">Pilih jawaban untuk melanjutkan ke pertanyaan berikutnya.</span>
-
-    <div style="display:flex; gap:10px;">
-      <button type="button" class="btn-asesmen-next" id="btnAsesmenNext" disabled>
-        Lanjut
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    {{-- ── Navigation Row inside Card ── --}}
+    <div class="asesmen-card-nav" id="asesmenNavRow">
+      <button type="button" class="btn-asesmen-prev" id="btnAsesmenPrev" style="display:none">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Sebelumnya
       </button>
-      <button type="button" class="btn-asesmen-finish" id="btnAsesmenFinish" style="display:none">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        Selesai &amp; Analisis
-      </button>
+
+      <span class="asesmen-hint" id="asesmenHint">Pilih jawaban untuk melanjutkan ke pertanyaan berikutnya.</span>
+
+      <div class="asesmen-card-nav-right">
+        <button type="button" class="btn-asesmen-next" id="btnAsesmenNext" disabled>
+          Selanjutnya
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button type="button" class="btn-asesmen-finish" id="btnAsesmenFinish" style="display:none">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Selesai &amp; Analisis
+        </button>
+      </div>
     </div>
   </div>
 
@@ -77,7 +79,7 @@
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F2B705" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
     <h3>Asesmen Selesai!</h3>
-    <p>Semua 60 pertanyaan telah dijawab. Sistem sedang menganalisis profilmu dan menyiapkan rekomendasi program studi terbaik.</p>
+    <p>Semua 42 pertanyaan telah dijawab. Sistem sedang menganalisis profilmu dan menyiapkan rekomendasi program studi terbaik.</p>
     <button type="button" class="btn-lihat-rekomendasi" id="btnShowRec">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       Lihat Rekomendasi Program Studi

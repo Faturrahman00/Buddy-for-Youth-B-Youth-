@@ -16,7 +16,7 @@
           <strong>Petunjuk Pengerjaan:</strong>
           <ul style="margin-top:6px; padding-left:18px; line-height:1.5;">
             <li>Durasi tes: <strong>45 Menit</strong> tanpa jeda.</li>
-            <li>Terdiri dari 60 pertanyaan pilihan ganda adaptif.</li>
+            <li>Terdiri dari 42 pertanyaan pilihan ganda adaptif.</li>
             <li>Jawablah secara jujur sesuai preferensi diri Anda sendiri.</li>
             <li>Hasil rekomendasi akan langsung dikalkulasikan setelah selesai.</li>
           </ul>
