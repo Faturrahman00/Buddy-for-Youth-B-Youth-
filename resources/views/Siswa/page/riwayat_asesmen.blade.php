@@ -41,7 +41,7 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">4 Sesi</div>
+        <div class="stat-val">{{ $totalSesi ?? 1 }} Sesi</div>
         <div class="stat-label">Total Asesmen Dijalani</div>
       </div>
     </div>
@@ -54,8 +54,8 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">28 Menit</div>
-        <div class="stat-label">Rata-Rata Durasi Pengerjaan</div>
+        <div class="stat-val">42 Soal</div>
+        <div class="stat-label">Holland RIASEC Test</div>
       </div>
     </div>
 
@@ -67,8 +67,8 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">Teknik Informatika</div>
-        <div class="stat-label">Rekomendasi Utama Konsisten</div>
+        <div class="stat-val">{{ $mostFrequentProdi ?? 'Teknik Informatika' }}</div>
+        <div class="stat-label">Rekomendasi Utama Teratas</div>
       </div>
     </div>
 
@@ -80,7 +80,7 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">3 Sesi</div>
+        <div class="stat-val">{{ $totalSelesai ?? 1 }} Sesi</div>
         <div class="stat-label">Hasil Asesmen Selesai</div>
       </div>
     </div>
@@ -143,137 +143,81 @@
           </tr>
         </thead>
         <tbody id="riwayatAsesmenTableBody">
-          <!-- Row 1 -->
-          <tr data-searchable="05 Okt 2026 Teknik Informatika Sains Data Selesai 28 Menit" data-status="Selesai" data-periode="2026">
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">05 Oktober 2026</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Pukul 14:20 WIB • Sesi #ASY-08</div>
-            </td>
-            <td>
-              <span style="font-weight:600; display:inline-flex; align-items:center; gap:5px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                28 Menit
-              </span>
-            </td>
-            <td>
-              <span class="status-pill success">Selesai</span>
-            </td>
-            <td>
-              <div style="font-weight:700; color:var(--c-primary); font-size:14px;">
-                Teknik Informatika (95%)
-              </div>
-              <div style="font-size:12px; color:var(--c-text-muted);">
-                Alternatif: Sains Data (91%), Sistem Informasi (88%)
-              </div>
-            </td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action primary" data-open-modal="modalDetailAsesmen">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Rincian
-                </button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 2 -->
-          <tr data-searchable="18 Sep 2026 Sistem Informasi Bisnis Digital Selesai 32 Menit" data-status="Selesai" data-periode="2026">
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">18 September 2026</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Pukul 10:15 WIB • Sesi #ASY-07</div>
-            </td>
-            <td>
-              <span style="font-weight:600; display:inline-flex; align-items:center; gap:5px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                32 Menit
-              </span>
-            </td>
-            <td>
-              <span class="status-pill success">Selesai</span>
-            </td>
-            <td>
-              <div style="font-weight:700; color:var(--c-primary); font-size:14px;">
-                Sistem Informasi & Bisnis (90%)
-              </div>
-              <div style="font-size:12px; color:var(--c-text-muted);">
-                Alternatif: Manajemen Informatika (86%), Teknik Elektro (82%)
-              </div>
-            </td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action primary" data-open-modal="modalDetailAsesmen">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Rincian
-                </button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 3 -->
-          <tr data-searchable="02 Agu 2026 Desain Komunikasi Visual DKV UI/UX Selesai 25 Menit" data-status="Selesai" data-periode="2026">
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">02 Agustus 2026</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Pukul 16:00 WIB • Sesi #ASY-06</div>
-            </td>
-            <td>
-              <span style="font-weight:600; display:inline-flex; align-items:center; gap:5px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                25 Menit
-              </span>
-            </td>
-            <td>
-              <span class="status-pill success">Selesai</span>
-            </td>
-            <td>
-              <div style="font-weight:700; color:var(--c-primary); font-size:14px;">
-                Desain Komunikasi Visual (86%)
-              </div>
-              <div style="font-size:12px; color:var(--c-text-muted);">
-                Alternatif: Arsitektur (82%), Desain Produk (79%)
-              </div>
-            </td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action primary" data-open-modal="modalDetailAsesmen">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Rincian
-                </button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 4 -->
-          <tr data-searchable="15 Des 2025 Tes Minat Awal Kelas XI Menunggu Verifikasi 30 Menit" data-status="Menunggu" data-periode="2025">
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">15 Desember 2025</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">Pukul 09:00 WIB • Sesi #ASY-01</div>
-            </td>
-            <td>
-              <span style="font-weight:600; display:inline-flex; align-items:center; gap:5px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                30 Menit
-              </span>
-            </td>
-            <td>
-              <span class="status-pill pending">Menunggu Verifikasi</span>
-            </td>
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading); font-size:14px;">
-                Teknik Komputer & Jaringan (84%)
-              </div>
-              <div style="font-size:12px; color:var(--c-text-muted);">
-                Tinjauan Portofolio Semester 3
-              </div>
-            </td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action primary" data-open-modal="modalDetailAsesmen">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Rincian
-                </button>
-              </div>
-            </td>
-          </tr>
+          @if(isset($riwayats) && $riwayats->isNotEmpty())
+            @foreach($riwayats as $idx => $item)
+              @php
+                $hasil = $item->hasilAsesmen;
+                $topRec = $hasil ? $hasil->rekomendasi->first() : null;
+                $altRecs = $hasil ? $hasil->rekomendasi->skip(1)->take(2) : collect();
+                $holland = $hasil->holland_code ?? 'Holland RIASEC';
+                $prodiName = $topRec && $topRec->programStudi ? $topRec->programStudi->nama_prodi : 'Teknik Informatika';
+                $prodiSkor = $topRec ? $topRec->skor : 95;
+              @endphp
+              <tr data-searchable="{{ $item->tanggal->format('d M Y') }} {{ $holland }} {{ $prodiName }} {{ $item->status }}" data-status="{{ ucfirst($item->status) }}" data-periode="{{ $item->tanggal->format('Y') }}">
+                <td>
+                  <div style="font-weight:700; color:var(--c-text-heading);">{{ $item->tanggal->format('d F Y') }}</div>
+                  <div style="font-size:12px; color:var(--c-text-muted);">Pukul {{ $item->tanggal->format('H:i') }} WIB • Sesi #ASY-{{ str_pad($item->id, 2, '0', STR_PAD_LEFT) }}</div>
+                </td>
+                <td>
+                  <span style="font-weight:600; display:inline-flex; align-items:center; gap:5px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    42 Soal
+                  </span>
+                </td>
+                <td>
+                  <span class="status-pill {{ $item->status === 'selesai' ? 'success' : 'pending' }}">
+                    {{ $item->status === 'selesai' ? 'Selesai' : 'Diproses' }}
+                  </span>
+                  @if($hasil && $hasil->nilai_raport_digunakan)
+                    <div style="font-size:11px; font-weight:700; color:#059669; margin-top:3px;">+ Nilai Rapor</div>
+                  @endif
+                </td>
+                <td>
+                  <div style="font-weight:700; color:var(--c-primary); font-size:14px;">
+                    {{ $prodiName }} ({{ round($prodiSkor) }}%)
+                  </div>
+                  <div style="font-size:12px; color:var(--c-text-muted);">
+                    Profil: <strong>{{ $holland }}</strong>
+                    @if($altRecs->isNotEmpty())
+                      • Alternatif: {{ $altRecs->map(fn($r) => $r->programStudi->nama_prodi ?? '')->join(', ') }}
+                    @endif
+                  </div>
+                </td>
+                <td style="text-align: right;">
+                  <div class="action-btn-group" style="justify-content: flex-end;">
+                    <a href="{{ route('siswa.asesmen') }}" class="btn-table-action primary" style="text-decoration:none;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      Lihat Hasil
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            @endforeach
+          @else
+            <!-- Sample Rows jika belum ada asesmen tersimpan -->
+            <tr data-searchable="05 Okt 2026 Teknik Informatika Sains Data Selesai" data-status="Selesai" data-periode="2026">
+              <td>
+                <div style="font-weight:700; color:var(--c-text-heading);">05 Oktober 2026</div>
+                <div style="font-size:12px; color:var(--c-text-muted);">Pukul 14:20 WIB • Sesi #ASY-01</div>
+              </td>
+              <td>
+                <span style="font-weight:600; display:inline-flex; align-items:center; gap:5px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  42 Soal
+                </span>
+              </td>
+              <td><span class="status-pill success">Selesai</span></td>
+              <td>
+                <div style="font-weight:700; color:var(--c-primary); font-size:14px;">Teknik Informatika (95%)</div>
+                <div style="font-size:12px; color:var(--c-text-muted);">Profil Holland: I–S–R</div>
+              </td>
+              <td style="text-align: right;">
+                <div class="action-btn-group" style="justify-content: flex-end;">
+                  <a href="{{ route('siswa.asesmen') }}" class="btn-table-action primary" style="text-decoration:none;">Lihat Hasil</a>
+                </div>
+              </td>
+            </tr>
+          @endif
         </tbody>
       </table>
     </div>

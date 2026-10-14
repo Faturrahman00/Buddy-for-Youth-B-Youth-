@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\ProgramStudiController as AdminProgramStudiController;
 use App\Http\Controllers\Admin\AsesmenController as AdminAsesmenController;
+use App\Http\Controllers\Siswa\AsesmenController as SiswaAsesmenController;
 
 // ══════════════════════════════════════════════════════════════════════════
 // PUBLIC ROUTES
@@ -56,13 +57,9 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
             return view('Siswa.page.data_akademik');
         })->name('akademik');
 
-        Route::get('/asesmen', function () {
-            return view('Siswa.page.asesmen_rekomendasi');
-        })->name('asesmen');
-
-        Route::get('/riwayat-asesmen', function () {
-            return view('Siswa.page.riwayat_asesmen');
-        })->name('riwayat_asesmen');
+        Route::get('/asesmen', [SiswaAsesmenController::class, 'index'])->name('asesmen');
+        Route::post('/asesmen', [SiswaAsesmenController::class, 'submit'])->name('asesmen.submit');
+        Route::get('/riwayat-asesmen', [SiswaAsesmenController::class, 'riwayat'])->name('riwayat_asesmen');
 
         Route::get('/konsultasi', function () {
             return view('Siswa.page.konsultasi');

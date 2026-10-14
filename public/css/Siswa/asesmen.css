@@ -628,3 +628,615 @@
 }
 
 .btn-rec-secondary:hover { background: var(--asesmen-primary); color: #fff; }
+
+.rec-action-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.btn-pddikti-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1E40AF;
+  background: #EFF6FF;
+  border: 1.5px solid #BFDBFE;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-pddikti-badge:hover {
+  background: #DBEAFE;
+  color: #1D4ED8;
+  border-color: #93C5FD;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.12);
+}
+
+/* ==========================================================================
+   SLIDE 0: INFORMASI DAN PETUNJUK PENGERJAAN & PENGATURAN NILAI RAPOR
+   ========================================================================== */
+.asesmen-intro-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  border: 1.5px solid #D0DCE8;
+  padding: 32px 36px;
+  box-shadow: 0 4px 20px rgba(48, 97, 140, 0.08);
+  margin-bottom: 24px;
+}
+
+.intro-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(48, 97, 140, 0.10);
+  color: var(--asesmen-primary);
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  border: 1px solid rgba(48, 97, 140, 0.18);
+}
+
+.intro-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1A2535;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+  line-height: 1.3;
+}
+
+.intro-body-text {
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+
+.intro-callout {
+  background: #F8FAFC;
+  border-left: 4px solid var(--asesmen-primary);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 20px;
+  margin-bottom: 26px;
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+/* ── Raport Optional Box ── */
+.raport-optional-box {
+  background: #F0F6FB;
+  border: 1.5px dashed #93C5FD;
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 28px;
+  transition: all 0.25s ease;
+}
+
+.raport-optional-box.active {
+  background: #FFFFFF;
+  border: 1.5px solid var(--asesmen-primary);
+  box-shadow: 0 6px 20px rgba(48, 97, 140, 0.10);
+}
+
+.raport-header-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.raport-toggle-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.raport-icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(48, 97, 140, 0.15);
+  color: var(--asesmen-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.raport-toggle-title h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1E293B;
+  margin: 0;
+}
+
+.raport-toggle-title p {
+  font-size: 13px;
+  color: #64748B;
+  margin: 2px 0 0;
+}
+
+.raport-badge-optional {
+  font-size: 11px;
+  font-weight: 700;
+  background: #FEF3C7;
+  color: #92400E;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-left: 8px;
+}
+
+.raport-inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #E2E8F0;
+}
+
+@media (max-width: 768px) {
+  .raport-inputs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.raport-input-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.raport-input-item label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.raport-input-field {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #CBD5E1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0F172A;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.raport-input-field:focus {
+  border-color: var(--asesmen-primary);
+  box-shadow: 0 0 0 3px rgba(48, 97, 140, 0.15);
+}
+
+.raport-note {
+  font-size: 12.5px;
+  color: #64748B;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.btn-start-asesmen {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 34px;
+  background: linear-gradient(135deg, var(--asesmen-primary), #204B72);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(48, 97, 140, 0.28);
+}
+
+.btn-start-asesmen:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(48, 97, 140, 0.38);
+  background: linear-gradient(135deg, #25547C, #183C5E);
+}
+
+/* ==========================================================================
+   SLIDE 43: CATATAN PENTING & DISCLAIMER HASIL TES
+   ========================================================================== */
+.disclaimer-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  border: 1.5px solid #E2E8F0;
+  padding: 36px 40px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+  margin-bottom: 24px;
+}
+
+.disclaimer-top-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.disclaimer-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #FEF3C7;
+  color: #B45309;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.disclaimer-top-header h3 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.disclaimer-top-header p {
+  font-size: 13.5px;
+  color: #64748B;
+  margin: 4px 0 0;
+}
+
+.disclaimer-paragraphs {
+  font-size: 15px;
+  color: #334155;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.disclaimer-paragraphs p {
+  margin-bottom: 16px;
+}
+
+.consultation-cta-box {
+  background: linear-gradient(135deg, #F0FDF4, #ECFDF5);
+  border: 1.5px solid #A7F3D0;
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.consultation-cta-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #10B981;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.consultation-cta-text h4 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #065F46;
+  margin: 0 0 4px;
+}
+
+.consultation-cta-text p {
+  font-size: 14px;
+  color: #047857;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.btn-proceed-results {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--asesmen-accent), #E0A600);
+  color: #1E293B;
+  border: none;
+  border-radius: 12px;
+  font-size: 15.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 16px rgba(242, 183, 5, 0.35);
+}
+
+.btn-proceed-results:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(242, 183, 5, 0.45);
+}
+
+/* ==========================================================================
+   SLIDE 44: TAMPILAN HASIL TES RIASEC & REKOMENDASI AI
+   ========================================================================== */
+.results-dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.holland-hero-card {
+  background: linear-gradient(135deg, #1E4263 0%, #30618C 100%);
+  border-radius: 20px;
+  padding: 32px 36px;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(48, 97, 140, 0.22);
+}
+
+.holland-hero-card::after {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(242, 183, 5, 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.holland-code-badge-large {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  letter-spacing: 0.05em;
+}
+
+.holland-hero-title {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  color: #FFFFFF;
+}
+
+.holland-hero-sub {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 760px;
+  line-height: 1.6;
+}
+
+.riasec-bars-container {
+  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1.5px solid #D0DCE8;
+  padding: 24px 28px;
+  box-shadow: 0 4px 20px rgba(48, 97, 140, 0.06);
+}
+
+.riasec-bars-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 18px;
+}
+
+@media (max-width: 768px) {
+  .riasec-bars-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.riasec-bar-item {
+  background: #F8FAFD;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+
+.riasec-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.riasec-bar-name {
+  font-weight: 800;
+  font-size: 14px;
+  color: #1E293B;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.riasec-bar-score {
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--asesmen-primary);
+}
+
+.riasec-bar-track {
+  height: 8px;
+  background: #E2E8F0;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.riasec-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Top Types Detailed Cards ── */
+.top-types-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.type-detail-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1.5px solid #CBD5E1;
+  padding: 26px 30px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.type-detail-card.primary-rank {
+  border-color: #30618C;
+  box-shadow: 0 8px 30px rgba(48, 97, 140, 0.12);
+}
+
+.type-detail-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 6px;
+  background: var(--type-accent, #30618C);
+}
+
+.type-detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.type-title-group h4 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 4px;
+}
+
+.type-headline-badge {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--type-accent, #30618C);
+}
+
+.type-rank-tag {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: #F1F5F9;
+  color: #475569;
+}
+
+.type-description-text {
+  font-size: 14.5px;
+  color: #334155;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.type-columns-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  background: #F8FAFC;
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .type-columns-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.type-col-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1E293B;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.type-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.type-bullet-list li {
+  font-size: 13.5px;
+  color: #475569;
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.type-bullet-list li::before {
+  content: '•';
+  position: absolute;
+  left: 4px;
+  color: var(--type-accent, #30618C);
+  font-weight: 900;
+  font-size: 16px;
+}
+
+.type-environment-box {
+  font-size: 13.5px;
+  color: #475569;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 12px 18px;
+  line-height: 1.6;
+}
+
+.type-environment-box strong {
+  color: #0F172A;
+}
+
+.rec-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  background: #E0E7FF;
+  color: #3730A3;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+

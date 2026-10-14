@@ -153,64 +153,8 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        // 4. Soal Asesmen
-        $questions = [
-            [
-                'nomor_urut' => 1,
-                'kategori' => 'MINAT',
-                'pertanyaan' => 'Ketika menghadapi masalah rumit, bagaimana caramu paling senang menyelesaikannya?',
-                'pilihan_jawaban' => [
-                    ['label' => 'A', 'teks' => 'Menganalisis logika algoritma dan langkah sistematis', 'bobot' => 5],
-                    ['label' => 'B', 'teks' => 'Mendiskusikan solusi bersama teman atau orang lain', 'bobot' => 4],
-                    ['label' => 'C', 'teks' => 'Menggambar sketsa atau membuat visualisasi ide', 'bobot' => 4],
-                    ['label' => 'D', 'teks' => 'Mencari contoh studi kasus praktis dari literatur', 'bobot' => 3],
-                    ['label' => 'E', 'teks' => 'Bereksperimen langsung dengan trial and error', 'bobot' => 3],
-                ],
-            ],
-            [
-                'nomor_urut' => 2,
-                'kategori' => 'BAKAT',
-                'pertanyaan' => 'Aktivitas ekstrakurikuler atau kegiatan luang apa yang paling membuatmu bersemangat?',
-                'pilihan_jawaban' => [
-                    ['label' => 'A', 'teks' => 'Mengkoding aplikasi, robotik, atau eksperimen teknologi', 'bobot' => 5],
-                    ['label' => 'B', 'teks' => 'Konseling sebaya, kegiatan sosial, atau mendengarkan cerita teman', 'bobot' => 5],
-                    ['label' => 'C', 'teks' => 'Fotografi, menggambar digital, dan menyunting video kreatif', 'bobot' => 5],
-                    ['label' => 'D', 'teks' => 'Debat bahasa Inggris, orasi, atau kepemimpinan OSIS', 'bobot' => 4],
-                    ['label' => 'E', 'teks' => 'Mengelola jualan produk atau proyek kewirausahaan', 'bobot' => 4],
-                ],
-            ],
-            [
-                'nomor_urut' => 3,
-                'kategori' => 'POTENSI',
-                'pertanyaan' => 'Sejauh mana potensimu dalam mengoperasikan alat digital dan memecahkan teka-teki logika?',
-                'pilihan_jawaban' => [
-                    ['label' => 'A', 'teks' => 'Sangat mahir dan terbiasa dengan tantangan logika kompleks', 'bobot' => 5],
-                    ['label' => 'B', 'teks' => 'Mampu memecahkan pola dengan cepat jika ada panduan', 'bobot' => 4],
-                    ['label' => 'C', 'teks' => 'Cukup menguasai terutama pada alat yang memiliki tampilan visual interaktif', 'bobot' => 3],
-                    ['label' => 'D', 'teks' => 'Lebih nyaman berfokus pada hubungan antar personal', 'bobot' => 2],
-                    ['label' => 'E', 'teks' => 'Masih tahap belajar dasar pengoperasian', 'bobot' => 1],
-                ],
-            ],
-            [
-                'nomor_urut' => 4,
-                'kategori' => 'MINAT',
-                'pertanyaan' => 'Lingkungan kerja seperti apa yang paling kamu impikan setelah lulus kuliah nanti?',
-                'pilihan_jawaban' => [
-                    ['label' => 'A', 'teks' => 'Perusahaan teknologi dengan ritme inovasi cepat dan fleksibel', 'bobot' => 5],
-                    ['label' => 'B', 'teks' => 'Lembaga konseling, pusat pendidikan, atau instansi kemanusiaan', 'bobot' => 5],
-                    ['label' => 'C', 'teks' => 'Studio kreatif atau agensi periklanan yang dinamis', 'bobot' => 5],
-                    ['label' => 'D', 'teks' => 'Perusahaan multinasional di bidang korporasi dan keuangan', 'bobot' => 4],
-                    ['label' => 'E', 'teks' => 'Mendirikan bisnis mandiri sebagai wirausahawan', 'bobot' => 4],
-                ],
-            ],
-        ];
-
-        foreach ($questions as $q) {
-            SoalAsesmen::updateOrCreate(
-                ['nomor_urut' => $q['nomor_urut']],
-                $q
-            );
-        }
+        // 4. Soal Asesmen (42 Soal RIASEC Holland Code) & Katalog Program Studi
+        $this->call(SoalAsesmenRiasecSeeder::class);
 
         // 5. Jadwal Konsultasi
         $jadwal1 = JadwalKonsultasi::firstOrCreate(

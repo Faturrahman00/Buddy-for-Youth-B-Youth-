@@ -15,7 +15,10 @@ class AsesmenController extends Controller
 
         $query = SoalAsesmen::query();
         if ($kategori !== 'SEMUA') {
-            $query->where('kategori', strtoupper($kategori));
+            $query->where(function ($q) use ($kategori) {
+                $q->where('kategori', strtoupper($kategori))
+                  ->orWhere('tipe_riasec', strtoupper($kategori));
+            });
         }
         $soals = $query->orderBy('nomor_urut')->get();
 
@@ -38,7 +41,8 @@ class AsesmenController extends Controller
     {
         $validated = $request->validate([
             'pertanyaan' => 'required|string',
-            'kategori' => 'required|in:MINAT,BAKAT,POTENSI',
+            'kategori' => 'required|string',
+            'tipe_riasec' => 'nullable|string|max:10',
             'nomor_urut' => 'nullable|integer',
             'opsi' => 'nullable|array',
         ]);
@@ -87,7 +91,8 @@ class AsesmenController extends Controller
     {
         $validated = $request->validate([
             'pertanyaan' => 'required|string',
-            'kategori' => 'required|in:MINAT,BAKAT,POTENSI',
+            'kategori' => 'required|string',
+            'tipe_riasec' => 'nullable|string|max:10',
             'nomor_urut' => 'nullable|integer',
             'opsi' => 'nullable|array',
         ]);

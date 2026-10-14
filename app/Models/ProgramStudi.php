@@ -15,11 +15,13 @@ class ProgramStudi extends Model
     protected $fillable = [
         'kode_prodi',
         'nama_prodi',
+        'tipe_riasec',
         'jenjang',
         'fakultas',
         'akreditasi',
         'deskripsi',
         'prospek_karier',
+        'kampus_rekomendasi',
     ];
 
     public function rekomendasi(): HasMany

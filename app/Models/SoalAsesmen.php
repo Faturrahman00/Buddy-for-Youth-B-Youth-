@@ -14,6 +14,7 @@ class SoalAsesmen extends Model
     protected $fillable = [
         'nomor_urut',
         'kategori',
+        'tipe_riasec',
         'pertanyaan',
         'pilihan_jawaban',
         'is_aktif',

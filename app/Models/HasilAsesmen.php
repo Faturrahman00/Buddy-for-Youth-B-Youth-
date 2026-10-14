@@ -15,16 +15,23 @@ class HasilAsesmen extends Model
 
     protected $fillable = [
         'asesmen_id',
+        'holland_code',
+        'tipe_tertinggi',
         'minat',
         'bakat',
         'potensi',
         'detail_skor',
+        'nilai_raport_digunakan',
+        'data_raport',
     ];
 
     protected function casts(): array
     {
         return [
             'detail_skor' => 'array',
+            'tipe_tertinggi' => 'array',
+            'nilai_raport_digunakan' => 'boolean',
+            'data_raport' => 'array',
         ];
     }
 
