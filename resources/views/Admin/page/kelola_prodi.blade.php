@@ -106,7 +106,7 @@
                                 style="padding: 6px 12px; border: 1px solid var(--c-border); background: var(--c-white); border-radius: 4px; font-size: 12px; font-weight: 700; margin-right: 6px; cursor: pointer; color: var(--c-primary);">
                                 EDIT
                             </button>
-                            <form action="{{ route('admin.prodi.destroy', $prodi->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus prodi {{ $prodi->nama_prodi }}?');">
+                            <form action="{{ route('admin.prodi.destroy', $prodi->id_prodi ?? $prodi->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus prodi {{ $prodi->nama_prodi }}?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" style="padding: 6px 12px; border: 1px solid #FECDCA; background: #FFF4F2; color: #B42318; border-radius: 4px; font-size: 12px; font-weight: 700; cursor: pointer;">

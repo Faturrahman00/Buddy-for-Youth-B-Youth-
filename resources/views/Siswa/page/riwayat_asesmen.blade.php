@@ -13,14 +13,11 @@
   <!-- Top Action Header -->
   <div class="page-top-action-bar">
     <div class="page-title-wrap">
-      <h2>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polyline points="12 6 12 12 16 14"></polyline>
-        </svg>
-        Riwayat Asesmen
-      </h2>
-      <p>Arsip hasil tes psikometrik, preferensi karier, dan perkembangan rekomendasi prodi dari waktu ke waktu.</p>
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
+        <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:34px; height:34px; object-fit:contain;">
+        <h2 style="margin:0;">Riwayat Asesmen</h2>
+      </div>
+      <p>Arsip hasil asesmen Holland RIASEC dan perkembangan rekomendasi prodi dari waktu ke waktu.</p>
     </div>
 
     <a href="{{ route('siswa.asesmen') }}" class="btn-primary-action">

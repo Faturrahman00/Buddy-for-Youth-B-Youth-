@@ -26,7 +26,7 @@ class ProgramStudiController extends Controller
             $query->where('jenjang', $request->jenjang);
         }
 
-        $prodis = $query->latest()->paginate(10)->withQueryString();
+        $prodis = $query->latest('id_prodi')->paginate(10)->withQueryString();
 
         return view('Admin.page.kelola_prodi', [
             'prodis' => $prodis,
@@ -48,6 +48,8 @@ class ProgramStudiController extends Controller
             'prospek_karier' => 'nullable|string',
         ]);
 
+        $validated['deskripsi_prodi'] = $validated['deskripsi'];
+
         ProgramStudi::create($validated);
 
         return redirect()->route('admin.prodi')->with('success', 'Program studi berhasil ditambahkan.');
@@ -55,8 +57,10 @@ class ProgramStudiController extends Controller
 
     public function update(Request $request, ProgramStudi $prodi)
     {
+        $prodiId = $prodi->id_prodi ?? $prodi->id;
+
         $validated = $request->validate([
-            'kode_prodi' => ['required', 'string', 'max:50', Rule::unique('program_studi', 'kode_prodi')->ignore($prodi->id)],
+            'kode_prodi' => ['required', 'string', 'max:50', Rule::unique('program_studi', 'kode_prodi')->ignore($prodiId, 'id_prodi')],
             'nama_prodi' => 'required|string|max:255',
             'jenjang' => 'required|string|max:10',
             'fakultas' => 'nullable|string|max:255',
@@ -64,6 +68,8 @@ class ProgramStudiController extends Controller
             'deskripsi' => 'required|string',
             'prospek_karier' => 'nullable|string',
         ]);
+
+        $validated['deskripsi_prodi'] = $validated['deskripsi'];
 
         $prodi->update($validated);
 

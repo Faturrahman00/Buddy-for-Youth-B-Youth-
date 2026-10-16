@@ -113,7 +113,12 @@ document.addEventListener('DOMContentLoaded', () => {
       closeModal(modalBooking);
 
       window.showGlassLoading('Menjadwalkan Konsultasi...', 850, () => {
-        alert('Jadwal konsultasi berhasil diajukan! Anda akan menerima konfirmasi via WhatsApp.');
+        window.byouthAlert({
+          title: 'Pengajuan Berhasil',
+          text: 'Jadwal konsultasi berhasil diajukan! Anda akan menerima konfirmasi via WhatsApp & portal siswa.',
+          icon: 'success',
+          confirmText: 'Selesai'
+        });
       });
     });
   }

@@ -2,72 +2,49 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Model User sebagai facade / generic wrapper kompatibilitas sistem auth.
+ */
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $table = 'siswa'; // default table jika diakses generic
+    protected $primaryKey = 'id_siswa';
+
     protected $fillable = [
-        'name',
+        'nama',
         'email',
-        'password',
-        'role',
+        'kata_sandi',
+        'jenis_kelamin',
+        'sekolah',
+        'kelas',
+        'semester',
         'status',
         'no_telepon',
-        'avatar',
-        'spesialisasi',
     ];
 
     protected $hidden = [
-        'password',
+        'kata_sandi',
         'remember_token',
     ];
 
-    protected function casts(): array
+    public function getAuthPassword()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->kata_sandi;
     }
 
-    /**
-     * Relationship with Data Akademik (1:1)
-     */
-    public function dataAkademik(): HasOne
+    public function getNameAttribute()
     {
-        return $this->hasOne(DataAkademik::class, 'user_id');
+        return $this->nama;
     }
 
-    /**
-     * Relationship with Jadwal Konsultasi (Psikolog)
-     */
-    public function jadwalKonsultasi(): HasMany
+    public function getRoleAttribute()
     {
-        return $this->hasMany(JadwalKonsultasi::class, 'user_id');
-    }
-
-    /**
-     * Relationship with Booking Konsultasi (Siswa)
-     */
-    public function bookingKonsultasi(): HasMany
-    {
-        return $this->hasMany(BookingKonsultasi::class, 'user_id');
-    }
-
-    /**
-     * Relationship with Asesmen (Siswa)
-     */
-    public function asesmen(): HasMany
-    {
-        return $this->hasMany(Asesmen::class, 'user_id');
+        return 'siswa';
     }
 }

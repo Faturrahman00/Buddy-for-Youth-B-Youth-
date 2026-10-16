@@ -8,6 +8,7 @@ use App\Models\HasilAsesmen;
 use App\Models\Rekomendasi;
 use App\Models\SoalAsesmen;
 use App\Models\DataAkademik;
+use App\Models\ProgramStudi;
 use App\Services\AsesmenAIService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,43 +24,43 @@ class AsesmenController extends Controller
     }
 
     /**
+     * Dapatkan siswa yang sedang login.
+     */
+    protected function currentSiswa()
+    {
+        return Auth::guard('siswa')->user() ?? Auth::user();
+    }
+
+    /**
      * Tampilan utama halaman asesmen dan rekomendasi siswa.
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = $this->currentSiswa();
+        $siswaId = $user->id_siswa ?? $user->id;
 
         // Ambil 42 bank soal asesmen aktif
-        $soals = SoalAsesmen::where('is_aktif', true)
-            ->orderBy('nomor_urut')
+        $soals = SoalAsesmen::where('status', 'aktif')
+            ->orderBy('id_asesmen')
             ->get();
 
-        // Ambil data akademik / nilai rapor siswa terkini (jika ada)
-        $dataAkademik = DataAkademik::where('user_id', $user->id)
-            ->latest()
-            ->first();
-
-        // Parse detail nilai rapor jika ada
+        // Ambil data akademik / nilai rapor siswa terkini
+        $dataAkademikList = DataAkademik::where('id_siswa', $siswaId)->get();
         $raportGrades = [];
-        if ($dataAkademik && !empty($dataAkademik->detail_nilai)) {
-            $decoded = is_string($dataAkademik->detail_nilai) 
-                ? json_decode($dataAkademik->detail_nilai, true) 
-                : $dataAkademik->detail_nilai;
-            if (is_array($decoded)) {
-                $raportGrades = $decoded;
-            }
+        foreach ($dataAkademikList as $da) {
+            $raportGrades[$da->mata_pelajaran] = (float) $da->rata_rata_nilai;
         }
 
         // Ambil asesmen terakhir siswa (jika pernah mengerjakan)
-        $latestAsesmen = Asesmen::where('user_id', $user->id)
+        $latestAsesmen = Asesmen::where('id_siswa', $siswaId)
             ->where('status', 'selesai')
-            ->with(['hasilAsesmen.rekomendasi.programStudi'])
+            ->with(['rekomendasi.programStudi'])
             ->latest('tanggal')
             ->first();
 
         return view('Siswa.page.asesmen_rekomendasi', [
             'soals' => $soals,
-            'dataAkademik' => $dataAkademik,
+            'dataAkademik' => $dataAkademikList->first(),
             'raportGrades' => $raportGrades,
             'latestAsesmen' => $latestAsesmen,
             'riasecInfo' => AsesmenAIService::RIASEC_INFO,
@@ -80,12 +81,13 @@ class AsesmenController extends Controller
             'raport_grades' => 'nullable|array',
         ]);
 
-        $user = Auth::user();
+        $user = $this->currentSiswa();
+        $siswaId = $user->id_siswa ?? $user->id;
         $answers = $request->input('jawaban', []);
         $useRaport = filter_var($request->input('use_raport', false), FILTER_VALIDATE_BOOLEAN);
         $raportGrades = $request->input('raport_grades', []);
 
-        // 1. Jalankan AI Engine (Python Forward Chaining & Collaborative Filtering dengan Fallback PHP)
+        // 1. Jalankan AI Engine
         $aiResult = $this->aiService->processAssessment($answers, $raportGrades, $useRaport);
         $riasecResult = $aiResult['riasec_result'];
         $recommendations = $aiResult['recommendations'];
@@ -93,24 +95,28 @@ class AsesmenController extends Controller
         $inferenceTrace = $aiResult['inference_trace'] ?? [];
         $aiEngineName = $aiResult['ai_engine'] ?? 'Python Forward Chaining & Collaborative Filtering';
 
-        // 2. Jika user memasukkan / mengaktifkan nilai rapor dan ingin menyimpannya ke profil
+        // 2. Jika user menyertakan nilai rapor, simpan ke tabel data_akademik granular
         if ($useRaport && !empty($raportGrades) && is_array($raportGrades)) {
-            // Hitung rata-rata nilai rapor
-            $validGrades = array_filter($raportGrades, fn($v) => is_numeric($v));
-            $avgScore = !empty($validGrades) ? (array_sum($validGrades) / count($validGrades)) : null;
-
-            DataAkademik::updateOrCreate(
-                ['user_id' => $user->id],
-                [
-                    'sekolah' => $user->sekolah ?? 'SMA / Sederajat',
-                    'kelas' => $user->kelas ?? 'Kelas XII',
-                    'nilai' => $avgScore ? round($avgScore, 2) : null,
-                    'detail_nilai' => json_encode($raportGrades),
-                ]
-            );
+            foreach ($raportGrades as $mapel => $nilai) {
+                if (is_numeric($nilai)) {
+                    $scoreVal = (float) $nilai;
+                    DataAkademik::updateOrCreate(
+                        [
+                            'id_siswa' => $siswaId,
+                            'mapel_semester' => 'Semester 5',
+                            'mata_pelajaran' => $mapel,
+                        ],
+                        [
+                            'pengetahuan' => $scoreVal,
+                            'keterampilan' => $scoreVal,
+                            'rata_rata_nilai' => $scoreVal,
+                        ]
+                    );
+                }
+            }
         }
 
-        // 3. Susun deskripsi teks minat, bakat, potensi
+        // 3. Susun narasi profil asesmen
         $topTypesNames = [];
         foreach ($riasecResult['top_types'] as $type) {
             if (isset(AsesmenAIService::RIASEC_INFO[$type])) {
@@ -119,45 +125,43 @@ class AsesmenController extends Controller
             }
         }
 
-        $minatText = 'Dominasi minat pada tipe ' . implode(', ', $topTypesNames) . '. Profil kepribadian minat responden mengarah pada kombinasi kode ' . $riasecResult['holland_code'] . '.';
-        $bakatText = 'Kekuatan pada ' . implode('; ', array_map(fn($t) => $t['headline'], $topTypesInfo)) . '.';
-        $potensiText = 'Berpotensi unggul dalam karier seperti ' . implode(', ', array_slice($topTypesInfo[0]['karier'] ?? [], 0, 4)) . '.';
+        $ringkasanProfilAsesmen = 'Profil asesmen Holland RIASEC menunjukkan dominasi pada tipe ' . implode(', ', $topTypesNames) . ' (' . $riasecResult['holland_code'] . '). Karakteristik utama berfokus pada ' . implode('; ', array_map(fn($t) => $t['headline'], $topTypesInfo)) . ', dengan arah prospek karier potensial seperti ' . implode(', ', array_slice($topTypesInfo[0]['karier'] ?? [], 0, 4)) . '.';
+        $karakteristikText = 'Karakteristik kepribadian & cara kerja: ' . implode('; ', array_map(fn($t) => $t['headline'], $topTypesInfo)) . '.';
+        $prospekText = 'Arah karier yang relevan: ' . implode(', ', array_slice($topTypesInfo[0]['karier'] ?? [], 0, 4)) . '.';
 
         // 4. Simpan transaksi Asesmen ke Database
         DB::beginTransaction();
         try {
             $asesmen = Asesmen::create([
-                'user_id' => $user->id,
+                'id_siswa' => $siswaId,
                 'tanggal' => now(),
                 'status' => 'selesai',
-            ]);
-
-            $hasil = HasilAsesmen::create([
-                'asesmen_id' => $asesmen->id,
-                'holland_code' => $riasecResult['holland_code'],
-                'tipe_tertinggi' => $riasecResult['top_types'],
-                'minat' => $minatText,
-                'bakat' => $bakatText,
-                'potensi' => $potensiText,
-                'detail_skor' => [
-                    'ai_engine' => $aiEngineName,
-                    'raw_scores' => $riasecResult['raw_scores'],
-                    'percent_scores' => $riasecResult['percent_scores'],
-                    'sorted_list' => $riasecResult['sorted_list'],
-                    'inference_trace' => $inferenceTrace,
-                ],
-                'nilai_raport_digunakan' => $useRaport,
-                'data_raport' => $useRaport ? $raportGrades : null,
+                'pertanyaan' => $ringkasanProfilAsesmen,
+                'tipe_riasec' => $riasecResult['holland_code'],
             ]);
 
             // Simpan top 3 rekomendasi program studi ke tabel rekomendasi
             $savedRecs = array_slice($recommendations, 0, 3);
             foreach ($savedRecs as $rec) {
+                $prodiId = $rec['prodi_id'] ?? $rec['id_prodi'] ?? null;
+                if (!$prodiId && !empty($rec['kode_prodi'])) {
+                    $prodiId = ProgramStudi::where('kode_prodi', $rec['kode_prodi'])->value('id_prodi');
+                }
+                if (!$prodiId && !empty($rec['nama_prodi'])) {
+                    $prodiId = ProgramStudi::where('nama_prodi', $rec['nama_prodi'])->value('id_prodi');
+                }
+                if (!$prodiId) {
+                    $firstProdi = ProgramStudi::first();
+                    $prodiId = $firstProdi ? $firstProdi->id_prodi : 1;
+                }
+
                 Rekomendasi::create([
-                    'hasil_id' => $hasil->id,
-                    'prodi_id' => $rec['prodi_id'],
+                    'id_asesmen' => $asesmen->id_asesmen,
+                    'id_prodi' => $prodiId,
                     'skor' => $rec['skor'],
                     'alasan' => $rec['alasan'],
+                    'kampus_rekomendasi' => $rec['kampus_rekomendasi'] ?? null,
+                    'prospek_karier' => $rec['prospek_karier'] ?? null,
                 ]);
             }
 
@@ -167,7 +171,7 @@ class AsesmenController extends Controller
                 'success' => true,
                 'ai_engine' => $aiEngineName,
                 'message' => 'Asesmen berhasil diselesaikan.',
-                'asesmen_id' => $asesmen->id,
+                'asesmen_id' => $asesmen->id_asesmen,
                 'riasec_result' => $riasecResult,
                 'top_types_info' => $topTypesInfo,
                 'recommendations' => array_slice($recommendations, 0, 3),
@@ -190,22 +194,23 @@ class AsesmenController extends Controller
      */
     public function riwayat()
     {
-        $user = Auth::user();
+        $user = $this->currentSiswa();
+        $siswaId = $user->id_siswa ?? $user->id;
 
-        $riwayats = Asesmen::where('user_id', $user->id)
-            ->with(['hasilAsesmen.rekomendasi.programStudi'])
+        $riwayats = Asesmen::where('id_siswa', $siswaId)
+            ->with(['rekomendasi.programStudi'])
             ->latest('tanggal')
             ->paginate(8);
 
-        $totalSesi = Asesmen::where('user_id', $user->id)->count();
-        $totalSelesai = Asesmen::where('user_id', $user->id)->where('status', 'selesai')->count();
+        $totalSesi = Asesmen::where('id_siswa', $siswaId)->count();
+        $totalSelesai = Asesmen::where('id_siswa', $siswaId)->where('status', 'selesai')->count();
 
         // Cari rekomendasi prodi yang paling sering muncul
         $mostFrequentProdi = 'Belum Ada';
-        $topProdi = Rekomendasi::whereHas('hasilAsesmen.asesmen', fn($q) => $q->where('user_id', $user->id))
+        $topProdi = Rekomendasi::whereHas('asesmen', fn($q) => $q->where('id_siswa', $siswaId))
             ->with('programStudi')
-            ->select('prodi_id', DB::raw('count(*) as total'))
-            ->groupBy('prodi_id')
+            ->select('id_prodi', DB::raw('count(*) as total'))
+            ->groupBy('id_prodi')
             ->orderByDesc('total')
             ->first();
 

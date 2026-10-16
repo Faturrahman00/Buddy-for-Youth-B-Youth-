@@ -8,48 +8,48 @@
 
   // ── Fallback 42 Questions in case server array is empty ─────────────────
   const fallbackQuestions = [
-    { id: 1, nomor_urut: 1, tipe_riasec: 'R', pertanyaan: 'Saya suka mengotak-atik mobil' },
-    { id: 2, nomor_urut: 2, tipe_riasec: 'I', pertanyaan: 'Saya suka bermain puzzle' },
-    { id: 3, nomor_urut: 3, tipe_riasec: 'A', pertanyaan: 'Saya suka bekerja sendiri' },
-    { id: 4, nomor_urut: 4, tipe_riasec: 'S', pertanyaan: 'Saya suka bekerja dalam tim' },
-    { id: 5, nomor_urut: 5, tipe_riasec: 'E', pertanyaan: 'Saya adalah orang yang ambisius' },
-    { id: 6, nomor_urut: 6, tipe_riasec: 'C', pertanyaan: 'Saya suka menyusun dan mengatur barang-barang' },
-    { id: 7, nomor_urut: 7, tipe_riasec: 'R', pertanyaan: 'Saya suka membangun sesuatu' },
-    { id: 8, nomor_urut: 8, tipe_riasec: 'A', pertanyaan: 'Saya suka membaca tentang seni dan music' },
-    { id: 9, nomor_urut: 9, tipe_riasec: 'C', pertanyaan: 'Saya lebih suka memiliki instruksi yang jelas untuk diikuti dalam bekerja' },
-    { id: 10, nomor_urut: 10, tipe_riasec: 'E', pertanyaan: 'Saya suka memengaruhi dan mempersuasi orang' },
-    { id: 11, nomor_urut: 11, tipe_riasec: 'I', pertanyaan: 'Saya suka melakukan eksperimen' },
-    { id: 12, nomor_urut: 12, tipe_riasec: 'S', pertanyaan: 'Saya suka mengajar atau melatih orang lain' },
-    { id: 13, nomor_urut: 13, tipe_riasec: 'S', pertanyaan: 'Saya suka membantu dan memecahkan masalah yang dialami orang lain' },
-    { id: 14, nomor_urut: 14, tipe_riasec: 'R', pertanyaan: 'Saya suka merawat Binatang' },
-    { id: 15, nomor_urut: 15, tipe_riasec: 'C', pertanyaan: 'Saya tidak keberatan bekerja \'9-to-5\' di kantor' },
-    { id: 16, nomor_urut: 16, tipe_riasec: 'E', pertanyaan: 'Saya suka menjual sesuatu' },
-    { id: 17, nomor_urut: 17, tipe_riasec: 'A', pertanyaan: 'Saya suka menulis' },
-    { id: 18, nomor_urut: 18, tipe_riasec: 'I', pertanyaan: 'Saya menikmati membaca topik tentang science dan penelitian' },
-    { id: 19, nomor_urut: 19, tipe_riasec: 'E', pertanyaan: 'Saya cepat dalam mengambil tanggung jawab baru' },
-    { id: 20, nomor_urut: 20, tipe_riasec: 'S', pertanyaan: 'Saya tertarik untuk menyembuhkan penyakit yang dialami orang lain' },
-    { id: 21, nomor_urut: 21, tipe_riasec: 'I', pertanyaan: 'Saya suka mencari tahu mengapa sebuah benda bisa bekerja' },
-    { id: 22, nomor_urut: 22, tipe_riasec: 'R', pertanyaan: 'Saya suka menyusun dan merakit sesuatu' },
-    { id: 23, nomor_urut: 23, tipe_riasec: 'A', pertanyaan: 'Saya adalah orang yang kreatif' },
-    { id: 24, nomor_urut: 24, tipe_riasec: 'C', pertanyaan: 'Saya memberi perhatian terhadap detail' },
-    { id: 25, nomor_urut: 25, tipe_riasec: 'C', pertanyaan: 'Saya suka mengetik' },
-    { id: 26, nomor_urut: 26, tipe_riasec: 'I', pertanyaan: 'Saya suka menganalisis sesuatu (masalah/situasi)' },
-    { id: 27, nomor_urut: 27, tipe_riasec: 'A', pertanyaan: 'Saya suka memainkan instrumen (atau bernyanyi)' },
-    { id: 28, nomor_urut: 28, tipe_riasec: 'S', pertanyaan: 'Saya suka mempelajari budaya yang berbeda' },
-    { id: 29, nomor_urut: 29, tipe_riasec: 'E', pertanyaan: 'Saya ingin memulai bisnis saya sendiri' },
-    { id: 30, nomor_urut: 30, tipe_riasec: 'R', pertanyaan: 'Saya suka memasak' },
-    { id: 31, nomor_urut: 31, tipe_riasec: 'A', pertanyaan: 'Saya suka bermain peran' },
-    { id: 32, nomor_urut: 32, tipe_riasec: 'R', pertanyaan: 'Saya adalah orang yang praktikal' },
-    { id: 33, nomor_urut: 33, tipe_riasec: 'I', pertanyaan: 'Saya suka bermain-main dengan angka dan diagram' },
-    { id: 34, nomor_urut: 34, tipe_riasec: 'S', pertanyaan: 'Saya suka mendiskusikan berbagai isu' },
-    { id: 35, nomor_urut: 35, tipe_riasec: 'C', pertanyaan: 'Saya suka mendokumentasikan pekerjaan saya dengan baik (menyimpan file, menyusun file, dsb.)' },
-    { id: 36, nomor_urut: 36, tipe_riasec: 'E', pertanyaan: 'Saya suka menjadi pemimpin' },
-    { id: 37, nomor_urut: 37, tipe_riasec: 'R', pertanyaan: 'Saya suka bekerja di tempat outdoor' },
-    { id: 38, nomor_urut: 38, tipe_riasec: 'C', pertanyaan: 'Saya suka bekerja di kantor' },
-    { id: 39, nomor_urut: 39, tipe_riasec: 'I', pertanyaan: 'Saya hebat dalam matematika' },
-    { id: 40, nomor_urut: 40, tipe_riasec: 'S', pertanyaan: 'Saya suka menolong orang' },
-    { id: 41, nomor_urut: 41, tipe_riasec: 'A', pertanyaan: 'Saya suka menggambar' },
-    { id: 42, nomor_urut: 42, tipe_riasec: 'E', pertanyaan: 'Saya suka berpidato' },
+    { id: 1, nomor_urut: 1, tipe_riasec: 'R - Realistic', pertanyaan: 'Saya suka mengotak-atik mobil' },
+    { id: 2, nomor_urut: 2, tipe_riasec: 'I - Investigative', pertanyaan: 'Saya suka bermain puzzle' },
+    { id: 3, nomor_urut: 3, tipe_riasec: 'A - Artistic', pertanyaan: 'Saya suka bekerja sendiri' },
+    { id: 4, nomor_urut: 4, tipe_riasec: 'S - Social', pertanyaan: 'Saya suka bekerja dalam tim' },
+    { id: 5, nomor_urut: 5, tipe_riasec: 'E - Enterprising', pertanyaan: 'Saya adalah orang yang ambisius' },
+    { id: 6, nomor_urut: 6, tipe_riasec: 'C - Conventional', pertanyaan: 'Saya suka menyusun dan mengatur barang-barang' },
+    { id: 7, nomor_urut: 7, tipe_riasec: 'R - Realistic', pertanyaan: 'Saya suka membangun sesuatu' },
+    { id: 8, nomor_urut: 8, tipe_riasec: 'A - Artistic', pertanyaan: 'Saya suka membaca tentang seni dan music' },
+    { id: 9, nomor_urut: 9, tipe_riasec: 'C - Conventional', pertanyaan: 'Saya lebih suka memiliki instruksi yang jelas untuk diikuti dalam bekerja' },
+    { id: 10, nomor_urut: 10, tipe_riasec: 'E - Enterprising', pertanyaan: 'Saya suka memengaruhi dan mempersuasi orang' },
+    { id: 11, nomor_urut: 11, tipe_riasec: 'I - Investigative', pertanyaan: 'Saya suka melakukan eksperimen' },
+    { id: 12, nomor_urut: 12, tipe_riasec: 'S - Social', pertanyaan: 'Saya suka mengajar atau melatih orang lain' },
+    { id: 13, nomor_urut: 13, tipe_riasec: 'S - Social', pertanyaan: 'Saya suka membantu dan memecahkan masalah yang dialami orang lain' },
+    { id: 14, nomor_urut: 14, tipe_riasec: 'R - Realistic', pertanyaan: 'Saya suka merawat Binatang' },
+    { id: 15, nomor_urut: 15, tipe_riasec: 'C - Conventional', pertanyaan: 'Saya tidak keberatan bekerja \'9-to-5\' di kantor' },
+    { id: 16, nomor_urut: 16, tipe_riasec: 'E - Enterprising', pertanyaan: 'Saya suka menjual sesuatu' },
+    { id: 17, nomor_urut: 17, tipe_riasec: 'A - Artistic', pertanyaan: 'Saya suka menulis' },
+    { id: 18, nomor_urut: 18, tipe_riasec: 'I - Investigative', pertanyaan: 'Saya menikmati membaca topik tentang science dan penelitian' },
+    { id: 19, nomor_urut: 19, tipe_riasec: 'E - Enterprising', pertanyaan: 'Saya cepat dalam mengambil tanggung jawab baru' },
+    { id: 20, nomor_urut: 20, tipe_riasec: 'S - Social', pertanyaan: 'Saya tertarik untuk menyembuhkan penyakit yang dialami orang lain' },
+    { id: 21, nomor_urut: 21, tipe_riasec: 'I - Investigative', pertanyaan: 'Saya suka mencari tahu mengapa sebuah benda bisa bekerja' },
+    { id: 22, nomor_urut: 22, tipe_riasec: 'R - Realistic', pertanyaan: 'Saya suka menyusun dan merakit sesuatu' },
+    { id: 23, nomor_urut: 23, tipe_riasec: 'A - Artistic', pertanyaan: 'Saya adalah orang yang kreatif' },
+    { id: 24, nomor_urut: 24, tipe_riasec: 'C - Conventional', pertanyaan: 'Saya memberi perhatian terhadap detail' },
+    { id: 25, nomor_urut: 25, tipe_riasec: 'C - Conventional', pertanyaan: 'Saya suka mengetik' },
+    { id: 26, nomor_urut: 26, tipe_riasec: 'I - Investigative', pertanyaan: 'Saya suka menganalisis sesuatu (masalah/situasi)' },
+    { id: 27, nomor_urut: 27, tipe_riasec: 'A - Artistic', pertanyaan: 'Saya suka memainkan instrumen (atau bernyanyi)' },
+    { id: 28, nomor_urut: 28, tipe_riasec: 'S - Social', pertanyaan: 'Saya suka mempelajari budaya yang berbeda' },
+    { id: 29, nomor_urut: 29, tipe_riasec: 'E - Enterprising', pertanyaan: 'Saya ingin memulai bisnis saya sendiri' },
+    { id: 30, nomor_urut: 30, tipe_riasec: 'R - Realistic', pertanyaan: 'Saya suka memasak' },
+    { id: 31, nomor_urut: 31, tipe_riasec: 'A - Artistic', pertanyaan: 'Saya suka bermain peran' },
+    { id: 32, nomor_urut: 32, tipe_riasec: 'R - Realistic', pertanyaan: 'Saya adalah orang yang praktikal' },
+    { id: 33, nomor_urut: 33, tipe_riasec: 'I - Investigative', pertanyaan: 'Saya suka bermain-main dengan angka dan diagram' },
+    { id: 34, nomor_urut: 34, tipe_riasec: 'S - Social', pertanyaan: 'Saya suka mendiskusikan berbagai isu' },
+    { id: 35, nomor_urut: 35, tipe_riasec: 'C - Conventional', pertanyaan: 'Saya suka mendokumentasikan pekerjaan saya dengan baik (menyimpan file, menyusun file, dsb.)' },
+    { id: 36, nomor_urut: 36, tipe_riasec: 'E - Enterprising', pertanyaan: 'Saya suka menjadi pemimpin' },
+    { id: 37, nomor_urut: 37, tipe_riasec: 'R - Realistic', pertanyaan: 'Saya suka bekerja di tempat outdoor' },
+    { id: 38, nomor_urut: 38, tipe_riasec: 'C - Conventional', pertanyaan: 'Saya suka bekerja di kantor' },
+    { id: 39, nomor_urut: 39, tipe_riasec: 'I - Investigative', pertanyaan: 'Saya hebat dalam matematika' },
+    { id: 40, nomor_urut: 40, tipe_riasec: 'S - Social', pertanyaan: 'Saya suka menolong orang' },
+    { id: 41, nomor_urut: 41, tipe_riasec: 'A - Artistic', pertanyaan: 'Saya suka menggambar' },
+    { id: 42, nomor_urut: 42, tipe_riasec: 'E - Enterprising', pertanyaan: 'Saya suka berpidato' },
   ];
 
   const questions = (window.BYOUTH_SOALS && window.BYOUTH_SOALS.length > 0)
@@ -126,12 +126,13 @@
     const card = document.createElement('div');
     card.className = 'asesmen-card-body';
 
-    const tInfo = typeColorMap[q.tipe_riasec] || { name: 'Asesmen', color: '#30618C', bg: '#EBF3FA' };
+    const typeChar = (q.tipe_riasec ? q.tipe_riasec.charAt(0) : 'R').toUpperCase();
+    const tInfo = typeColorMap[typeChar] || { name: 'Asesmen', color: '#30618C', bg: '#EBF3FA' };
 
     card.innerHTML = `
       <div class="asesmen-q-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:8px;">
         <span class="dimensi-badge" style="background:${tInfo.bg}; color:${tInfo.color}; font-weight:800; font-size:12px; padding:5px 14px; border-radius:100px; border:1px solid ${tInfo.color}33;">
-          ${q.tipe_riasec ? `${q.tipe_riasec} — ${tInfo.name}` : 'Pertanyaan Minat'}
+          ${q.tipe_riasec ? q.tipe_riasec : 'Pertanyaan Minat'}
         </span>
         <span class="q-number-pill" style="font-size:13px; font-weight:700; color:#64748B;">
           Pertanyaan <strong>${qIdx + 1}</strong> dari <strong>${questions.length}</strong>
@@ -375,7 +376,7 @@
               </div>
             </div>
             <span class="type-rank-tag">
-              Peringkat ${idx + 1} Minat Dominan
+              Peringkat ${idx + 1} Dimensi Dominan
             </span>
           </div>
 
@@ -522,12 +523,20 @@
           slideResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       } else {
-        alert(data.message || 'Gagal memproses asesmen. Silakan coba kembali.');
+        window.byouthAlert({
+          title: 'Gagal Memproses Asesmen',
+          text: data.message || 'Gagal memproses asesmen. Silakan coba kembali.',
+          icon: 'error'
+        });
       }
     } catch (err) {
       hideSpinner();
       console.error(err);
-      alert('Terjadi kendala koneksi saat mengirim jawaban asesmen. Pastikan jaringan internet stabil.');
+      window.byouthAlert({
+        title: 'Kendala Koneksi',
+        text: 'Terjadi kendala koneksi saat mengirim jawaban asesmen. Pastikan jaringan internet stabil.',
+        icon: 'error'
+      });
     }
   }
 
@@ -578,7 +587,11 @@
       btnFinish.addEventListener('click', () => {
         const totalAnswered = Object.keys(answers).length;
         if (totalAnswered < questions.length) {
-          alert(`Anda baru menjawab ${totalAnswered} dari ${questions.length} pertanyaan. Silakan lengkapi seluruh pertanyaan terlebih dahulu.`);
+          window.byouthAlert({
+            title: 'Pertanyaan Belum Lengkap',
+            text: `Anda baru menjawab ${totalAnswered} dari ${questions.length} butir soal. Silakan lengkapi seluruh pertanyaan terlebih dahulu sebelum menyelesaikan asesmen.`,
+            icon: 'warning'
+          });
           return;
         }
 
@@ -599,8 +612,15 @@
 
     // Tombol Ulangi Asesmen
     if (btnRetakeAsesmen) {
-      btnRetakeAsesmen.addEventListener('click', () => {
-        if (!confirm('Apakah Anda yakin ingin mengulang asesmen dari awal? Jawaban saat ini akan direset.')) {
+      btnRetakeAsesmen.addEventListener('click', async () => {
+        const confirmed = await window.byouthConfirm({
+          title: 'Ulangi Asesmen?',
+          text: 'Apakah Anda yakin ingin mengulang asesmen dari awal? Seluruh jawaban yang telah dipilih akan direset.',
+          confirmText: 'Ya, Reset Jawaban',
+          cancelText: 'Lanjutkan',
+          isDanger: true
+        });
+        if (!confirmed) {
           return;
         }
         answers = {};

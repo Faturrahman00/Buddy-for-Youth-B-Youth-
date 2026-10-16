@@ -21,6 +21,7 @@
   <!-- Psikolog Portal Stylesheets -->
   <link rel="stylesheet" href="{{ asset('css/Psikolog/dashboard-psikolog.css') }}">
   <link rel="stylesheet" href="{{ asset('css/Psikolog/pages-psikolog.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
 
   @stack('styles')
 </head>
@@ -50,6 +51,10 @@
 
 <!-- Modals Component -->
 @include('Psikolog.components.modals')
+
+<!-- SweetAlert2 & B-Youth Dialog -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/byouth-dialog.js') }}"></script>
 
 <!-- ApexCharts CDN for Analytics Charts -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

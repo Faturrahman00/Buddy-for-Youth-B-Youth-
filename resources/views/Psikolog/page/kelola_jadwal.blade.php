@@ -224,7 +224,7 @@
                 <button type="button" class="btn-secondary-link" onclick="window.copyZoomLink('https://zoom.us/j/98765432199')" title="Salin Tautan Zoom">
                   Salin Link
                 </button>
-                <button type="button" class="btn-secondary-link" style="color: #c53030;" onclick="if(confirm('Hapus slot kuota ini?')) { this.closest('.slot-card-item').remove(); window.showToast('Slot berhasil dihapus.'); }" title="Hapus Slot">
+                <button type="button" class="btn-secondary-link" style="color: #c53030;" onclick="window.deleteSlotItem(this)" title="Hapus Slot">
                   Hapus
                 </button>
               </div>
@@ -311,7 +311,7 @@
                 <button type="button" class="btn-secondary-link" onclick="window.copyZoomLink('https://zoom.us/j/98765432199')">
                   Salin Link
                 </button>
-                <button type="button" class="btn-secondary-link" style="color: #c53030;" onclick="if(confirm('Hapus slot ini?')) { this.closest('.slot-card-item').remove(); window.showToast('Slot berhasil dihapus.'); }">
+                <button type="button" class="btn-secondary-link" style="color: #c53030;" onclick="window.deleteSlotItem(this)">
                   Hapus
                 </button>
               </div>

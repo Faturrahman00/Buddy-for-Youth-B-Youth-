@@ -43,25 +43,26 @@
     <div id="tabContentSoal">
         <!-- Filters & Actions -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
-            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                <span style="font-weight: 700; font-size: 13px; color: var(--c-text-muted); text-transform: uppercase;">Kategori:</span>
-                <div style="display: flex; gap: 8px;">
-                    <a href="{{ route('admin.asesmen', ['kategori' => 'SEMUA']) }}" 
-                       style="padding: 6px 16px; border-radius: var(--radius-sm); font-size: 13px; text-decoration: none; {{ $kategoriAktif === 'SEMUA' ? 'background: var(--c-text-heading); color: var(--c-white); font-weight: 700;' : 'background: var(--c-white); color: var(--c-text-body); border: 1px solid var(--c-border); font-weight: 600;' }}">
-                       SEMUA
-                    </a>
-                    <a href="{{ route('admin.asesmen', ['kategori' => 'MINAT']) }}" 
-                       style="padding: 6px 16px; border-radius: var(--radius-sm); font-size: 13px; text-decoration: none; {{ $kategoriAktif === 'MINAT' ? 'background: var(--c-text-heading); color: var(--c-white); font-weight: 700;' : 'background: var(--c-white); color: var(--c-text-body); border: 1px solid var(--c-border); font-weight: 600;' }}">
-                       MINAT
-                    </a>
-                    <a href="{{ route('admin.asesmen', ['kategori' => 'BAKAT']) }}" 
-                       style="padding: 6px 16px; border-radius: var(--radius-sm); font-size: 13px; text-decoration: none; {{ $kategoriAktif === 'BAKAT' ? 'background: var(--c-text-heading); color: var(--c-white); font-weight: 700;' : 'background: var(--c-white); color: var(--c-text-body); border: 1px solid var(--c-border); font-weight: 600;' }}">
-                       BAKAT
-                    </a>
-                    <a href="{{ route('admin.asesmen', ['kategori' => 'POTENSI']) }}" 
-                       style="padding: 6px 16px; border-radius: var(--radius-sm); font-size: 13px; text-decoration: none; {{ $kategoriAktif === 'POTENSI' ? 'background: var(--c-text-heading); color: var(--c-white); font-weight: 700;' : 'background: var(--c-white); color: var(--c-text-body); border: 1px solid var(--c-border); font-weight: 600;' }}">
-                       POTENSI
-                    </a>
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span style="font-weight: 700; font-size: 13px; color: var(--c-text-muted); text-transform: uppercase;">Dimensi RIASEC:</span>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    @php
+                        $dimensiList = [
+                            'SEMUA' => 'Semua (42)',
+                            'R' => 'R — Realistic',
+                            'I' => 'I — Investigative',
+                            'A' => 'A — Artistic',
+                            'S' => 'S — Social',
+                            'E' => 'E — Enterprising',
+                            'C' => 'C — Conventional',
+                        ];
+                    @endphp
+                    @foreach($dimensiList as $key => $lbl)
+                        <a href="{{ route('admin.asesmen', ['dimensi' => $key]) }}" 
+                           style="padding: 6px 14px; border-radius: var(--radius-sm); font-size: 13px; text-decoration: none; {{ ($dimensiAktif ?? 'SEMUA') === $key ? 'background: var(--c-primary); color: var(--c-white); font-weight: 700;' : 'background: var(--c-white); color: var(--c-text-body); border: 1px solid var(--c-border); font-weight: 600;' }}">
+                           {{ $lbl }}
+                        </a>
+                    @endforeach
                 </div>
             </div>
             
@@ -73,7 +74,7 @@
 
         <!-- Instruction info -->
         <div style="padding: 12px 16px; background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--radius-sm); margin-bottom: 24px; font-size: 13px; color: var(--c-text-body); display: flex; justify-content: space-between; align-items: center;">
-            <span>Kelola instrumen pertanyaan asesmen dan pilihan opsi bobot jawaban untuk evaluasi psikometrik minat-bakat siswa.</span>
+            <span>Bank soal asesmen terpadu berbasis model <strong>Holland RIASEC</strong> (skala Likert 5 poin A–E).</span>
             <span style="font-weight: 700; color: var(--c-primary);">Total Soal Aktif: {{ $soals->count() }}</span>
         </div>
 
@@ -84,17 +85,25 @@
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; gap: 16px;">
                         <div style="display: flex; gap: 16px; align-items: flex-start;">
                             <div style="font-weight: 800; font-size: 16px; color: var(--c-text-heading); padding: 4px 10px; background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--radius-sm);">
-                                #{{ $soal->nomor_urut }}
+                                #{{ $soal->id_asesmen }}
                             </div>
                             <div>
                                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                                    @if($soal->kategori === 'MINAT')
-                                        <span style="font-weight: 700; font-size: 11px; padding: 2px 8px; border: 1px solid #30618C; border-radius: 4px; text-transform: uppercase; background: #EAF2F8; color: #30618C;">MINAT</span>
-                                    @elseif($soal->kategori === 'BAKAT')
-                                        <span style="font-weight: 700; font-size: 11px; padding: 2px 8px; border: 1px solid #F2B705; border-radius: 4px; text-transform: uppercase; background: #FFF9E6; color: #7A5400;">BAKAT</span>
-                                    @else
-                                        <span style="font-weight: 700; font-size: 11px; padding: 2px 8px; border: 1px solid #12B76A; border-radius: 4px; text-transform: uppercase; background: #ECFDF3; color: #027A48;">POTENSI</span>
-                                    @endif
+                                    @php
+                                        $typeChar = strtoupper($soal->tipe_riasec ?? substr($soal->kategori, 0, 1));
+                                        $badgeMap = [
+                                            'R' => ['label' => 'R — REALISTIC', 'bg' => '#EAF2F8', 'color' => '#30618C', 'border' => '#30618C'],
+                                            'I' => ['label' => 'I — INVESTIGATIVE', 'bg' => '#E0F2FE', 'color' => '#026AA2', 'border' => '#0BA5EC'],
+                                            'A' => ['label' => 'A — ARTISTIC', 'bg' => '#FDF2FA', 'color' => '#C11574', 'border' => '#EE46BC'],
+                                            'S' => ['label' => 'S — SOCIAL', 'bg' => '#ECFDF3', 'color' => '#027A48', 'border' => '#12B76A'],
+                                            'E' => ['label' => 'E — ENTERPRISING', 'bg' => '#FFF9E6', 'color' => '#7A5400', 'border' => '#F2B705'],
+                                            'C' => ['label' => 'C — CONVENTIONAL', 'bg' => '#F4EBFF', 'color' => '#6941C6', 'border' => '#9E77ED'],
+                                        ];
+                                        $badge = $badgeMap[$typeChar] ?? ['label' => 'RIASEC', 'bg' => '#EAF2F8', 'color' => '#30618C', 'border' => '#30618C'];
+                                    @endphp
+                                    <span style="font-weight: 700; font-size: 11px; padding: 2px 8px; border: 1px solid {{ $badge['border'] }}; border-radius: 4px; text-transform: uppercase; background: {{ $badge['bg'] }}; color: {{ $badge['color'] }};">
+                                        {{ $badge['label'] }}
+                                    </span>
                                     <span style="font-size: 13px; color: var(--c-text-muted);">{{ count($soal->pilihan_jawaban ?? []) }} Pilihan Jawaban</span>
                                 </div>
                                 <div style="font-weight: 700; font-size: 15px; color: var(--c-text-heading); line-height: 1.4;">{{ $soal->pertanyaan }}</div>
@@ -106,7 +115,7 @@
                                 style="padding: 6px 14px; border: 1px solid var(--c-border); background: var(--c-white); border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; cursor: pointer; color: var(--c-primary);">
                                 EDIT SOAL
                             </button>
-                            <form action="{{ route('admin.asesmen.destroy', $soal->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal asesmen #{{ $soal->nomor_urut }}?');">
+                            <form action="{{ route('admin.asesmen.destroy', $soal->id_asesmen) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal asesmen #{{ $soal->id_asesmen }}?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" style="padding: 6px 14px; border: 1px solid #FECDCA; background: #FFF4F2; color: #B42318; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; cursor: pointer;">
@@ -130,7 +139,7 @@
                 </div>
             @empty
                 <div style="padding: 40px; text-align: center; border: 1.5px dashed var(--c-border); border-radius: var(--radius-md); color: var(--c-text-muted);">
-                    Belum ada soal pada kategori <strong>{{ $kategoriAktif }}</strong>. Klik tombol <strong>+ TAMBAH SOAL ASESMEN</strong> di atas untuk menambahkan.
+                    Belum ada soal pada filter dimensi <strong>{{ $dimensiAktif ?? 'SEMUA' }}</strong>. Klik tombol <strong>+ TAMBAH SOAL ASESMEN</strong> di atas untuk menambahkan.
                 </div>
             @endforelse
         </div>
@@ -163,8 +172,8 @@
                             </td>
                             <td style="padding: 16px; font-size: 13px;">
                                 @if($item->hasilAsesmen)
-                                    <div style="font-weight: 600; color: var(--c-text-heading); margin-bottom: 2px;">Minat: {{ Str::limit($item->hasilAsesmen->minat, 40) }}</div>
-                                    <div style="color: var(--c-text-muted);">Bakat: {{ Str::limit($item->hasilAsesmen->bakat, 40) }}</div>
+                                    <div style="font-weight: 700; color: var(--c-primary); margin-bottom: 3px;">Kode: {{ $item->hasilAsesmen->holland_code ?? 'Holland RIASEC' }}</div>
+                                    <div style="color: var(--c-text-body); font-size: 12px; line-height: 1.4;">{{ Str::limit($item->hasilAsesmen->minat, 70) }}</div>
                                 @else
                                     <span style="color: var(--c-text-muted); font-style: italic;">Sedang diproses</span>
                                 @endif
@@ -217,16 +226,22 @@
             @csrf
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-bottom: 14px;">
                 <div>
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Kategori Instrumen</label>
-                    <select name="kategori" required style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; background: #fff;">
-                        <option value="MINAT">MINAT (Minat Studi & Preferensi Bidang)</option>
-                        <option value="BAKAT">BAKAT (Bakat Alami & Kegemaran)</option>
-                        <option value="POTENSI">POTENSI (Potensi Logika & Kognitif)</option>
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Dimensi Holland RIASEC</label>
+                    <select name="tipe_riasec" required style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; background: #fff;">
+                        <option value="R - Realistic">R — Realistic (Praktikal & Keteknikan)</option>
+                        <option value="I - Investigative">I — Investigative (Analitis & Riset Ilmiah)</option>
+                        <option value="A - Artistic">A — Artistic (Kreatif, Desain & Ekspresi Seni)</option>
+                        <option value="S - Social">S — Social (Sosial, Pelayanan & Kolaborasi)</option>
+                        <option value="E - Enterprising">E — Enterprising (Kepemimpinan, Negosiasi & Bisnis)</option>
+                        <option value="C - Conventional">C — Conventional (Organisasi, Data & Keteraturan)</option>
                     </select>
                 </div>
                 <div>
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Nomor Urut</label>
-                    <input type="number" name="nomor_urut" placeholder="Otomatis" style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">ID Asesmen (PK)</label>
+                    <div style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; background: #F8FAFC; color: var(--c-text-heading); font-weight: 700; display: flex; align-items: center; justify-content: space-between;">
+                        <span>#Otomatis</span>
+                        <span style="font-size: 11px; font-weight: 700; color: var(--c-primary); background: #EAF2F8; padding: 2px 8px; border-radius: 4px;">Auto Increment</span>
+                    </div>
                 </div>
             </div>
 
@@ -235,19 +250,12 @@
                 <textarea name="pertanyaan" required rows="3" placeholder="Tuliskan pertanyaan asesmen secara lugas dan mudah dipahami siswa..." style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; resize: vertical;"></textarea>
             </div>
 
-            <div style="margin-bottom: 16px;">
-                <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Opsi Pilihan Jawaban & Bobot</label>
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    @foreach(['A' => 5, 'B' => 4, 'C' => 3, 'D' => 2, 'E' => 1] as $lbl => $bbt)
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <span style="font-weight: 800; font-size: 13px; width: 24px; color: var(--c-text-heading);">{{ $lbl }}.</span>
-                            <input type="text" name="opsi[{{ $loop->index }}][teks]" placeholder="Teks opsi {{ $lbl }}" style="flex: 1; padding: 8px 12px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-size: 13px; outline: none;">
-                            <input type="hidden" name="opsi[{{ $loop->index }}][label]" value="{{ $lbl }}">
-                            <input type="number" name="opsi[{{ $loop->index }}][bobot]" value="{{ $bbt }}" min="1" max="10" title="Bobot nilai" style="width: 70px; padding: 8px 8px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-size: 13px; text-align: center; outline: none;">
-                        </div>
-                    @endforeach
-                </div>
-                <small style="color: var(--c-text-muted); font-size: 11px; margin-top: 4px; display: block;">Jika dikosongkan, sistem akan otomatis menggunakan skala 5 opsi standar (Sangat Sesuai s/d Sangat Tidak Sesuai).</small>
+            <div style="padding: 12px 14px; background: #F8FAFC; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); margin-bottom: 20px; font-size: 13px; color: var(--c-text-body); display: flex; align-items: center; justify-content: space-between;">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--c-primary); flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    Pilihan jawaban otomatis terkunci pada <strong>Skala Likert Baku (A–E)</strong>
+                </span>
+                <span style="font-size: 11px; font-weight: 700; color: var(--c-primary); background: #EAF2F8; padding: 2px 8px; border-radius: 4px;">Bobot 1–5 Baku</span>
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
@@ -271,29 +279,36 @@
             @method('PUT')
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-bottom: 14px;">
                 <div>
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Kategori Instrumen</label>
-                    <select name="kategori" id="editSoalKategori" required style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; background: #fff;">
-                        <option value="MINAT">MINAT</option>
-                        <option value="BAKAT">BAKAT</option>
-                        <option value="POTENSI">POTENSI</option>
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Dimensi Holland RIASEC</label>
+                    <select name="tipe_riasec" id="editSoalTipeRiasec" required style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; background: #fff;">
+                        <option value="R - Realistic">R — Realistic (Praktikal & Keteknikan)</option>
+                        <option value="I - Investigative">I — Investigative (Analitis & Riset Ilmiah)</option>
+                        <option value="A - Artistic">A — Artistic (Kreatif, Desain & Ekspresi Seni)</option>
+                        <option value="S - Social">S — Social (Sosial, Pelayanan & Kolaborasi)</option>
+                        <option value="E - Enterprising">E — Enterprising (Kepemimpinan, Negosiasi & Bisnis)</option>
+                        <option value="C - Conventional">C — Conventional (Organisasi, Data & Keteraturan)</option>
                     </select>
                 </div>
                 <div>
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Nomor Urut</label>
-                    <input type="number" name="nomor_urut" id="editSoalNomor" required style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">ID Asesmen (PK)</label>
+                    <div style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; background: #F8FAFC; color: var(--c-text-heading); font-weight: 700; display: flex; align-items: center; justify-content: space-between;">
+                        <span id="editSoalNomorText">#1</span>
+                        <span style="font-size: 11px; font-weight: 700; color: var(--c-primary); background: #EAF2F8; padding: 2px 8px; border-radius: 4px;">Primary Key</span>
+                    </div>
                 </div>
             </div>
 
             <div style="margin-bottom: 16px;">
                 <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Teks Pertanyaan</label>
-                <textarea name="pertanyaan" id="editSoalPertanyaan" required rows="3" style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; resize: vertical;"></textarea>
+                <textarea name="pertanyaan" id="editSoalPertanyaan" required rows="4" style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; resize: vertical;"></textarea>
             </div>
 
-            <div style="margin-bottom: 16px;">
-                <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Pilihan Jawaban (A - E)</label>
-                <div id="editOpsiContainer" style="display: flex; flex-direction: column; gap: 8px;">
-                    <!-- JS renders inputs here -->
-                </div>
+            <div style="padding: 12px 14px; background: #F8FAFC; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); margin-bottom: 20px; font-size: 13px; color: var(--c-text-body); display: flex; align-items: center; justify-content: space-between;">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--c-primary); flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    Pilihan jawaban otomatis terkunci pada <strong>Skala Likert Baku (A–E)</strong>
+                </span>
+                <span style="font-size: 11px; font-weight: 700; color: var(--c-primary); background: #EAF2F8; padding: 2px 8px; border-radius: 4px;">Bobot 1–5 Baku</span>
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
@@ -342,35 +357,20 @@ function closeModalTambahSoal() {
 function openModalEditSoal(soal) {
     const modal = document.getElementById('modalEditSoal');
     const form = document.getElementById('formEditSoal');
-    form.action = `/admin/asesmen/${soal.id}`;
+    form.action = `/admin/asesmen/${soal.id_asesmen || soal.id}`;
 
-    document.getElementById('editSoalKategori').value = soal.kategori || 'MINAT';
-    document.getElementById('editSoalNomor').value = soal.nomor_urut || '1';
+    const typeChar = (soal.tipe_riasec ? soal.tipe_riasec.charAt(0) : 'R').toUpperCase();
+    const mapVal = {
+        'R': 'R - Realistic',
+        'I': 'I - Investigative',
+        'A': 'A - Artistic',
+        'S': 'S - Social',
+        'E': 'E - Enterprising',
+        'C': 'C - Conventional'
+    };
+    document.getElementById('editSoalTipeRiasec').value = mapVal[typeChar] || 'R - Realistic';
+    document.getElementById('editSoalNomorText').textContent = '#' + (soal.id_asesmen || soal.id || '1');
     document.getElementById('editSoalPertanyaan').value = soal.pertanyaan || '';
-
-    const container = document.getElementById('editOpsiContainer');
-    container.innerHTML = '';
-    const opsiList = Array.isArray(soal.pilihan_jawaban) && soal.pilihan_jawaban.length > 0 
-        ? soal.pilihan_jawaban 
-        : [
-            {label: 'A', teks: '', bobot: 5},
-            {label: 'B', teks: '', bobot: 4},
-            {label: 'C', teks: '', bobot: 3},
-            {label: 'D', teks: '', bobot: 2},
-            {label: 'E', teks: '', bobot: 1}
-        ];
-
-    opsiList.forEach((opt, idx) => {
-        const row = document.createElement('div');
-        row.style.cssText = 'display: flex; gap: 8px; align-items: center;';
-        row.innerHTML = `
-            <span style="font-weight: 800; font-size: 13px; width: 24px; color: var(--c-text-heading);">${opt.label || String.fromCharCode(65 + idx)}.</span>
-            <input type="text" name="opsi[${idx}][teks]" value="${opt.teks || ''}" placeholder="Teks opsi" style="flex: 1; padding: 8px 12px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-size: 13px; outline: none;">
-            <input type="hidden" name="opsi[${idx}][label]" value="${opt.label || String.fromCharCode(65 + idx)}">
-            <input type="number" name="opsi[${idx}][bobot]" value="${opt.bobot || (5 - idx)}" min="1" max="10" style="width: 70px; padding: 8px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-size: 13px; text-align: center; outline: none;">
-        `;
-        container.appendChild(row);
-    });
 
     modal.style.display = 'flex';
 }

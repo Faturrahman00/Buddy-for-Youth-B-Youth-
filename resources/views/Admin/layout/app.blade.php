@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#30618C">
 
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2330618C'/%3E%3Cpolygon points='16,7 26,12 16,17 6,12' fill='%23F2B705'/%3E%3Cpath d='M9 14.5v5c0 2 3.1 3.5 7 3.5s7-1.5 7-3.5v-5' fill='none' stroke='%23FFFFFF' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="{{ asset('foto/logo.png') }}">
 
   <!-- Google Fonts: Inter, Outfit, Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +21,7 @@
   <!-- Separated Stylesheet -->
   <link rel="stylesheet" href="{{ asset('css/Admin/dashboard-admin.css') }}">
   <link rel="stylesheet" href="{{ asset('css/Admin/pages-admin.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
 
   @stack('styles')
 </head>
@@ -46,6 +47,10 @@
 </div>
 
 <!-- Modals Component (To be added later as requested) -->
+
+<!-- SweetAlert2 & B-Youth Dialog -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/byouth-dialog.js') }}"></script>
 
 <!-- Flowbite JS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

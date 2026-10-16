@@ -511,7 +511,7 @@ def generate_recommendations(
         final_score = round(min(98.8, max(55.0, final_score)), 1)
 
         recommendations.append({
-            'prodi_id': item.get('id'),
+            'prodi_id': item.get('id_prodi') or item.get('id'),
             'kode_prodi': code,
             'nama_prodi': item.get('nama_prodi'),
             'fakultas': item.get('fakultas'),

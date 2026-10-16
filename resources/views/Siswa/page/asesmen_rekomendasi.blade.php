@@ -24,14 +24,11 @@
   {{-- ── Page Top Action Bar ── --}}
   <div class="page-top-action-bar">
     <div class="page-title-wrap">
-      <h2>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-        </svg>
-        Asesmen Minat &amp; Rekomendasi Program Studi
-      </h2>
-      <p>Petakan kecenderungan minat karier melalui tes psikometri 42 soal Holland RIASEC dan raih rekomendasi program studi terbaik berbasis kecerdasan AI.</p>
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
+        <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:34px; height:34px; object-fit:contain;">
+        <h2 style="margin:0;">Asesmen &amp; Rekomendasi Program Studi</h2>
+      </div>
+      <p>Petakan profil tipe kepribadian dan rekomendasi program studi terbaik melalui 42 butir soal asesmen Holland RIASEC berbasis kecerdasan AI.</p>
     </div>
 
     @if(isset($latestAsesmen) && $latestAsesmen)
@@ -49,15 +46,15 @@
        ════════════════════════════════════════════════════════════════════════ --}}
   <div id="slideIntro" class="asesmen-intro-card">
     <div class="intro-badge-pill">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:18px; height:18px; object-fit:contain; margin-right:4px;">
       INFORMASI DAN PETUNJUK PENGERJAAN
     </div>
 
-    <h3 class="intro-title">Mulai Asesmen Minat &amp; Bakat Holland RIASEC</h3>
+    <h3 class="intro-title">Mulai Asesmen Holland RIASEC</h3>
 
     <div class="intro-body-text">
-      Melalui serangkaian pertanyaan, kamu akan dapat mengevaluasi minat dan kecenderungan karier yang paling sesuai dengan preferensi kamu.<br><br>
-      Luangkan waktu untuk menjawab setiap pertanyaan dengan jujur dan cermat. Tidak ada jawaban benar atau salah dalam tes ini, jadi jangan terburu-buru. Hasil tes ini akan membantu Anda mengenali aktivitas, bidang studi, dan lingkungan kerja yang mungkin sesuai dengan ketertarikan Anda.
+      Melalui 42 pertanyaan terstruktur, kamu akan dapat mengevaluasi kecocokan diri dan rekomendasi program studi perguruan tinggi yang paling selaras dengan kepribadian dan potensi belajarmu.<br><br>
+      Luangkan waktu untuk menjawab setiap pertanyaan dengan jujur dan cermat sesuai kondisi diri Anda. Tidak ada jawaban benar atau salah dalam tes ini. Hasil asesmen ini menyajikan profil terpadu Holland RIASEC Anda beserta rekomendasi program studi terbaik.
     </div>
 
     <div class="intro-callout">
@@ -237,16 +234,16 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         PROFIL HOLLAND RIASEC: <span id="resHollandCodeText">I–S–R</span>
       </div>
-      <h2 class="holland-hero-title" id="resHeroTitle">Hasil Profil Minat Karier Anda</h2>
+      <h2 class="holland-hero-title" id="resHeroTitle">Hasil Profil Asesmen Holland RIASEC</h2>
       <p class="holland-hero-sub" id="resHeroSub">
-        Hasil tes ini menunjukkan tipe yang dapat membantu Anda mengenali aktivitas, bidang studi, dan lingkungan kerja yang mungkin sesuai dengan ketertarikan Anda. Setiap orang dapat memiliki kombinasi beberapa tipe minat sekaligus.
+        Hasil asesmen ini memetakan tipe kepribadian dan potensi vokasional Anda untuk mengenali aktivitas, bidang studi, dan lingkungan akademik yang paling selaras.
       </p>
 
       <div style="margin-top:16px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-        <span class="rec-match" id="resRaportBadge" style="background:rgba(255,255,255,0.2); color:#fff; font-weight:700;">
-          Minat Terverifikasi
+        <span class="rec-match" id="resRaportBadge" style="background:#EBF3FA; color:var(--c-primary); font-weight:700;">
+          Asesmen Terverifikasi
         </span>
-        <span style="font-size:13px; color:rgba(255,255,255,0.85);" id="resCompletedAtText">
+        <span style="font-size:13px; color:var(--c-text-muted);" id="resCompletedAtText">
           Selesai pada {{ now()->format('d M Y, H:i') }} WIB
         </span>
       </div>
@@ -256,8 +253,8 @@
     <div class="riasec-bars-container">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
         <div>
-          <h4 style="font-size:17px; font-weight:800; color:#1E293B; margin:0;">Skor Distribusi 6 Tipe Minat RIASEC</h4>
-          <p style="font-size:13px; color:#64748B; margin:2px 0 0;">Kalkulasi skor total dari 42 pertanyaan (skala 7 hingga 35 poin per tipe).</p>
+          <h4 style="font-size:17px; font-weight:800; color:var(--c-text-heading); margin:0;">Skor Distribusi 6 Dimensi Holland RIASEC</h4>
+          <p style="font-size:13px; color:var(--c-text-muted); margin:2px 0 0;">Kalkulasi skor total dari 42 pertanyaan (skala 7 hingga 35 poin per tipe).</p>
         </div>
         <span style="font-size:12px; font-weight:700; color:var(--c-primary); background:#EBF3FA; padding:4px 12px; border-radius:100px;">
           Holland Occupational Themes
@@ -272,8 +269,8 @@
     {{-- Penjelasan Detail 3 Tipe Tertinggi (atau seri) --}}
     <div>
       <div style="margin-bottom:14px;">
-        <h3 style="font-size:20px; font-weight:800; color:#1E293B; margin:0;">Profil Tipe Minat Tertinggi Anda</h3>
-        <p style="font-size:13.5px; color:#64748B; margin:4px 0 0;">
+        <h3 style="font-size:20px; font-weight:800; color:var(--c-text-heading); margin:0;">Profil Dimensi Dominan Hasil Asesmen</h3>
+        <p style="font-size:13.5px; color:var(--c-text-muted); margin:4px 0 0;">
           Berikut rincian karakteristik, contoh program studi, peluang karier, dan lingkungan kerja yang relevan dengan tipe teratas Anda:
         </p>
       </div>

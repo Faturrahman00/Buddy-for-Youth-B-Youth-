@@ -35,9 +35,9 @@
         <div class="step-badge-num">2</div>
         <div class="step-text-content">
           <div class="step-name">
-            Ambil Asesmen Minat, Bakat & Kepribadian (B-Youth Test)
+            Ambil Asesmen Holland RIASEC (B-Youth Test)
           </div>
-          <p class="step-desc">Tes psikometri 45 menit untuk memetakan kecocokan tipe Holland RIASEC & gaya belajar.</p>
+          <p class="step-desc">Tes psikometri 42 soal untuk memetakan kecocokan tipe Holland RIASEC & arah program studi perguruan tinggi.</p>
         </div>
       </div>
       <div class="step-item-right">

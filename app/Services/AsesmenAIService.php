@@ -438,7 +438,7 @@ class AsesmenAIService
             $finalScore = min(99.0, max(50.0, $finalScore));
 
             $recommendations[] = [
-                'prodi_id' => $prodi->id,
+                'prodi_id' => $prodi->id_prodi ?? $prodi->id,
                 'prodi' => $prodi,
                 'nama_prodi' => $prodi->nama_prodi,
                 'kode_prodi' => $prodi->kode_prodi,

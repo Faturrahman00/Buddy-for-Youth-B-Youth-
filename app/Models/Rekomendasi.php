@@ -11,21 +11,32 @@ class Rekomendasi extends Model
     use HasFactory;
 
     protected $table = 'rekomendasi';
+    protected $primaryKey = 'id_rekomendasi';
 
     protected $fillable = [
-        'hasil_id',
-        'prodi_id',
+        'id_asesmen',
+        'id_prodi',
         'skor',
         'alasan',
+        'kampus_rekomendasi',
+        'prospek_karier',
     ];
 
-    public function hasilAsesmen(): BelongsTo
+    public function asesmen(): BelongsTo
     {
-        return $this->belongsTo(HasilAsesmen::class, 'hasil_id');
+        return $this->belongsTo(Asesmen::class, 'id_asesmen', 'id_asesmen');
     }
 
     public function programStudi(): BelongsTo
     {
-        return $this->belongsTo(ProgramStudi::class, 'prodi_id');
+        return $this->belongsTo(ProgramStudi::class, 'id_prodi', 'id_prodi');
+    }
+
+    /**
+     * Backward compatibility alias for hasilAsesmen.
+     */
+    public function hasilAsesmen(): BelongsTo
+    {
+        return $this->belongsTo(Asesmen::class, 'id_asesmen', 'id_asesmen');
     }
 }

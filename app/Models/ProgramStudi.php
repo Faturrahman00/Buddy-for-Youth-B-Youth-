@@ -11,21 +11,51 @@ class ProgramStudi extends Model
     use HasFactory;
 
     protected $table = 'program_studi';
+    protected $primaryKey = 'id_prodi';
 
     protected $fillable = [
-        'kode_prodi',
         'nama_prodi',
-        'tipe_riasec',
-        'jenjang',
-        'fakultas',
-        'akreditasi',
-        'deskripsi',
+        'deskripsi_prodi',
         'prospek_karier',
-        'kampus_rekomendasi',
+        'akreditasi',
+        'fakultas',
+        'tipe_riasec',
+        'kode_prodi', // tambahan: tidak ada di ERD
+        'jenjang', // tambahan: tidak ada di ERD
+        'kampus_rekomendasi', // tambahan: tidak ada di ERD
     ];
+
+    protected $appends = [
+        'id',
+        'deskripsi',
+    ];
+
+    /**
+     * Backward-compatible accessor for id.
+     */
+    public function getIdAttribute()
+    {
+        return $this->attributes['id_prodi'] ?? null;
+    }
+
+    /**
+     * Backward-compatible accessor for deskripsi.
+     */
+    public function getDeskripsiAttribute(): ?string
+    {
+        return $this->deskripsi_prodi;
+    }
+
+    /**
+     * Backward-compatible mutator for deskripsi.
+     */
+    public function setDeskripsiAttribute(?string $value): void
+    {
+        $this->attributes['deskripsi_prodi'] = $value;
+    }
 
     public function rekomendasi(): HasMany
     {
-        return $this->hasMany(Rekomendasi::class, 'prodi_id');
+        return $this->hasMany(Rekomendasi::class, 'id_prodi', 'id_prodi');
     }
 }

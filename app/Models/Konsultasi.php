@@ -11,24 +11,33 @@ class Konsultasi extends Model
     use HasFactory;
 
     protected $table = 'konsultasi';
+    protected $primaryKey = 'id_konsultasi';
 
     protected $fillable = [
-        'booking_id',
-        'tanggal',
+        'id_psikolog',
+        'id_siswa',
+        'tanggal_pengajuan',
+        'tanggal_konsultasi',
+        'waktu_mulai',
+        'waktu_selesai',
+        'status_booking',
         'link_zoom',
         'catatan',
-        'status_konsultasi',
+        'alasan_tolak',
     ];
 
-    protected function casts(): array
+    protected $casts = [
+        'tanggal_pengajuan' => 'datetime',
+        'tanggal_konsultasi' => 'date',
+    ];
+
+    public function psikolog(): BelongsTo
     {
-        return [
-            'tanggal' => 'date',
-        ];
+        return $this->belongsTo(Psikolog::class, 'id_psikolog', 'id_psikolog');
     }
 
-    public function booking(): BelongsTo
+    public function siswa(): BelongsTo
     {
-        return $this->belongsTo(BookingKonsultasi::class, 'booking_id');
+        return $this->belongsTo(Siswa::class, 'id_siswa', 'id_siswa');
     }
 }

@@ -21,6 +21,7 @@
   <!-- Separated Stylesheet -->
   <link rel="stylesheet" href="{{ asset('css/Siswa/dashboard-siswa.css') }}">
   <link rel="stylesheet" href="{{ asset('css/Siswa/pages-siswa.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
 
   @stack('styles')
 </head>
@@ -47,6 +48,10 @@
 
 <!-- Modals Component -->
 @include('Siswa.components.modals')
+
+<!-- SweetAlert2 & B-Youth Dialog -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/byouth-dialog.js') }}"></script>
 
 <!-- Flowbite JS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

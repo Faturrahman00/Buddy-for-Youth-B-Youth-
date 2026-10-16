@@ -7,7 +7,12 @@
         <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
-    <h1 class="topbar-title">{{ $pageTitle ?? 'Beranda' }}</h1>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="{{ route('admin.dashboard') }}" style="display:inline-flex; align-items:center; text-decoration:none;" title="Buddy For Youth Admin">
+        <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:30px; height:30px; object-fit:contain;">
+      </a>
+      <h1 class="topbar-title">{{ $pageTitle ?? 'Beranda' }}</h1>
+    </div>
   </div>
 
   <div class="topbar-right">

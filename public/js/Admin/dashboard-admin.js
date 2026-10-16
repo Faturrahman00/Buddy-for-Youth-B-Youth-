@@ -116,7 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.innerHTML = 'Memproses Jadwal...';
 
       setTimeout(() => {
-        alert('Jadwal konsultasi berhasil diajukan! Anda akan menerima konfirmasi via WhatsApp & Notifikasi Portal.');
+        window.byouthAlert({
+          title: 'Pengajuan Berhasil',
+          text: 'Jadwal konsultasi berhasil diajukan! Konfirmasi akan dikirim via WhatsApp & Notifikasi Portal.',
+          icon: 'success',
+          confirmText: 'Selesai'
+        });
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
         closeModal(modalBooking);

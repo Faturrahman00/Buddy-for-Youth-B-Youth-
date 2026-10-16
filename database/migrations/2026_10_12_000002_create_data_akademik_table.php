@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('data_akademik', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('sekolah');
-            $table->string('kelas');
-            $table->decimal('nilai', 5, 2)->nullable();
-            $table->text('detail_nilai')->nullable();
+            $table->id('id_akademik');
+            $table->foreignId('id_siswa')->constrained('siswa', 'id_siswa')->onDelete('cascade');
+            $table->string('mapel_semester', 50);
+            $table->string('mata_pelajaran');
+            $table->decimal('pengetahuan', 5, 2);
+            $table->decimal('keterampilan', 5, 2);
+            $table->decimal('rata_rata_nilai', 5, 2);
             $table->timestamps();
         });
     }

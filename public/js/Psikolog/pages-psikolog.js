@@ -108,11 +108,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const zoomUrl = document.getElementById('inputSlotZoom').value;
 
       if (!tanggal || !jamMulai || !jamSelesai) {
-        alert('Mohon lengkapi tanggal dan jam konsultasi.');
+        window.byouthAlert({
+          title: 'Form Belum Lengkap',
+          text: 'Mohon lengkapi tanggal dan jam konsultasi terlebih dahulu.',
+          icon: 'warning'
+        });
         return;
       }
 
-      window.showToast(`Slot baru berhasil dipublikasikan untuk ${tanggal} (${jamMulai} - ${jamSelesai} WIB)!`);
+      window.byouthToast({
+        type: 'success',
+        title: 'Slot Berhasil Dibuat',
+        message: `Slot baru berhasil dipublikasikan untuk ${tanggal} (${jamMulai} - ${jamSelesai} WIB)!`
+      });
       
       // Prepend newly added slot card dynamically
       const slotContainer = document.getElementById('slotItemsContainer');
@@ -140,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="slot-actions-group">
             <button type="button" class="btn-secondary-link" onclick="window.copyZoomLink('${zoomUrl || 'https://zoom.us/j/98765432199'}')">Salin Link</button>
-            <button type="button" class="btn-secondary-link" style="color:#c53030;" onclick="this.closest('.slot-card-item').remove(); window.showToast('Slot berhasil dihapus.');">Hapus</button>
+            <button type="button" class="btn-secondary-link" style="color:#c53030;" onclick="window.deleteSlotItem(this)">Hapus</button>
           </div>
         `;
         slotContainer.prepend(newSlot);
@@ -148,36 +156,83 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Delete Slot helper
+  window.deleteSlotItem = async function(btn) {
+    const confirmed = await window.byouthConfirm({
+      title: 'Hapus Slot Konsultasi?',
+      text: 'Slot jadwal kuota ini akan dihapus dari daftar yang tersedia bagi siswa.',
+      confirmText: 'Ya, Hapus Slot',
+      cancelText: 'Batal',
+      icon: 'warning',
+      isDanger: true
+    });
+    if (confirmed) {
+      const card = btn.closest('.slot-card-item');
+      if (card) {
+        card.remove();
+        window.byouthToast({
+          type: 'success',
+          message: 'Slot jadwal konsultasi berhasil dihapus.'
+        });
+      }
+    }
+  };
+
   // 6. Approve / Reject Booking Interactive Simulator
-  window.approveBooking = function(btn, studentName, slotTime) {
-    if (confirm(`Setujui booking konsultasi dari ${studentName} pada ${slotTime}?`)) {
+  window.approveBooking = async function(btn, studentName, slotTime) {
+    const confirmed = await window.byouthConfirm({
+      title: 'Setujui Booking Konsultasi?',
+      text: `Konfirmasi jadwal konsultasi untuk <strong>${studentName}</strong> pada sesi ${slotTime}? Link Zoom akan otomatis dikirimkan ke siswa.`,
+      confirmText: 'Ya, Setujui',
+      cancelText: 'Kembali',
+      icon: 'question'
+    });
+
+    if (confirmed) {
       const card = btn.closest('.booking-request-card');
       if (card) {
         card.innerHTML = `
-          <div style="padding:18px; background:#EBFDF2; border:1px solid #A6F4C5; border-radius:12px; display:flex; align-items:center; justify-content:space-between;">
+          <div style="padding:18px; background:#EBFDF2; border:1.5px solid #A6F4C5; border-radius:12px; display:flex; align-items:center; justify-content:space-between; gap:16px;">
             <div>
-              <span style="color:#027A48; font-weight:800; font-size:13px;">✓ DISETUJUI</span>
-              <h5 style="font-weight:800; color:#172C40; margin-top:4px;">Booking ${studentName} telah dikonfirmasi</h5>
-              <p style="font-size:12px; color:#3E5469;">Notifikasi link Zoom telah terkirim otomatis ke email dan dashboard siswa.</p>
+              <span style="color:#027A48; font-weight:800; font-size:12px; background:#D1FADF; padding:3px 8px; border-radius:6px;">✓ DISETUJUI</span>
+              <h5 style="font-weight:800; color:#172C40; margin-top:8px; margin-bottom:4px;">Booking ${studentName} telah dikonfirmasi</h5>
+              <p style="font-size:12px; color:#3E5469; margin:0;">Notifikasi link Zoom telah terkirim otomatis ke email dan dashboard siswa.</p>
             </div>
             <button type="button" class="btn-zoom-primary" onclick="window.open('https://zoom.us/j/98765432199', '_blank')">Buka Zoom</button>
           </div>
         `;
-        window.showToast(`Booking ${studentName} berhasil disetujui!`);
-        // Update badge counter
+        window.byouthToast({
+          type: 'success',
+          title: 'Booking Disetujui',
+          message: `Booking konsultasi ${studentName} berhasil disetujui!`
+        });
         const countBadge = document.querySelector('.tab-badge');
         if (countBadge) countBadge.textContent = '0';
       }
     }
   };
 
-  window.rejectBooking = function(btn, studentName) {
-    const alasan = prompt(`Masukkan alasan penjadwalan ulang / penolakan untuk ${studentName}:`, 'Jadwal bertabrakan dengan agenda evaluasi klinis');
+  window.rejectBooking = async function(btn, studentName) {
+    const alasan = await window.byouthPrompt({
+      title: 'Tolak / Reschedule Booking',
+      text: `Masukkan alasan penjadwalan ulang atau penolakan untuk ${studentName}:`,
+      placeholder: 'Tuliskan catatan alasan penolakan...',
+      defaultValue: 'Jadwal bertabrakan dengan agenda evaluasi klinis',
+      confirmText: 'Kirim Penolakan',
+      cancelText: 'Batal',
+      icon: 'warning',
+      isDanger: true
+    });
+
     if (alasan) {
       const card = btn.closest('.booking-request-card');
       if (card) {
         card.remove();
-        window.showToast(`Booking ${studentName} telah ditolak dengan catatan: "${alasan}".`);
+        window.byouthToast({
+          type: 'info',
+          title: 'Booking Ditolak',
+          message: `Booking ${studentName} telah ditolak dengan catatan: "${alasan}".`
+        });
         const countBadge = document.querySelector('.tab-badge');
         if (countBadge) countBadge.textContent = '0';
       }

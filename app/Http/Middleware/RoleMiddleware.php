@@ -12,23 +12,39 @@ class RoleMiddleware
     /**
      * Handle an incoming request.
      * Memastikan pengguna yang sudah login memiliki role yang sesuai.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     * @param  string  ...$roles  Role yang diizinkan (bisa lebih dari satu)
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if (! Auth::check()) {
+        // Cari user dari guard manapun yang sedang aktif
+        $user = Auth::guard('admin')->user() 
+            ?? Auth::guard('psikolog')->user() 
+            ?? Auth::guard('siswa')->user() 
+            ?? Auth::user();
+
+        if (! $user) {
             return redirect()->route('login')
                 ->withErrors(['email' => 'Silakan login terlebih dahulu.']);
         }
 
-        $user = Auth::user();
+        $userRole = $user->role ?? 'siswa';
 
-        if (! in_array($user->role, $roles)) {
-            // Redirect ke dashboard sesuai role yang dimiliki
-            return redirect()->route($this->dashboardForRole($user->role))
+        if (! in_array($userRole, $roles)) {
+            $targetRoute = $this->dashboardForRole($userRole);
+            if ($request->routeIs($targetRoute)) {
+                abort(403, 'Anda tidak memiliki hak akses ke halaman ini.');
+            }
+
+            return redirect()->route($targetRoute)
                 ->withErrors(['email' => 'Anda tidak memiliki akses ke halaman tersebut.']);
+        }
+
+        // Set guard aktif agar Auth::user() di Controller dan Blade merujuk ke model yang tepat
+        if (Auth::guard('admin')->check()) {
+            Auth::shouldUse('admin');
+        } elseif (Auth::guard('psikolog')->check()) {
+            Auth::shouldUse('psikolog');
+        } elseif (Auth::guard('siswa')->check()) {
+            Auth::shouldUse('siswa');
         }
 
         return $next($request);

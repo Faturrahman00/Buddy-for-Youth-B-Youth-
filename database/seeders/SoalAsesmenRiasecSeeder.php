@@ -67,24 +67,23 @@ class SoalAsesmenRiasecSeeder extends Seeder
             [42, 'E', 'Saya suka berpidato'],
         ];
 
-        $kategoriFull = [
-            'R' => 'REALISTIC',
-            'I' => 'INVESTIGATIVE',
-            'A' => 'ARTISTIC',
-            'S' => 'SOCIAL',
-            'E' => 'ENTERPRISING',
-            'C' => 'CONVENTIONAL',
+        $kategoriMap = [
+            'R' => 'R - Realistic',
+            'I' => 'I - Investigative',
+            'A' => 'A - Artistic',
+            'S' => 'S - Social',
+            'E' => 'E - Enterprising',
+            'C' => 'C - Conventional',
         ];
 
         foreach ($questions as [$no, $type, $text]) {
             SoalAsesmen::updateOrCreate(
-                ['nomor_urut' => $no],
+                ['id_asesmen' => $no],
                 [
-                    'kategori' => $kategoriFull[$type] ?? $type,
-                    'tipe_riasec' => $type,
+                    'tipe_riasec' => $kategoriMap[$type] ?? $type,
                     'pertanyaan' => $text,
-                    'pilihan_jawaban' => $options,
-                    'is_aktif' => true,
+                    'status' => 'aktif',
+                    'tanggal' => now(),
                 ]
             );
         }

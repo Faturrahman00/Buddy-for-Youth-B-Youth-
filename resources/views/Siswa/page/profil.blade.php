@@ -16,13 +16,10 @@
 @section('content')
 <div class="page-top-action-bar">
   <div class="page-title-wrap">
-    <h2>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-        <circle cx="12" cy="7" r="4"></circle>
-      </svg>
-      Profil
-    </h2>
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
+      <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:34px; height:34px; object-fit:contain;">
+      <h2 style="margin:0;">Profil Siswa</h2>
+    </div>
     <p>Data identitas dan informasi akun kamu di B-Youth.</p>
   </div>
 </div>

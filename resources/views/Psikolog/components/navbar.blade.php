@@ -9,7 +9,10 @@
       </svg>
     </button>
 
-    <div class="topbar-title-group">
+    <div class="topbar-title-group" style="display:flex; align-items:center; gap:10px;">
+      <a href="{{ route('psikolog.dashboard') }}" style="display:inline-flex; align-items:center; text-decoration:none;" title="Buddy For Youth Psikolog">
+        <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:30px; height:30px; object-fit:contain;">
+      </a>
       <h1 class="topbar-title">{{ $pageTitle ?? 'Beranda' }}</h1>
       @if(!empty($specTitle))
         <span class="topbar-spec-badge" title="{{ $specTitle }}">

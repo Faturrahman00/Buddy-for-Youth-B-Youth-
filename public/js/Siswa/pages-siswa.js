@@ -332,10 +332,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Validasi Nilai Berhasil & Gagal
       if (isNaN(p) || isNaN(k) || p < 0 || p > 100 || k < 0 || k > 100) {
-        if (window.showToastError) {
-          window.showToastError('Gagal Menyimpan Nilai', 'Nilai Pengetahuan dan Keterampilan harus diisi antara rentang 0 hingga 100!');
-        } else {
-          alert('Gagal: Nilai harus diisi dengan angka antara 0 hingga 100.');
+        if (window.byouthAlert) {
+          window.byouthAlert({
+            title: 'Gagal Menyimpan Nilai',
+            text: 'Nilai Pengetahuan dan Keterampilan harus diisi antara rentang 0 hingga 100!',
+            icon: 'warning'
+          });
         }
         return;
       }
@@ -454,10 +456,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Validasi Nilai Berhasil & Gagal
       if (isNaN(p) || isNaN(k) || p < 0 || p > 100 || k < 0 || k > 100) {
-        if (window.showToastError) {
-          window.showToastError('Gagal Menyimpan Nilai', 'Nilai Pengetahuan dan Keterampilan harus diisi antara rentang 0 hingga 100!');
-        } else {
-          alert('Gagal: Nilai harus diisi dengan angka antara 0 hingga 100.');
+        if (window.byouthAlert) {
+          window.byouthAlert({
+            title: 'Gagal Menyimpan Nilai',
+            text: 'Nilai Pengetahuan dan Keterampilan harus diisi antara rentang 0 hingga 100!',
+            icon: 'warning'
+          });
         }
         return;
       }

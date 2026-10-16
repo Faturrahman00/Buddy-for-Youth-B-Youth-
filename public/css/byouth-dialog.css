@@ -1,0 +1,122 @@
+/**
+ * byouth-dialog.css
+ * Premium modern styling for B-Youth modals, alerts, prompts, and toasts
+ */
+
+.byouth-swal-popup {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif !important;
+  border-radius: 18px !important;
+  padding: 28px !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  background: #ffffff !important;
+}
+
+.byouth-swal-title {
+  font-size: 19px !important;
+  font-weight: 800 !important;
+  color: #172C40 !important;
+  padding: 0 !important;
+  margin-top: 14px !important;
+  margin-bottom: 8px !important;
+  line-height: 1.35 !important;
+}
+
+.byouth-swal-html {
+  font-size: 14px !important;
+  color: #475467 !important;
+  line-height: 1.55 !important;
+  margin: 0 0 16px 0 !important;
+}
+
+.byouth-swal-actions {
+  display: flex !important;
+  gap: 12px !important;
+  margin-top: 20px !important;
+  justify-content: flex-end !important;
+  width: 100% !important;
+}
+
+.byouth-swal-btn-confirm {
+  background-color: #30618C !important;
+  color: #ffffff !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  padding: 10px 22px !important;
+  border-radius: 8px !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  outline: none !important;
+}
+
+.byouth-swal-btn-confirm:hover {
+  background-color: #172C40 !important;
+  transform: translateY(-1px) !important;
+}
+
+.byouth-swal-btn-danger {
+  background-color: #D92D20 !important;
+  color: #ffffff !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  padding: 10px 22px !important;
+  border-radius: 8px !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  outline: none !important;
+}
+
+.byouth-swal-btn-danger:hover {
+  background-color: #B42318 !important;
+  transform: translateY(-1px) !important;
+}
+
+.byouth-swal-btn-cancel {
+  background-color: #ffffff !important;
+  color: #344054 !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  padding: 10px 18px !important;
+  border-radius: 8px !important;
+  border: 1.5px solid #D0D5DD !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  outline: none !important;
+}
+
+.byouth-swal-btn-cancel:hover {
+  background-color: #F8FAFC !important;
+  border-color: #98A2B3 !important;
+}
+
+.byouth-swal-input {
+  width: 100% !important;
+  border: 1.5px solid #CBD5E1 !important;
+  border-radius: 10px !important;
+  padding: 12px 14px !important;
+  font-size: 14px !important;
+  color: #1E293B !important;
+  font-family: inherit !important;
+  margin: 14px 0 0 0 !important;
+  box-sizing: border-box !important;
+  outline: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.byouth-swal-input:focus {
+  border-color: #30618C !important;
+  box-shadow: 0 0 0 3px rgba(48, 97, 140, 0.15) !important;
+}
+
+/* Toast Customization */
+.byouth-toast-popup {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif !important;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15) !important;
+  border: 1px solid #E2E8F0 !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+}
