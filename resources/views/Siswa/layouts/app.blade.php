@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>{{ $title ?? 'Dashboard Siswa — Buddy For Youth (B-Youth)' }}</title>
   <meta name="description" content="Dashboard Siswa Portal B-Youth: Rekomendasi Program Studi & Konseling Psikologi Pendidikan">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="theme-color" content="#30618C">
 
   <!-- Favicon -->

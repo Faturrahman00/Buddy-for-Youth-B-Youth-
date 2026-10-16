@@ -9,6 +9,11 @@
     'active'    => 'profil'
 ])
 
+@php
+  $siswa = $siswa ?? (Auth::guard('siswa')->user() ?? Auth::user());
+  $initials = strtoupper(substr($siswa->nama ?? 'Siswa', 0, 2));
+@endphp
+
 @push('styles')
   <link rel="stylesheet" href="{{ asset('css/Siswa/profil.css') }}">
 @endpush
@@ -28,13 +33,13 @@
 <div class="profil-header-card">
   <div class="profil-header-left">
     <div class="profil-avatar-wrap">
-      <div class="profil-avatar">AR</div>
+      <div class="profil-avatar">{{ $initials }}</div>
       <span class="profil-avatar-status" title="Akun Aktif"></span>
     </div>
     <div class="profil-header-info">
-      <h3 class="profil-header-name">Ahmad Rizky Pratama</h3>
-      <p class="profil-header-email">ahmad.rizky@student.sch.id</p>
-      <span class="profil-header-badge">Siswa</span>
+      <h3 class="profil-header-name">{{ $siswa->nama ?? '-' }}</h3>
+      <p class="profil-header-email">{{ $siswa->email ?? '-' }}</p>
+      <span class="profil-header-badge">{{ ucfirst($siswa->role ?? 'Siswa') }}</span>
     </div>
   </div>
   <div class="profil-header-actions">
@@ -59,52 +64,61 @@
     <span>Informasi Pengguna</span>
   </div>
 
-  <form onsubmit="event.preventDefault(); showProfilSaved();">
+  <form id="formProfil" onsubmit="event.preventDefault(); showProfilSaved();">
+    @csrf
+    @method('PUT')
     <div class="profil-info-grid">
 
       <div class="profil-field-group">
         <label class="profil-field-label">Nama Lengkap</label>
-        <div class="profil-field-value" id="displayNama">Ahmad Rizky Pratama</div>
-        <input type="text" class="profil-field-input" id="inputNama" value="Ahmad Rizky Pratama" style="display:none;">
+        <div class="profil-field-value" id="displayNama">{{ $siswa->nama ?? '-' }}</div>
+        <input type="text" class="profil-field-input" id="inputNama" value="{{ $siswa->nama ?? '' }}" required style="display:none;">
       </div>
 
       <div class="profil-field-group">
         <label class="profil-field-label">Email</label>
-        <div class="profil-field-value" id="displayEmail">ahmad.rizky@student.sch.id</div>
-        <input type="email" class="profil-field-input" id="inputEmail" value="ahmad.rizky@student.sch.id" style="display:none;">
+        <div class="profil-field-value" id="displayEmail">{{ $siswa->email ?? '-' }}</div>
+        <input type="email" class="profil-field-input" id="inputEmail" value="{{ $siswa->email ?? '' }}" required style="display:none;">
       </div>
 
       <div class="profil-field-group">
         <label class="profil-field-label">Peran</label>
         <div class="profil-field-value">
-          <span class="profil-role-tag">Siswa</span>
+          <span class="profil-role-tag">{{ ucfirst($siswa->role ?? 'Siswa') }}</span>
         </div>
       </div>
 
       <div class="profil-field-group">
         <label class="profil-field-label">Jenis Kelamin</label>
-        <div class="profil-field-value" id="displayJK">Laki-laki</div>
+        <div class="profil-field-value" id="displayJK">{{ $siswa->jenis_kelamin ?? 'Belum diatur' }}</div>
         <select class="profil-field-input" id="inputJK" style="display:none;">
-          <option selected>Laki-laki</option>
-          <option>Perempuan</option>
+          <option value="" {{ empty($siswa->jenis_kelamin) ? 'selected' : '' }}>Pilih Jenis Kelamin</option>
+          <option value="Laki-laki" {{ ($siswa->jenis_kelamin === 'Laki-laki') ? 'selected' : '' }}>Laki-laki</option>
+          <option value="Perempuan" {{ ($siswa->jenis_kelamin === 'Perempuan') ? 'selected' : '' }}>Perempuan</option>
         </select>
       </div>
 
       <div class="profil-field-group">
         <label class="profil-field-label">Asal Sekolah</label>
-        <div class="profil-field-value" id="displaySekolah">SMAN 1 Batam</div>
-        <input type="text" class="profil-field-input" id="inputSekolah" value="SMAN 1 Batam" style="display:none;">
+        <div class="profil-field-value" id="displaySekolah">{{ $siswa->sekolah ?? '-' }}</div>
+        <input type="text" class="profil-field-input" id="inputSekolah" value="{{ $siswa->sekolah ?? '' }}" required style="display:none;">
       </div>
 
       <div class="profil-field-group">
         <label class="profil-field-label">Kelas</label>
-        <div class="profil-field-value" id="displayKelas">XII</div>
-        <input type="text" class="profil-field-input" id="inputKelas" value="XII" style="display:none;">
+        <div class="profil-field-value" id="displayKelas">{{ $siswa->kelas ?? '-' }}</div>
+        <input type="text" class="profil-field-input" id="inputKelas" value="{{ $siswa->kelas ?? '' }}" required style="display:none;">
+      </div>
+
+      <div class="profil-field-group">
+        <label class="profil-field-label">Nomor Telepon / WhatsApp</label>
+        <div class="profil-field-value" id="displayTelepon">{{ $siswa->no_telepon ?? 'Belum diatur' }}</div>
+        <input type="tel" class="profil-field-input" id="inputTelepon" value="{{ $siswa->no_telepon ?? '' }}" placeholder="Contoh: 08123456789" style="display:none;">
       </div>
 
       <div class="profil-field-group">
         <label class="profil-field-label">Bergabung Sejak</label>
-        <div class="profil-field-value">01 Agustus 2025</div>
+        <div class="profil-field-value">{{ $siswa->created_at ? $siswa->created_at->translatedFormat('d F Y') : '-' }}</div>
       </div>
 
       <div class="profil-field-group">
@@ -112,7 +126,7 @@
         <div class="profil-field-value">
           <span class="profil-status-active">
             <span class="profil-status-dot"></span>
-            Aktif
+            {{ $siswa->status ?? 'Aktif' }}
           </span>
         </div>
       </div>
@@ -139,12 +153,6 @@
 </div>
 
 @endsection
-
-@push('scripts')
-<script>
-  // delegated to profil.js
-</script>
-@endpush
 
 @push('scripts')
   <script src="{{ asset('js/Siswa/profil.js') }}"></script>

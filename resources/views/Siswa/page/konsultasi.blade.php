@@ -1,8 +1,3 @@
-{{-- 
-  B-YOUTH: KONSULTASI PAGE (Siswa)
-  File: resources/views/Siswa/page/konsultasi.blade.php
-  Matches Wireframe 4: Banner Disetujui + Masuk Zoom, Kalender (Kiri), Jam (Kanan), Search & Filter
---}}
 @extends('Siswa.layouts.app', [
     'title' => 'Konsultasi — Buddy For Youth (B-Youth)',
     'pageTitle' => 'Konsultasi',
@@ -20,7 +15,7 @@
       <p>Jadwalkan sesi bimbingan 1-on-1 bersama psikolog pendidikan tersertifikasi untuk memvalidasi pilihan masa depanmu.</p>
     </div>
 
-    <a href="{{ route('siswa.riwayat_konsultasi') }}" class="btn-step-action btn-outline-action" style="padding:10px 18px;">
+    <a href="{{ route('siswa.riwayat_konsultasi') }}" class="btn-step-action btn-outline-action" style="padding:10px 18px; text-decoration:none;">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
         <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -31,246 +26,175 @@
     </a>
   </div>
 
+  @if(session('success'))
+    <div style="background:#EBFDF2; color:#027A48; border:1px solid #A6F4C5; padding:12px 18px; border-radius:10px; margin-bottom:20px; font-size:14px; font-weight:600;">
+      {{ session('success') }}
+    </div>
+  @endif
+
   <!-- =========================================================================
-       1. TOP BANNER "DISETUJUI" WITH "MASUK ZOOM" (From Wireframe 4)
+       1. TOP BANNER "DISETUJUI" WITH "MASUK ZOOM" (Jika Ada Sesi Terkonfirmasi)
        ========================================================================= -->
-  <div class="confirmed-zoom-banner">
-    <div class="banner-left-info">
-      <div class="banner-avatar">MS</div>
-      <div class="banner-details">
-        <span class="banner-status-badge">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          Sesi Disetujui
-        </span>
-        <h3>Konseling Bersama: Dr. Maya Sartika, M.Psi., Psikolog</h3>
-        <p>
-          <span><strong>Hari:</strong> Jumat, 10 Oktober 2026</span>
-          <span><strong>Waktu:</strong> 14:00 - 15:00 WIB</span>
-          <span><strong>Topik:</strong> Validasi Pilihan Program Studi Teknik & Kesiapan SNBP/SNBT</span>
-        </p>
-      </div>
-    </div>
-
-    <!-- Wireframe 4 CTA: Masuk Zoom -->
-    <button type="button" class="btn-zoom-action" data-open-modal="modalZoom" id="btnMasukZoom">
-      <span class="zoom-pulse-dot"></span>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M23 7l-7 5 7 5V7z"></path>
-        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-      </svg>
-      <span>Masuk Zoom</span>
-    </button>
-  </div>
-
-  <!-- Search & Filter Card (User Request: Search & Filter di setiap halaman) -->
-  <div class="filter-card">
-    <div class="filter-row">
-      <!-- Search Input -->
-      <div class="search-box">
-        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" id="searchKonselor" class="search-input" placeholder="Cari nama psikolog atau keahlian bimbingan...">
+  @if(!empty($activeSession))
+    @php
+      $counselorNama = $activeSession->psikolog->nama ?? 'Psikolog B-Youth';
+      $initialsCounselor = strtoupper(substr($counselorNama, 0, 2));
+    @endphp
+    <div class="confirmed-zoom-banner" style="margin-bottom: 24px;">
+      <div class="banner-left-info">
+        <div class="banner-avatar">{{ $initialsCounselor }}</div>
+        <div class="banner-details">
+          <span class="banner-status-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Sesi Disetujui
+          </span>
+          <h3>Konseling Bersama: {{ $counselorNama }}</h3>
+          <p>
+            <span><strong>Hari:</strong> {{ \Carbon\Carbon::parse($activeSession->tanggal_konsultasi)->translatedFormat('l, d F Y') }}</span>
+            <span><strong>Waktu:</strong> {{ substr($activeSession->waktu_mulai, 0, 5) }} - {{ substr($activeSession->waktu_selesai, 0, 5) }} WIB</span>
+            <span><strong>Topik:</strong> {{ $activeSession->catatan ?? 'Validasi Pilihan Program Studi & Kesiapan Akademik' }}</span>
+          </p>
+        </div>
       </div>
 
-      <!-- Filters Group -->
-      <div class="filter-controls-group">
-        <select id="filterKonselor" class="filter-select">
-          <option value="all">Semua Spesialisasi Konselor</option>
-          <option value="STEM">Psikolog Pendidikan & STEM (Saintek)</option>
-          <option value="Soshum">Konselor Karier Soshum & Humaniora</option>
-          <option value="Portofolio">Konselor Pemetaan Portofolio Siswa</option>
-        </select>
-
-        <button type="button" class="btn-filter-reset" onclick="document.getElementById('searchKonselor').value=''; document.getElementById('filterKonselor').value='all'; document.getElementById('filterKonselor').dispatchEvent(new Event('change'));">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1 4 1 10 7 10"></polyline>
-            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+      @if(!empty($activeSession->link_zoom))
+        <a href="{{ $activeSession->link_zoom }}" target="_blank" class="btn-zoom-action" style="text-decoration:none;">
+          <span class="zoom-pulse-dot"></span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 7l-7 5 7 5V7z"></path>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
           </svg>
-          Reset
-        </button>
-      </div>
+          <span>Masuk Zoom</span>
+        </a>
+      @endif
     </div>
-  </div>
+  @endif
 
   <!-- =========================================================================
-       2. TWO-COLUMN SPLIT GRID (From Wireframe 4: KALENDER [Left] & JAM [Right])
+       2. GRID BOOKING & DAFTAR PSIKOLOG
        ========================================================================= -->
   <div class="consultation-booking-grid">
-
-    <!-- LEFT COLUMN: KALENDER (Matching Wireframe 4) -->
+    
+    <!-- LEFT COLUMN: PILIH PSIKOLOG & PENGAJUAN -->
     <div class="booking-card">
       <div class="booking-card-header">
         <div class="booking-card-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Daftar Psikolog Pendidikan</span>
+        </div>
+        <span style="font-size:12.5px; color:var(--c-text-muted); font-weight:600;">Tersertifikasi</span>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px; margin-top:10px;">
+        @forelse($psikologs as $psk)
+          @php $ini = strtoupper(substr($psk->nama, 0, 2)); @endphp
+          <div style="border:1.5px solid var(--c-border-light); border-radius:12px; padding:14px; background:#F8FAFD; display:flex; justify-content:space-between; align-items:center; gap:12px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:40px; height:40px; border-radius:50%; background:#30618C; color:#fff; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center;">
+                {{ $ini }}
+              </div>
+              <div>
+                <h4 style="margin:0 0 2px; font-size:14.5px; font-weight:700; color:var(--c-text-heading);">{{ $psk->nama }}</h4>
+                <div style="font-size:12px; color:var(--c-primary); font-weight:600;">{{ $psk->spesialisasi ?? 'Psikolog Pendidikan' }}</div>
+                <div style="font-size:11px; color:var(--c-text-muted);">SIP: {{ $psk->no_sip ?? 'Terverifikasi HIMPSI' }}</div>
+              </div>
+            </div>
+            <button type="button" class="btn-step-action btn-outline-action" style="font-size:12px; padding:6px 12px;" onclick="document.getElementById('bookingIdPsikolog').value = '{{ $psk->id_psikolog }}'; document.getElementById('selectedPsikologName').textContent = '{{ $psk->nama }}';">
+              Pilih
+            </button>
+          </div>
+        @empty
+          <div style="text-align:center; padding:24px; color:var(--c-text-muted); font-size:13px;">
+            Belum ada psikolog aktif terdaftar di sistem.
+          </div>
+        @endforelse
+      </div>
+
+      @if($availableSlots->isNotEmpty())
+        <div style="margin-top:24px; border-top:1px solid var(--c-border-light); padding-top:16px;">
+          <h4 style="font-size:14px; font-weight:800; color:var(--c-text-heading); margin-bottom:10px;">Slot Terbuka yang Disediakan Psikolog:</h4>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            @foreach($availableSlots as $slot)
+              <form action="{{ route('siswa.konsultasi.booking') }}" method="POST" style="display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid #D0DCE8; border-radius:8px; padding:10px 14px;">
+                @csrf
+                <input type="hidden" name="id_konsultasi" value="{{ $slot->id_konsultasi }}">
+                <div>
+                  <div style="font-weight:700; font-size:13px; color:var(--c-text-heading);">
+                    {{ \Carbon\Carbon::parse($slot->tanggal_konsultasi)->translatedFormat('l, d M Y') }}
+                  </div>
+                  <div style="font-size:12px; color:var(--c-text-muted);">
+                    {{ substr($slot->waktu_mulai, 0, 5) }} - {{ substr($slot->waktu_selesai, 0, 5) }} WIB • {{ $slot->psikolog->nama ?? 'Psikolog' }}
+                  </div>
+                </div>
+                <button type="submit" class="btn-primary-action" style="padding:6px 14px; font-size:12px;">
+                  Ambil Slot
+                </button>
+              </form>
+            @endforeach
+          </div>
+        </div>
+      @endif
+    </div>
+
+    <!-- RIGHT COLUMN: FORM PENGAJUAN JADWAL -->
+    <div class="booking-card">
+      <div class="booking-card-header">
+        <div class="booking-card-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="16" y1="2" x2="16" y2="6"></line>
             <line x1="8" y1="2" x2="8" y2="6"></line>
             <line x1="3" y1="10" x2="21" y2="10"></line>
           </svg>
-          <span>Kalender Sesi Konsultasi</span>
+          <span>Formulir Pengajuan Bimbingan</span>
         </div>
-        <span style="font-size:12.5px; color:var(--c-text-muted); font-weight:600;">Pilih Tanggal</span>
+        <span style="font-size:12.5px; color:var(--c-text-muted); font-weight:600;">Sesi 1-on-1</span>
       </div>
 
-      <!-- Month Navigation Bar -->
-      <div class="calendar-month-bar">
-        <span class="cal-month-name">Oktober 2026</span>
-        <div style="display:flex; gap:6px;">
-          <button type="button" class="cal-nav-btn" title="Bulan Sebelumnya" onclick="alert('Bulan September 2026');">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          </button>
-          <button type="button" class="cal-nav-btn" title="Bulan Berikutnya" onclick="alert('Bulan November 2026');">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </button>
+      <form action="{{ route('siswa.konsultasi.booking') }}" method="POST" style="display:flex; flex-direction:column; gap:16px; margin-top:10px;">
+        @csrf
+        <div>
+          <label class="form-label" style="font-weight:700; font-size:13px; display:block; margin-bottom:6px;">Psikolog Pembimbing Terpilih:</label>
+          <div style="background:#F1F5F9; border:1px solid #CBD5E1; padding:10px 14px; border-radius:8px; font-weight:700; font-size:14px; color:var(--c-primary);" id="selectedPsikologName">
+            {{ $psikologs->first() ? $psikologs->first()->nama : 'Pilih Psikolog dari daftar sebelah kiri' }}
+          </div>
+          <input type="hidden" name="id_psikolog" id="bookingIdPsikolog" value="{{ $psikologs->first() ? $psikologs->first()->id_psikolog : '' }}" required>
         </div>
-      </div>
 
-      <!-- Weekday Headers -->
-      <div class="calendar-weekdays-row">
-        <span>Sen</span>
-        <span>Sel</span>
-        <span>Rab</span>
-        <span>Kam</span>
-        <span>Jum</span>
-        <span>Sab</span>
-        <span>Min</span>
-      </div>
-
-      <!-- Days Grid -->
-      <div class="calendar-days-grid">
-        <!-- Week 1 -->
-        <div class="cal-day-cell disabled">28</div>
-        <div class="cal-day-cell disabled">29</div>
-        <div class="cal-day-cell disabled">30</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Kamis, 01 Okt 2026">1</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Jumat, 02 Okt 2026">2</div>
-        <div class="cal-day-cell disabled">3</div>
-        <div class="cal-day-cell disabled">4</div>
-
-        <!-- Week 2 -->
-        <div class="cal-day-cell has-available-slot" data-date-str="Senin, 05 Okt 2026">5</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Selasa, 06 Okt 2026">6</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Rabu, 07 Okt 2026">7</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Kamis, 08 Okt 2026">8</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Jumat, 09 Okt 2026">9</div>
-        <div class="cal-day-cell disabled">10</div>
-        <div class="cal-day-cell disabled">11</div>
-
-        <!-- Week 3 (Selected active date) -->
-        <div class="cal-day-cell has-available-slot" data-date-str="Senin, 12 Okt 2026">12</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Selasa, 13 Okt 2026">13</div>
-        <div class="cal-day-cell active has-available-slot" data-date-str="Rabu, 14 Okt 2026">14</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Kamis, 15 Okt 2026">15</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Jumat, 16 Okt 2026">16</div>
-        <div class="cal-day-cell disabled">17</div>
-        <div class="cal-day-cell disabled">18</div>
-
-        <!-- Week 4 -->
-        <div class="cal-day-cell has-available-slot" data-date-str="Senin, 19 Okt 2026">19</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Selasa, 20 Okt 2026">20</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Rabu, 21 Okt 2026">21</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Kamis, 22 Okt 2026">22</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Jumat, 23 Okt 2026">23</div>
-        <div class="cal-day-cell disabled">24</div>
-        <div class="cal-day-cell disabled">25</div>
-
-        <!-- Week 5 -->
-        <div class="cal-day-cell has-available-slot" data-date-str="Senin, 26 Okt 2026">26</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Selasa, 27 Okt 2026">27</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Rabu, 28 Okt 2026">28</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Kamis, 29 Okt 2026">29</div>
-        <div class="cal-day-cell has-available-slot" data-date-str="Jumat, 30 Okt 2026">30</div>
-        <div class="cal-day-cell disabled">31</div>
-        <div class="cal-day-cell disabled">1</div>
-      </div>
-
-      <div style="margin-top:18px; display:flex; align-items:center; gap:16px; font-size:12px; color:var(--c-text-muted);">
-        <span style="display:inline-flex; align-items:center; gap:5px;">
-          <span style="width:8px; height:8px; background:#10B981; border-radius:50%;"></span> Slot Tersedia
-        </span>
-        <span style="display:inline-flex; align-items:center; gap:5px;">
-          <span style="width:8px; height:8px; background:var(--c-primary); border-radius:50%;"></span> Tanggal Terpilih
-        </span>
-      </div>
-    </div>
-
-    <!-- RIGHT COLUMN: JAM (Matching Wireframe 4) -->
-    <div class="booking-card">
-      <div class="booking-card-header">
-        <div class="booking-card-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg>
-          <span>Pilihan Jam Sesi</span>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div>
+            <label class="form-label" style="font-weight:700; font-size:13px; display:block; margin-bottom:6px;">Tanggal Konsultasi</label>
+            <input type="date" name="tanggal_konsultasi" class="form-input" min="{{ date('Y-m-d') }}" value="{{ date('Y-m-d', strtotime('+1 day')) }}" required style="width:100%; padding:9px 12px; border:1.5px solid var(--c-border); border-radius:8px;">
+          </div>
+          <div>
+            <label class="form-label" style="font-weight:700; font-size:13px; display:block; margin-bottom:6px;">Waktu Sesi Mulai</label>
+            <select name="waktu_mulai" class="form-select" required style="width:100%; padding:9px 12px; border:1.5px solid var(--c-border); border-radius:8px;">
+              <option value="09:00:00">09:00 WIB</option>
+              <option value="10:30:00">10:30 WIB</option>
+              <option value="13:30:00" selected>13:30 WIB</option>
+              <option value="15:00:00">15:00 WIB</option>
+              <option value="16:30:00">16:30 WIB</option>
+            </select>
+          </div>
         </div>
-        <span style="font-size:12.5px; color:var(--c-text-muted); font-weight:600;">Waktu Konseling</span>
-      </div>
 
-      <p style="font-size:13px; color:var(--c-text-muted); margin-bottom:14px;">
-        Pilih sesi waktu konsultasi yang masih tersedia untuk tanggal yang dipilih:
-      </p>
+        <div>
+          <label class="form-label" style="font-weight:700; font-size:13px; display:block; margin-bottom:6px;">Topik Bimbingan / Catatan Pertanyaan</label>
+          <textarea name="catatan" rows="4" class="form-input" placeholder="Contoh: Ingin memvalidasi pilihan jurusan Teknik Informatika vs Sistem Informasi berdasarkan hasil nilai rapor dan tes RIASEC..." style="width:100%; padding:10px 12px; border:1.5px solid var(--c-border); border-radius:8px; font-family:inherit;"></textarea>
+        </div>
 
-      <!-- Time Slots List -->
-      <div class="time-slots-list">
-        <!-- Slot 1 -->
-        <button type="button" class="slot-item-btn" data-slot-time="09:00 - 10:00 WIB">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span class="slot-time">09:00 - 10:00 WIB</span>
-          </div>
-          <span class="slot-status-badge available">Tersedia</span>
-        </button>
-
-        <!-- Slot 2 -->
-        <button type="button" class="slot-item-btn booked" data-slot-time="10:30 - 11:30 WIB" disabled>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span class="slot-time" style="color:#94A3B8;">10:30 - 11:30 WIB</span>
-          </div>
-          <span class="slot-status-badge booked">Sudah Terisi</span>
-        </button>
-
-        <!-- Slot 3 (Selected) -->
-        <button type="button" class="slot-item-btn selected" data-slot-time="13:30 - 14:30 WIB">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span class="slot-time">13:30 - 14:30 WIB</span>
-          </div>
-          <span class="slot-status-badge available">Tersedia (Dipilih)</span>
-        </button>
-
-        <!-- Slot 4 -->
-        <button type="button" class="slot-item-btn" data-slot-time="15:00 - 16:00 WIB">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span class="slot-time">15:00 - 16:00 WIB</span>
-          </div>
-          <span class="slot-status-badge available">Tersedia</span>
-        </button>
-
-        <!-- Slot 5 -->
-        <button type="button" class="slot-item-btn" data-slot-time="16:30 - 17:30 WIB">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span class="slot-time">16:30 - 17:30 WIB</span>
-          </div>
-          <span class="slot-status-badge available">Tersedia</span>
-        </button>
-      </div>
-
-      <!-- Selected summary & Booking Action -->
-      <div class="booking-confirm-box">
-        <div><strong>Tanggal:</strong> <span id="selectedDateSummary">Rabu, 14 Okt 2026</span></div>
-        <div style="margin-top:3px;"><strong>Sesi Waktu:</strong> <span id="selectedSlotSummary">13:30 - 14:30 WIB</span></div>
-        <div style="margin-top:3px;"><strong>Psikolog:</strong> <span>Dr. Maya Sartika, M.Psi., Psikolog</span></div>
-      </div>
-
-      <div style="margin-top:auto;">
-        <button type="button" class="btn-primary-action" style="width:100%; justify-content:center; padding:12px;" onclick="if(window.showGlassLoading){ window.showGlassLoading('Mengirim pengajuan jadwal konsultasi...', 850, function(){ if(window.showToastSuccess){ window.showToastSuccess('Konsultasi Berhasil Diajukan', 'Pengajuan jadwal konsultasi Anda telah berhasil dikirim ke psikolog.'); } else { alert('Pengajuan jadwal konsultasi berhasil dikirim!'); } }); } else { if(window.showToastSuccess){ window.showToastSuccess('Konsultasi Berhasil Diajukan', 'Pengajuan konsultasi berhasil dikirim.'); } }">
+        <button type="submit" class="btn-primary-action" style="width:100%; justify-content:center; padding:12px; font-size:14px; font-weight:700;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
-          <span>Konfirmasi Pengajuan Konsultasi</span>
+          <span>Kirim Pengajuan Konsultasi</span>
         </button>
-      </div>
+      </form>
     </div>
 
   </div>

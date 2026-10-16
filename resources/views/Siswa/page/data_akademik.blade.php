@@ -147,27 +147,19 @@
   }
 
   /* Warna Tiap Mapel */
-  .fill-ipas {
-    background: linear-gradient(90deg, #10B981, #059669);
-  }
+  .fill-ipas { background: linear-gradient(90deg, #10B981, #059669); }
   .score-ipas { color: #059669; }
   .badge-ipas { background: #ECFDF3; color: #027A48; border: 1px solid #A6F4C5; }
 
-  .fill-mtk {
-    background: linear-gradient(90deg, #30618C, #1D4363);
-  }
+  .fill-mtk { background: linear-gradient(90deg, #30618C, #1D4363); }
   .score-mtk { color: #30618C; }
   .badge-mtk { background: #EFF8FF; color: #175CD3; border: 1px solid #B2DDFF; }
 
-  .fill-indo {
-    background: linear-gradient(90deg, #F2B705, #D49A00);
-  }
+  .fill-indo { background: linear-gradient(90deg, #F2B705, #D49A00); }
   .score-indo { color: #D49A00; }
   .badge-indo { background: #FEF0C7; color: #B54708; border: 1px solid #FEDF89; }
 
-  .fill-ing {
-    background: linear-gradient(90deg, #4A88C0, #296091);
-  }
+  .fill-ing { background: linear-gradient(90deg, #4A88C0, #296091); }
   .score-ing { color: #296091; }
   .badge-ing { background: #F0F9FF; color: #026AA2; border: 1px solid #B9E6FE; }
 
@@ -195,7 +187,7 @@
     </div>
   </div>
 
-  <!-- Summary Mini Badges (Card Esensial yang Berguna Saja) -->
+  <!-- Summary Mini Badges -->
   <div class="stats-summary-grid-compact">
     <div class="stat-summary-card">
       <div class="stat-icon-wrapper blue">
@@ -207,7 +199,7 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val" id="statRataRataNilai">89.3</div>
+        <div class="stat-val" id="statRataRataNilai">{{ $rataRata !== null ? number_format($rataRata, 1) : 'Belum diisi' }}</div>
         <div class="stat-label">Rata-Rata Nilai Rapor (4 Mata Pelajaran)</div>
       </div>
     </div>
@@ -220,13 +212,13 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val" id="statMapelTertinggi">92.0 (MTK)</div>
+        <div class="stat-val" id="statMapelTertinggi">{{ $highestMapel }}</div>
         <div class="stat-label">Capaian Mata Pelajaran Tertinggi</div>
       </div>
     </div>
   </div>
 
-  <!-- Grafik Visualisasi Nilai 4 Mata Pelajaran Pokok (Modern, Rapih & Kokoh) -->
+  <!-- Grafik Visualisasi Nilai 4 Mata Pelajaran Pokok -->
   <div class="chart-academic-wrapper">
     <div class="chart-academic-header">
       <div class="chart-academic-title">
@@ -246,96 +238,45 @@
     </div>
 
     <div class="academic-metric-grid">
-      <!-- 1. IPAS -->
-      <div class="metric-bar-card">
-        <div class="metric-bar-top">
-          <div class="metric-name-wrap">
-            <h4>IPAS</h4>
-            <span>Ilmu Pengetahuan Alam &amp; Sosial</span>
+      @foreach($daftarMapelStandar as $key => $meta)
+        @php
+          $record = $mapelData[$key] ?? null;
+          $score = $record ? (float) $record->rata_rata_nilai : 0;
+          $hasData = $record !== null;
+          $percent = min(100, round($score));
+          $predikat = $record ? $record->predikat : '-';
+          $kId = strtolower(str_replace([' ', '(', ')'], '', $key));
+        @endphp
+        <div class="metric-bar-card">
+          <div class="metric-bar-top">
+            <div class="metric-name-wrap">
+              <h4>{{ $meta['alias'] }}</h4>
+              <span>{{ $meta['sub'] }}</span>
+            </div>
+            <div class="metric-score-wrap">
+              <div class="metric-score-val {{ $meta['scoreClass'] }}" id="chartScore{{ ucfirst($kId) }}">
+                {{ $hasData ? number_format($score, 1) : '-' }}
+              </div>
+              <span class="metric-grade-tag {{ $meta['badgeClass'] }}" id="chartGrade{{ ucfirst($kId) }}">
+                {{ $hasData ? 'Predikat ' . $predikat : 'Belum Diisi' }}
+              </span>
+            </div>
           </div>
-          <div class="metric-score-wrap">
-            <div class="metric-score-val score-ipas" id="chartScoreIpas">88.0</div>
-            <span class="metric-grade-tag badge-ipas" id="chartGradeIpas">Predikat A</span>
+          <div class="metric-track">
+            <div class="metric-fill {{ $meta['fillClass'] }}" id="pillar{{ ucfirst($kId) }}" style="width: {{ $percent }}%;"></div>
           </div>
-        </div>
-        <div class="metric-track">
-          <div class="metric-fill fill-ipas" id="pillarIpas" style="width: 88%;"></div>
-        </div>
-        <div class="metric-bar-footer">
-          <span>KKM: 75</span>
-          <span id="chartPercentIpas">88% Tercapai</span>
-        </div>
-      </div>
-
-      <!-- 2. MTK -->
-      <div class="metric-bar-card">
-        <div class="metric-bar-top">
-          <div class="metric-name-wrap">
-            <h4>Matematika (MTK)</h4>
-            <span>Logika &amp; Kuantitatif</span>
-          </div>
-          <div class="metric-score-wrap">
-            <div class="metric-score-val score-mtk" id="chartScoreMtk">92.0</div>
-            <span class="metric-grade-tag badge-mtk" id="chartGradeMtk">Predikat A</span>
-          </div>
-        </div>
-        <div class="metric-track">
-          <div class="metric-fill fill-mtk" id="pillarMtk" style="width: 92%;"></div>
-        </div>
-        <div class="metric-bar-footer">
-          <span>KKM: 75</span>
-          <span id="chartPercentMtk">92% Tercapai</span>
-        </div>
-      </div>
-
-      <!-- 3. Bahasa Indonesia -->
-      <div class="metric-bar-card">
-        <div class="metric-bar-top">
-          <div class="metric-name-wrap">
-            <h4>Bahasa Indonesia</h4>
-            <span>Komunikasi &amp; Literasi</span>
-          </div>
-          <div class="metric-score-wrap">
-            <div class="metric-score-val score-indo" id="chartScoreIndo">87.0</div>
-            <span class="metric-grade-tag badge-indo" id="chartGradeIndo">Predikat A</span>
+          <div class="metric-bar-footer">
+            <span>KKM: {{ $meta['kkm'] }}</span>
+            <span id="chartPercent{{ ucfirst($kId) }}">{{ $hasData ? $percent . '% Tercapai' : '0% Tercapai' }}</span>
           </div>
         </div>
-        <div class="metric-track">
-          <div class="metric-fill fill-indo" id="pillarIndo" style="width: 87%;"></div>
-        </div>
-        <div class="metric-bar-footer">
-          <span>KKM: 75</span>
-          <span id="chartPercentIndo">87% Tercapai</span>
-        </div>
-      </div>
-
-      <!-- 4. Bahasa Inggris -->
-      <div class="metric-bar-card">
-        <div class="metric-bar-top">
-          <div class="metric-name-wrap">
-            <h4>Bahasa Inggris</h4>
-            <span>Bahasa Internasional</span>
-          </div>
-          <div class="metric-score-wrap">
-            <div class="metric-score-val score-ing" id="chartScoreIng">90.0</div>
-            <span class="metric-grade-tag badge-ing" id="chartGradeIng">Predikat A</span>
-          </div>
-        </div>
-        <div class="metric-track">
-          <div class="metric-fill fill-ing" id="pillarIng" style="width: 90%;"></div>
-        </div>
-        <div class="metric-bar-footer">
-          <span>KKM: 75</span>
-          <span id="chartPercentIng">90% Tercapai</span>
-        </div>
-      </div>
+      @endforeach
     </div>
   </div>
 
-  <!-- Search & Filter Card (Tanpa Tombol Reset) -->
+  <!-- Search & Filter Card -->
   <div class="filter-card">
     <div class="filter-row">
-      <!-- Search Input -->
       <div class="search-box">
         <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
@@ -344,9 +285,7 @@
         <input type="text" id="searchMapel" class="search-input" placeholder="Cari mata pelajaran...">
       </div>
 
-      <!-- Filters Group -->
       <div class="filter-controls-group">
-        <!-- Filter Semester -->
         <select id="filterSemester" class="filter-select" data-filter-key="semester">
           <option value="all">Semua Semester</option>
           <option value="Semester 5" selected>Semester 5 (Kelas XII Ganjil)</option>
@@ -359,7 +298,7 @@
     </div>
   </div>
 
-  <!-- Table Container (4 Mata Pelajaran Disediakan Admin) -->
+  <!-- Table Container -->
   <div class="data-card">
     <div class="data-card-header">
       <div class="data-card-title">
@@ -387,90 +326,63 @@
           </tr>
         </thead>
         <tbody id="akademikTableBody">
-          <!-- 1. IPAS -->
-          <tr data-searchable="IPAS Ilmu Pengetahuan Alam dan Sosial Semester 5 A" data-semester="Semester 5" data-mapel="IPAS" data-kkm="75" data-pengetahuan="88" data-keterampilan="88">
-            <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">1</td>
-            <td>
-              <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">IPAS</div>
-              <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">Ilmu Pengetahuan Alam &amp; Sosial • KKM: <span class="row-kkm-val">75</span></div>
-            </td>
-            <td><span class="row-semester-val" style="font-weight:600;">Semester 5</span></td>
-            <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">88</td>
-            <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">88</td>
-            <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">88.0</td>
-            <td class="row-predikat-val" style="text-align: center;"><span class="grade-badge a">A</span></td>
-            <td><span class="status-pill success">Terverifikasi</span></td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
-                <button type="button" class="btn-table-action outline btn-edit-row">Masukkan / Ubah Nilai</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- 2. MTK -->
-          <tr data-searchable="MTK Matematika Semester 5 A" data-semester="Semester 5" data-mapel="MTK" data-kkm="75" data-pengetahuan="92" data-keterampilan="92">
-            <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">2</td>
-            <td>
-              <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">MTK</div>
-              <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">Matematika • KKM: <span class="row-kkm-val">75</span></div>
-            </td>
-            <td><span class="row-semester-val" style="font-weight:600;">Semester 5</span></td>
-            <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">92</td>
-            <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">92</td>
-            <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">92.0</td>
-            <td class="row-predikat-val" style="text-align: center;"><span class="grade-badge a">A</span></td>
-            <td><span class="status-pill success">Terverifikasi</span></td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
-                <button type="button" class="btn-table-action outline btn-edit-row">Masukkan / Ubah Nilai</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- 3. Bahasa Indonesia -->
-          <tr data-searchable="Bahasa Indonesia Semester 5 A" data-semester="Semester 5" data-mapel="Bahasa Indonesia" data-kkm="75" data-pengetahuan="86" data-keterampilan="88">
-            <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">3</td>
-            <td>
-              <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">Bahasa Indonesia</div>
-              <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">Bahasa Indonesia • KKM: <span class="row-kkm-val">75</span></div>
-            </td>
-            <td><span class="row-semester-val" style="font-weight:600;">Semester 5</span></td>
-            <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">86</td>
-            <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">88</td>
-            <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">87.0</td>
-            <td class="row-predikat-val" style="text-align: center;"><span class="grade-badge a">A</span></td>
-            <td><span class="status-pill success">Terverifikasi</span></td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
-                <button type="button" class="btn-table-action outline btn-edit-row">Masukkan / Ubah Nilai</button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- 4. Bahasa Inggris -->
-          <tr data-searchable="Bahasa Inggris Semester 5 A" data-semester="Semester 5" data-mapel="Bahasa Inggris" data-kkm="75" data-pengetahuan="90" data-keterampilan="90">
-            <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">4</td>
-            <td>
-              <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">Bahasa Inggris</div>
-              <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">Bahasa Inggris • KKM: <span class="row-kkm-val">75</span></div>
-            </td>
-            <td><span class="row-semester-val" style="font-weight:600;">Semester 5</span></td>
-            <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">90</td>
-            <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">90</td>
-            <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">90.0</td>
-            <td class="row-predikat-val" style="text-align: center;"><span class="grade-badge a">A</span></td>
-            <td><span class="status-pill success">Terverifikasi</span></td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
-                <button type="button" class="btn-table-action outline btn-edit-row">Masukkan / Ubah Nilai</button>
-              </div>
-            </td>
-          </tr>
+          @php $no = 1; @endphp
+          @foreach($daftarMapelStandar as $key => $meta)
+            @php
+              $record = $mapelData[$key] ?? null;
+              $p = $record ? (float) $record->pengetahuan : 0;
+              $k = $record ? (float) $record->keterampilan : 0;
+              $akhir = $record ? (float) $record->rata_rata_nilai : 0;
+              $sem = $record ? $record->mapel_semester : 'Semester 5';
+              $predikat = $record ? $record->predikat : '-';
+              $hasData = $record !== null;
+            @endphp
+            <tr data-searchable="{{ $key }} {{ $meta['sub'] }} {{ $sem }} {{ $predikat }}" 
+                data-semester="{{ $sem }}" 
+                data-mapel="{{ $key }}" 
+                data-kkm="{{ $meta['kkm'] }}" 
+                data-pengetahuan="{{ $p }}" 
+                data-keterampilan="{{ $k }}">
+              <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">{{ $no++ }}</td>
+              <td>
+                <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">{{ $key }}</div>
+                <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">
+                  {{ $meta['sub'] }} • KKM: <span class="row-kkm-val">{{ $meta['kkm'] }}</span>
+                </div>
+              </td>
+              <td><span class="row-semester-val" style="font-weight:600;">{{ $sem }}</span></td>
+              <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">{{ $hasData ? $p : '-' }}</td>
+              <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">{{ $hasData ? $k : '-' }}</td>
+              <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">
+                {{ $hasData ? number_format($akhir, 1) : '-' }}
+              </td>
+              <td class="row-predikat-val" style="text-align: center;">
+                @if($hasData)
+                  <span class="grade-badge {{ strtolower($predikat) }}">{{ $predikat }}</span>
+                @else
+                  <span class="grade-badge" style="background:#F1F5F9; color:#64748B;">-</span>
+                @endif
+              </td>
+              <td>
+                @if($hasData)
+                  <span class="status-pill success">Terverifikasi</span>
+                @else
+                  <span class="status-pill pending" style="background:#FEF3F2; color:#B42318; border:1px solid #FECDCA;">Belum Diisi</span>
+                @endif
+              </td>
+              <td style="text-align: right;">
+                <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
+                  <button type="button" class="btn-table-action outline btn-edit-row">
+                    {{ $hasData ? 'Ubah Nilai' : 'Masukkan Nilai' }}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          @endforeach
         </tbody>
       </table>
     </div>
 
-    <!-- Table Footer Note -->
     <div style="padding:16px 20px; border-top:1px solid var(--c-border-light); font-size:13px; color:var(--c-text-muted); display:flex; justify-content:space-between; align-items:center;">
       <div>Hanya 4 mata pelajaran pokok ini yang disediakan oleh pihak sekolah/admin untuk kalkulasi program studi.</div>
       <div style="font-weight:700; color:var(--c-primary);">Total 4 Mata Pelajaran</div>

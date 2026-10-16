@@ -7,7 +7,15 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\ProgramStudiController as AdminProgramStudiController;
 use App\Http\Controllers\Admin\AsesmenController as AdminAsesmenController;
+use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
+use App\Http\Controllers\Siswa\AkademikController as SiswaAkademikController;
 use App\Http\Controllers\Siswa\AsesmenController as SiswaAsesmenController;
+use App\Http\Controllers\Siswa\KonsultasiController as SiswaKonsultasiController;
+use App\Http\Controllers\Siswa\ProfilController as SiswaProfilController;
+use App\Http\Controllers\Psikolog\DashboardController as PsikologDashboardController;
+use App\Http\Controllers\Psikolog\JadwalController as PsikologJadwalController;
+use App\Http\Controllers\Psikolog\RiwayatController as PsikologRiwayatController;
+use App\Http\Controllers\Psikolog\ProfilController as PsikologProfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,9 +77,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('role:siswa')->group(function () {
     // Dashboard Siswa & URL Aliases
-    Route::get('/dashboard_siswa', function () {
-        return view('Siswa.page.dashboard_siswa');
-    })->name('dashboard_siswa');
+    Route::get('/dashboard_siswa', [SiswaDashboardController::class, 'index'])->name('dashboard_siswa');
 
     Route::get('/dashboard-siswa', function () {
         return redirect()->route('dashboard_siswa');
@@ -84,18 +90,12 @@ Route::middleware('role:siswa')->group(function () {
             return redirect()->route('dashboard_siswa');
         })->name('index');
 
-        Route::get('/dashboard', function () {
-            return view('Siswa.page.dashboard_siswa');
-        })->name('dashboard');
-
-        Route::get('/beranda', function () {
-            return view('Siswa.page.dashboard_siswa');
-        })->name('beranda');
+        Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/beranda',   [SiswaDashboardController::class, 'index'])->name('beranda');
 
         // Data Akademik
-        Route::get('/akademik', function () {
-            return view('Siswa.page.data_akademik');
-        })->name('akademik');
+        Route::get('/akademik',  [SiswaAkademikController::class, 'index'])->name('akademik');
+        Route::post('/akademik', [SiswaAkademikController::class, 'store'])->name('akademik.store');
 
         // Asesmen Minat Bakat RIASEC & Rekomendasi
         Route::get('/asesmen',          [SiswaAsesmenController::class, 'index'])->name('asesmen');
@@ -103,18 +103,14 @@ Route::middleware('role:siswa')->group(function () {
         Route::get('/riwayat-asesmen',  [SiswaAsesmenController::class, 'riwayat'])->name('riwayat_asesmen');
 
         // Konsultasi Psikolog & Riwayat
-        Route::get('/konsultasi', function () {
-            return view('Siswa.page.konsultasi');
-        })->name('konsultasi');
-
-        Route::get('/riwayat-konsultasi', function () {
-            return view('Siswa.page.riwayat_konsultasi');
-        })->name('riwayat_konsultasi');
+        Route::get('/konsultasi',            [SiswaKonsultasiController::class, 'index'])->name('konsultasi');
+        Route::post('/konsultasi/booking',   [SiswaKonsultasiController::class, 'booking'])->name('konsultasi.booking');
+        Route::get('/riwayat-konsultasi',    [SiswaKonsultasiController::class, 'riwayat'])->name('riwayat_konsultasi');
+        Route::delete('/konsultasi/{id}',    [SiswaKonsultasiController::class, 'batal'])->name('konsultasi.batal');
 
         // Profil Siswa
-        Route::get('/profil', function () {
-            return view('Siswa.page.profil');
-        })->name('profil');
+        Route::get('/profil', [SiswaProfilController::class, 'index'])->name('profil');
+        Route::put('/profil', [SiswaProfilController::class, 'update'])->name('profil.update');
     });
 });
 
@@ -166,9 +162,7 @@ Route::middleware('role:psikolog')->prefix('psikolog')->name('psikolog.')->group
     })->name('index');
 
     // Beranda / Dashboard Psikolog
-    Route::get('/beranda', function () {
-        return view('Psikolog.page.beranda');
-    })->name('dashboard');
+    Route::get('/beranda', [PsikologDashboardController::class, 'index'])->name('dashboard');
 
     // Alias /psikolog/dashboard -> redirect ke /psikolog/beranda
     Route::get('/dashboard', function () {
@@ -176,17 +170,17 @@ Route::middleware('role:psikolog')->prefix('psikolog')->name('psikolog.')->group
     })->name('dashboard.redirect');
 
     // Kelola Jadwal Konsultasi
-    Route::get('/jadwal', function () {
-        return view('Psikolog.page.kelola_jadwal');
-    })->name('jadwal');
+    Route::get('/jadwal',              [PsikologJadwalController::class, 'index'])->name('jadwal');
+    Route::post('/jadwal',             [PsikologJadwalController::class, 'store'])->name('jadwal.store');
+    Route::put('/jadwal/{id}/setujui', [PsikologJadwalController::class, 'setujui'])->name('jadwal.setujui');
+    Route::put('/jadwal/{id}/tolak',   [PsikologJadwalController::class, 'tolak'])->name('jadwal.tolak');
+    Route::put('/jadwal/{id}/selesai', [PsikologJadwalController::class, 'selesai'])->name('jadwal.selesai');
+    Route::delete('/jadwal/{id}',      [PsikologJadwalController::class, 'destroy'])->name('jadwal.destroy');
 
     // Riwayat Konsultasi Siswa
-    Route::get('/riwayat', function () {
-        return view('Psikolog.page.riwayat_konsultasi');
-    })->name('riwayat');
+    Route::get('/riwayat', [PsikologRiwayatController::class, 'index'])->name('riwayat');
 
     // Profil Psikolog
-    Route::get('/profil', function () {
-        return view('Psikolog.page.profil');
-    })->name('profil');
+    Route::get('/profil', [PsikologProfilController::class, 'index'])->name('profil');
+    Route::put('/profil', [PsikologProfilController::class, 'update'])->name('profil.update');
 });

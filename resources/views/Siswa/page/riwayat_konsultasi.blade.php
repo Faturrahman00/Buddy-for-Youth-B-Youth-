@@ -1,13 +1,15 @@
-{{-- 
-  B-YOUTH: RIWAYAT KONSULTASI PAGE (Siswa)
-  File: resources/views/Siswa/page/riwayat_konsultasi.blade.php
-  Matches Wireframe 5: Tanggal, Nama Psikolog, Durasi, Topik, Aksi + Search, Filter, Pagination
---}}
 @extends('Siswa.layouts.app', [
     'title' => 'Riwayat Konsultasi — Buddy For Youth (B-Youth)',
     'pageTitle' => 'Riwayat Konsultasi',
-    'active' => 'riwayat-konsultasi'
+    'active' => 'riwayat_konsultasi'
 ])
+
+@php
+  $totalSelesai = $riwayatList->where('status_booking', 'selesai')->count();
+  $totalTerjadwal = $riwayatList->whereIn('status_booking', ['disetujui', 'menunggu'])->count();
+  $totalPsikolog = $riwayatList->pluck('id_psikolog')->unique()->count();
+  $totalCatatan = $riwayatList->whereNotNull('catatan')->count();
+@endphp
 
 @section('content')
   <!-- Top Action Header -->
@@ -29,6 +31,12 @@
     </a>
   </div>
 
+  @if(session('success'))
+    <div style="background:#EBFDF2; color:#027A48; border:1px solid #A6F4C5; padding:12px 18px; border-radius:10px; margin-bottom:20px; font-size:14px; font-weight:600;">
+      {{ session('success') }}
+    </div>
+  @endif
+
   <!-- Summary Stats Grid -->
   <div class="stats-summary-grid">
     <div class="stat-summary-card">
@@ -39,7 +47,7 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">3 Sesi Selesai</div>
+        <div class="stat-val">{{ $totalSelesai }} Sesi Selesai</div>
         <div class="stat-label">Total Konseling Terlaksana</div>
       </div>
     </div>
@@ -52,8 +60,8 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">165 Menit</div>
-        <div class="stat-label">Total Waktu Bimbingan</div>
+        <div class="stat-val">{{ $totalTerjadwal }} Sesi</div>
+        <div class="stat-label">Menunggu / Disetujui</div>
       </div>
     </div>
 
@@ -67,8 +75,8 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">2 Psikolog</div>
-        <div class="stat-label">Pembimbing Profesional</div>
+        <div class="stat-val">{{ $totalPsikolog }} Psikolog</div>
+        <div class="stat-label">Pembimbing Terhubung</div>
       </div>
     </div>
 
@@ -80,16 +88,15 @@
         </svg>
       </div>
       <div class="stat-summary-info">
-        <div class="stat-val">3 Catatan</div>
-        <div class="stat-label">Rekomendasi Tindak Lanjut</div>
+        <div class="stat-val">{{ $totalCatatan }} Catatan</div>
+        <div class="stat-label">Evaluasi & Rekomendasi</div>
       </div>
     </div>
   </div>
 
-  <!-- Search & Filter Card (User Request: Search & Filter di setiap halaman) -->
+  <!-- Search & Filter Card -->
   <div class="filter-card">
     <div class="filter-row">
-      <!-- Search Input -->
       <div class="search-box">
         <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
@@ -98,32 +105,24 @@
         <input type="text" id="searchRiwayatKonsultasi" class="search-input" placeholder="Cari nama psikolog, topik diskusi, atau catatan...">
       </div>
 
-      <!-- Filters Group -->
       <div class="filter-controls-group">
-        <!-- Filter Status -->
         <select id="filterStatusKonsul" class="filter-select" data-filter-key="status">
           <option value="all">Semua Status</option>
-          <option value="Selesai">Selesai</option>
-          <option value="Terjadwal">Terjadwal (Mendatang)</option>
+          <option value="disetujui">Disetujui (Terjadwal)</option>
+          <option value="menunggu">Menunggu Verifikasi</option>
+          <option value="selesai">Selesai</option>
+          <option value="ditolak">Ditolak</option>
         </select>
-
-        <!-- Filter Psikolog -->
-        <select id="filterPsikologKonsul" class="filter-select" data-filter-key="psikolog">
-          <option value="all">Semua Psikolog</option>
-          <option value="Maya">Dr. Maya Sartika, M.Psi.</option>
-          <option value="Bambang">Bambang Wicaksono, M.A.</option>
-        </select>
-
       </div>
     </div>
   </div>
 
-  <!-- Table Container matching Wireframe 5 -->
+  <!-- Table Container -->
   <div class="data-card">
     <div class="data-card-header">
       <div class="data-card-title">
         <span>Daftar Sesi Konsultasi Psikologi</span>
-        <span class="data-count-badge" data-count-for="riwayatKonsulTableBody">4 Sesi Terdata</span>
+        <span class="data-count-badge" data-count-for="riwayatKonsulTableBody">{{ $riwayatList->count() }} Sesi Terdata</span>
       </div>
       <div style="font-size:12.5px; color:var(--c-text-muted);">
         Kerahasiaan data bimbingan konseling terenkripsi aman
@@ -136,164 +135,96 @@
           <tr>
             <th>Tanggal</th>
             <th>Nama Psikolog</th>
-            <th>Durasi</th>
-            <th>Topik</th>
+            <th>Waktu</th>
+            <th>Topik &amp; Catatan</th>
+            <th>Status</th>
             <th style="text-align: right;">Aksi</th>
           </tr>
         </thead>
         <tbody id="riwayatKonsulTableBody">
-          <!-- Row 1 (Mendatang / Terjadwal) -->
-          <tr data-searchable="10 Okt 2026 Maya Sartika Validasi Pilihan Program Studi Teknik Terjadwal 60 Menit" data-status="Terjadwal" data-psikolog="Maya">
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">10 Oktober 2026</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">14:00 - 15:00 WIB (Mendatang)</div>
-            </td>
-            <td>
-              <div style="display:flex; align-items:center; gap:10px;">
-                <div style="width:34px; height:34px; border-radius:50%; background:#FAE08F; color:#172C40; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center;">MS</div>
-                <div>
-                  <div style="font-weight:700; color:var(--c-text-heading);">Dr. Maya Sartika, M.Psi., Psikolog</div>
-                  <div style="font-size:11.5px; color:var(--c-text-muted);">SIPA: 19820412-201001-2-004</div>
+          @forelse($riwayatList as $item)
+            @php
+              $tgl = \Carbon\Carbon::parse($item->tanggal_konsultasi);
+              $psikologNama = $item->psikolog->nama ?? 'Psikolog B-Youth';
+              $initials = strtoupper(substr($psikologNama, 0, 2));
+              $status = $item->status_booking;
+            @endphp
+            <tr data-searchable="{{ $tgl->translatedFormat('d M Y') }} {{ $psikologNama }} {{ $item->catatan }} {{ $status }}" data-status="{{ $status }}">
+              <td>
+                <div style="font-weight:700; color:var(--c-text-heading);">{{ $tgl->translatedFormat('d F Y') }}</div>
+                <div style="font-size:12px; color:var(--c-text-muted);">{{ $tgl->translatedFormat('l') }}</div>
+              </td>
+              <td>
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <div style="width:34px; height:34px; border-radius:50%; background:#FAE08F; color:#172C40; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center;">
+                    {{ $initials }}
+                  </div>
+                  <div>
+                    <div style="font-weight:700; color:var(--c-text-heading);">{{ $psikologNama }}</div>
+                    <div style="font-size:11.5px; color:var(--c-text-muted);">{{ $item->psikolog->spesialisasi ?? 'Psikolog Pendidikan' }}</div>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td>
-              <span style="font-weight:600;">60 Menit</span>
-            </td>
-            <td>
-              <div style="font-weight:700; color:var(--c-primary);">Validasi Program Studi Teknik Informatika & Kesiapan PTN</div>
-              <div><span class="status-pill success" style="font-size:11px; padding:2px 8px;">Disetujui • Via Zoom</span></div>
-            </td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action primary" data-open-modal="modalZoom">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                  Masuk Zoom
-                </button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 2 (Selesai) -->
-          <tr data-searchable="02 Okt 2026 Maya Sartika Pemilihan Program Studi Analisis Potensi Bakat Saintek Selesai 60 Menit" data-status="Selesai" data-psikolog="Maya">
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">02 Oktober 2026</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">15:30 - 16:30 WIB</div>
-            </td>
-            <td>
-              <div style="display:flex; align-items:center; gap:10px;">
-                <div style="width:34px; height:34px; border-radius:50%; background:#FAE08F; color:#172C40; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center;">MS</div>
-                <div>
-                  <div style="font-weight:700; color:var(--c-text-heading);">Dr. Maya Sartika, M.Psi., Psikolog</div>
-                  <div style="font-size:11.5px; color:var(--c-text-muted);">Psikolog Pendidikan</div>
+              </td>
+              <td>
+                <span style="font-weight:600; font-size:13px; color:var(--c-text-heading);">
+                  {{ substr($item->waktu_mulai, 0, 5) }} - {{ substr($item->waktu_selesai, 0, 5) }} WIB
+                </span>
+              </td>
+              <td>
+                <div style="font-weight:700; color:var(--c-primary); margin-bottom:2px;">
+                  {{ $item->catatan ? Str::limit($item->catatan, 70) : 'Konsultasi Bimbingan Minat Bakat' }}
                 </div>
-              </div>
-            </td>
-            <td>
-              <span style="font-weight:600;">60 Menit</span>
-            </td>
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Pemilihan Program Studi & Analisis Potensi Bakat Saintek</div>
-              <div><span class="status-pill success" style="font-size:11px; padding:2px 8px;">Selesai Dilaksanakan</span></div>
-            </td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action primary" data-open-modal="modalCatatanKonseling">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                  Catatan
-                </button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 3 (Selesai) -->
-          <tr data-searchable="20 Sep 2026 Bambang Wicaksono Manajemen Stress & Kecemasan Tryout SNBT Selesai 45 Menit" data-status="Selesai" data-psikolog="Bambang">
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">20 September 2026</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">10:00 - 10:45 WIB</div>
-            </td>
-            <td>
-              <div style="display:flex; align-items:center; gap:10px;">
-                <div style="width:34px; height:34px; border-radius:50%; background:#B9D0E4; color:#172C40; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center;">BW</div>
-                <div>
-                  <div style="font-weight:700; color:var(--c-text-heading);">Bambang Wicaksono, M.A.</div>
-                  <div style="font-size:11.5px; color:var(--c-text-muted);">Konselor Karier Remaja</div>
+                @if($item->alasan_tolak)
+                  <div style="font-size:12px; color:#B42318;">Alasan penolakan: {{ $item->alasan_tolak }}</div>
+                @endif
+              </td>
+              <td>
+                @if($status === 'disetujui')
+                  <span class="status-pill success" style="font-size:11px; padding:3px 8px; background:#EBFDF2; color:#027A48; border:1px solid #A6F4C5;">Disetujui</span>
+                @elseif($status === 'menunggu')
+                  <span class="status-pill pending" style="font-size:11px; padding:3px 8px; background:#FFF9E6; color:#7A5400; border:1px solid #FCE49E;">Menunggu Verifikasi</span>
+                @elseif($status === 'selesai')
+                  <span class="status-pill success" style="font-size:11px; padding:3px 8px; background:#EFF8FF; color:#175CD3; border:1px solid #B2DDFF;">Selesai</span>
+                @elseif($status === 'ditolak')
+                  <span class="status-pill danger" style="font-size:11px; padding:3px 8px; background:#FEF3F2; color:#B42318; border:1px solid #FECDCA;">Ditolak</span>
+                @else
+                  <span class="status-pill">{{ ucfirst($status) }}</span>
+                @endif
+              </td>
+              <td style="text-align: right;">
+                <div class="action-btn-group" style="justify-content: flex-end; gap:6px;">
+                  @if($status === 'disetujui' && !empty($item->link_zoom))
+                    <a href="{{ $item->link_zoom }}" target="_blank" class="btn-table-action primary" style="text-decoration:none;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                      Masuk Zoom
+                    </a>
+                  @elseif($status === 'menunggu')
+                    <form action="{{ route('siswa.konsultasi.batal', $item->id_konsultasi) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pengajuan konsultasi ini?');" style="display:inline;">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn-table-action outline" style="color:#B42318; border-color:#FECDCA;">
+                        Batalkan
+                      </button>
+                    </form>
+                  @else
+                    <span style="font-size:12px; color:var(--c-text-muted);">-</span>
+                  @endif
                 </div>
-              </div>
-            </td>
-            <td>
-              <span style="font-weight:600;">45 Menit</span>
-            </td>
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Strategi Mengatasi Kecemasan & Manajemen Jadwal Belajar</div>
-              <div><span class="status-pill success" style="font-size:11px; padding:2px 8px;">Selesai Dilaksanakan</span></div>
-            </td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action primary" data-open-modal="modalCatatanKonseling">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                  Catatan
-                </button>
-              </div>
-            </td>
-          </tr>
-
-          <!-- Row 4 (Selesai) -->
-          <tr data-searchable="05 Sep 2026 Maya Sartika Penyelarasan Harapan Orang Tua & Pilihan Karier Selesai 60 Menit" data-status="Selesai" data-psikolog="Maya">
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">05 September 2026</div>
-              <div style="font-size:12px; color:var(--c-text-muted);">13:30 - 14:30 WIB</div>
-            </td>
-            <td>
-              <div style="display:flex; align-items:center; gap:10px;">
-                <div style="width:34px; height:34px; border-radius:50%; background:#FAE08F; color:#172C40; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center;">MS</div>
-                <div>
-                  <div style="font-weight:700; color:var(--c-text-heading);">Dr. Maya Sartika, M.Psi., Psikolog</div>
-                  <div style="font-size:11.5px; color:var(--c-text-muted);">Psikolog Pendidikan</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <span style="font-weight:600;">60 Menit</span>
-            </td>
-            <td>
-              <div style="font-weight:700; color:var(--c-text-heading);">Penyelarasan Aspirasi Orang Tua & Eksplorasi Minat Siswa</div>
-              <div><span class="status-pill success" style="font-size:11px; padding:2px 8px;">Selesai Dilaksanakan</span></div>
-            </td>
-            <td style="text-align: right;">
-              <div class="action-btn-group" style="justify-content: flex-end;">
-                <button type="button" class="btn-table-action primary" data-open-modal="modalCatatanKonseling">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                  Catatan
-                </button>
-              </div>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          @empty
+            <tr>
+              <td colspan="6" style="text-align:center; padding:36px 20px;">
+                <div style="font-size:15px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Belum Ada Riwayat Konsultasi</div>
+                <p style="font-size:13px; color:var(--c-text-muted); margin-bottom:16px;">Kamu belum pernah melakukan konsultasi atau mengajukan bimbingan dengan psikolog.</p>
+                <a href="{{ route('siswa.konsultasi') }}" class="btn-primary-action" style="display:inline-flex; padding:8px 18px;">
+                  Jadwalkan Konsultasi Sekarang
+                </a>
+              </td>
+            </tr>
+          @endforelse
         </tbody>
       </table>
-    </div>
-
-    <!-- Table Pagination Footer matching bottom wireframe icons -->
-    <div class="table-pagination-footer">
-      <div class="pagination-info">
-        Menampilkan <strong>1 - 4</strong> dari <strong>4</strong> riwayat konsultasi
-      </div>
-
-      <div class="pagination-nav">
-        <button type="button" class="pagination-btn" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg>
-        </button>
-        <button type="button" class="pagination-btn" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-        <button type="button" class="pagination-btn active">1</button>
-        <button type="button" class="pagination-btn" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
-        <button type="button" class="pagination-btn" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg>
-        </button>
-      </div>
     </div>
   </div>
 @endsection

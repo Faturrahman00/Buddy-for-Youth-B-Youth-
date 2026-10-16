@@ -24,14 +24,14 @@
   </div>
 
   <div class="topbar-right">
-    <!-- User profile box matching Wireframe (Psikolog: Maya) -->
-    <a href="{{ route('psikolog.profil') }}" class="topbar-user" title="Lihat Profil Psikolog Maya">
+    <!-- User profile box matching Wireframe -->
+    <a href="{{ route('psikolog.profil') }}" class="topbar-user" title="Lihat Profil">
       <div class="user-text">
-        <div class="user-name-small">{{ Auth::check() ? Auth::user()->name : 'Psikolog: Maya' }}</div>
+        <div class="user-name-small">{{ Auth::check() ? (Auth::user()->nama ?? Auth::user()->name) : 'Psikolog' }}</div>
         <div class="user-role-small">{{ Auth::check() ? (Auth::user()->spesialisasi ?? 'Konselor Pendidikan') : 'Konselor Pendidikan' }}</div>
       </div>
       <div class="avatar-box">
-        MI
+        {{ strtoupper(substr(Auth::check() ? (Auth::user()->nama ?? Auth::user()->name ?? 'PS') : 'PS', 0, 2)) }}
         <span class="avatar-status-dot" title="Online"></span>
       </div>
     </a>

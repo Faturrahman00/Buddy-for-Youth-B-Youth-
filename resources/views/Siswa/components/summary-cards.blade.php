@@ -18,15 +18,21 @@
           </svg>
         </div>
       </div>
-      <div class="status-pill pending">
-        Belum Dikerjakan
-      </div>
+      @if(!empty($asesmen))
+        <div class="status-pill success" style="background:#EBFDF2; color:#027A48; border:1px solid #A6F4C5;">
+          Selesai (Tipe: {{ $asesmen->tipe_riasec ?? 'RIASEC' }})
+        </div>
+      @else
+        <div class="status-pill pending">
+          Belum Dikerjakan
+        </div>
+      @endif
     </div>
     <a href="{{ route('siswa.asesmen') }}" class="btn-card-action">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="5 3 19 12 5 21 5 3"></polygon>
       </svg>
-      Mulai Asesmen
+      {{ !empty($asesmen) ? 'Lihat Hasil Asesmen' : 'Mulai Asesmen' }}
     </a>
   </div>
 
@@ -42,7 +48,15 @@
           </svg>
         </div>
       </div>
-      <div class="dash-value" style="font-size:16px; font-weight:800; color:var(--c-primary); margin:8px 0 4px;">Teknik Informatika (96%)</div>
+      @if(!empty($topRekomendasi) && !empty($topRekomendasi->programStudi))
+        <div class="dash-value" style="font-size:16px; font-weight:800; color:var(--c-primary); margin:8px 0 4px;">
+          {{ $topRekomendasi->programStudi->nama_prodi }} ({{ round($topRekomendasi->skor) }}%)
+        </div>
+      @else
+        <div class="dash-value" style="font-size:14px; font-weight:700; color:var(--c-text-muted); margin:8px 0 4px;">
+          Belum Ada Rekomendasi
+        </div>
+      @endif
     </div>
     <a href="{{ route('siswa.asesmen') }}#kartuRekomendasiSection" class="link-action">
       <span>Lihat Rekomendasi Program Studi</span>
@@ -66,16 +80,32 @@
           </svg>
         </div>
       </div>
-      <div class="schedule-date">Jumat, 10 Okt 2026</div>
-      <div class="schedule-expert">14.00 WIB &bull; Dr. Maya Sartika, M.Psi</div>
+      @if(!empty($upcomingKonsultasi))
+        <div class="schedule-date">{{ \Carbon\Carbon::parse($upcomingKonsultasi->tanggal_konsultasi)->translatedFormat('l, d M Y') }}</div>
+        <div class="schedule-expert">
+          {{ substr($upcomingKonsultasi->waktu_mulai, 0, 5) }} WIB &bull; {{ $upcomingKonsultasi->psikolog->nama ?? 'Psikolog B-Youth' }}
+        </div>
+      @else
+        <div class="schedule-date" style="color:var(--c-text-muted); font-size:14px; font-weight:600;">Belum Ada Jadwal Aktif</div>
+        <div class="schedule-expert">Konsultasi bimbingan karier 1-on-1</div>
+      @endif
     </div>
     <div>
-      <a href="{{ route('siswa.konsultasi') }}" class="badge-tag-zoom" style="text-decoration:none; display:inline-flex;">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M4 4h10a2 2 0 0 1 2 2v3.34l4.5-2.25A1 1 0 0 1 22 8v8a1 1 0 0 1-1.5.86L16 14.66V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>
-        </svg>
-        Buka Ruang Zoom
-      </a>
+      @if(!empty($upcomingKonsultasi) && $upcomingKonsultasi->status_booking === 'disetujui' && !empty($upcomingKonsultasi->link_zoom))
+        <a href="{{ $upcomingKonsultasi->link_zoom }}" target="_blank" class="badge-tag-zoom" style="text-decoration:none; display:inline-flex;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4 4h10a2 2 0 0 1 2 2v3.34l4.5-2.25A1 1 0 0 1 22 8v8a1 1 0 0 1-1.5.86L16 14.66V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>
+          </svg>
+          Buka Ruang Zoom
+        </a>
+      @else
+        <a href="{{ route('siswa.konsultasi') }}" class="link-action">
+          <span>Pilih Jadwal Konsultasi</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+      @endif
     </div>
   </div>
 
@@ -90,8 +120,12 @@
           </svg>
         </div>
       </div>
-      <div class="history-meta">3 Sesi Telah Selesai</div>
-      <div class="history-desc">Terakhir: 02 Okt 2026 (Analisis Bakat Saintek)</div>
+      <div class="history-meta">{{ $totalKonsultasiSelesai ?? 0 }} Sesi Telah Selesai</div>
+      @if(!empty($lastKonsultasiSelesai))
+        <div class="history-desc">Terakhir: {{ \Carbon\Carbon::parse($lastKonsultasiSelesai->tanggal_konsultasi)->translatedFormat('d M Y') }} ({{ $lastKonsultasiSelesai->psikolog->nama ?? 'Psikolog' }})</div>
+      @else
+        <div class="history-desc">Belum ada sesi bimbingan yang selesai</div>
+      @endif
     </div>
     <a href="{{ route('siswa.riwayat_konsultasi') }}" class="link-action">
       <span>Lihat Catatan Konselor</span>
