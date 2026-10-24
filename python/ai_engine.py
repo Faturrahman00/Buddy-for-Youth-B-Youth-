@@ -14,6 +14,10 @@ Metode AI & Sistem Rekomendasi yang Digunakan:
 3. Hybrid Synergy Integration:
    - Menggabungkan keselarasan minat RIASEC, dorongan aturan pakar, dan nilai rapor
      (opsional) secara proporsional.
+
+
+tambahan: 
+4. multicriteria decision analysis /AHP misalkan (MCDA) dan technique for order of preference by similarity to ideal solution (TOPSIS)
 =============================================================================
 """
 
@@ -488,7 +492,7 @@ def generate_recommendations(
         # Skor dorongan pakar (Rule Boost)
         rule_boost = prodi_boosts.get(code, 0.0)
 
-        prodi_full_name = f"{item.get('nama_prodi', '')} {item.get('fakultas', '')}"
+        prodi_full_name = item.get('nama_prodi', '')
 
         if facts['use_raport']:
             academic_score, academic_details = _calculate_academic_score(facts['raport'], prodi_full_name)
@@ -514,12 +518,8 @@ def generate_recommendations(
             'prodi_id': item.get('id_prodi') or item.get('id'),
             'kode_prodi': code,
             'nama_prodi': item.get('nama_prodi'),
-            'fakultas': item.get('fakultas'),
-            'jenjang': item.get('jenjang', 'S1'),
-            'akreditasi': item.get('akreditasi', 'Unggul'),
             'deskripsi': item.get('deskripsi', ''),
             'prospek_karier': item.get('prospek_karier', ''),
-            'kampus_rekomendasi': item.get('kampus_rekomendasi', 'Universitas Terakreditasi Unggul'),
             'skor': final_score,
             'skor_minat': round(base_match, 1),
             'skor_akademik': round(academic_score, 1) if academic_score is not None else None,

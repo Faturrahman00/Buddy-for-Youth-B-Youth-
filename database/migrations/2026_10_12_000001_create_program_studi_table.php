@@ -16,14 +16,10 @@ return new class extends Migration
             $table->string('nama_prodi');
             $table->text('deskripsi_prodi');
             $table->text('prospek_karier')->nullable();
-            $table->string('akreditasi', 50)->nullable();
-            $table->string('fakultas')->nullable();
             $table->string('tipe_riasec', 50)->nullable();
             
             // tambahan: tidak ada di ERD
             $table->string('kode_prodi', 50)->nullable()->unique(); // tambahan: tidak ada di ERD
-            $table->string('jenjang', 10)->default('S1'); // tambahan: tidak ada di ERD
-            $table->string('kampus_rekomendasi')->nullable(); // tambahan: tidak ada di ERD
             $table->timestamps();
         });
     }

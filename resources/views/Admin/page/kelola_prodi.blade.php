@@ -39,18 +39,10 @@
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
             </div>
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Program Studi / Kode / Fakultas..." style="width: 100%; padding: 10px 10px 10px 38px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; transition: border-color 0.2s;">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Program Studi / Kode..." style="width: 100%; padding: 10px 10px 10px 38px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; transition: border-color 0.2s;">
         </div>
-        
-        <!-- Filters -->
-        <select name="jenjang" onchange="this.form.submit()" style="padding: 10px 16px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; background: var(--c-white); color: var(--c-text-body); cursor: pointer;">
-            <option value="Semua Jenjang" {{ request('jenjang') == 'Semua Jenjang' ? 'selected' : '' }}>Semua Jenjang</option>
-            <option value="S1" {{ request('jenjang') == 'S1' ? 'selected' : '' }}>S1</option>
-            <option value="D3" {{ request('jenjang') == 'D3' ? 'selected' : '' }}>D3</option>
-            <option value="D4" {{ request('jenjang') == 'D4' ? 'selected' : '' }}>D4</option>
-        </select>
 
-        @if(request('search') || (request('jenjang') && request('jenjang') !== 'Semua Jenjang'))
+        @if(request('search'))
             <a href="{{ route('admin.prodi') }}" style="padding: 10px 16px; background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; color: var(--c-text-muted); text-decoration: none;">Reset Filter</a>
         @endif
 
@@ -68,9 +60,7 @@
                 <tr style="background-color: var(--c-bg); border-bottom: 1.5px solid var(--c-border);">
                     <th style="padding: 16px; font-weight: 800; color: var(--c-text-heading); text-transform: uppercase; white-space: nowrap;">Kode</th>
                     <th style="padding: 16px; font-weight: 800; color: var(--c-text-heading); text-transform: uppercase;">Nama Program Studi</th>
-                    <th style="padding: 16px; font-weight: 800; color: var(--c-text-heading); text-transform: uppercase;">Jenjang / Fakultas</th>
-                    <th style="padding: 16px; font-weight: 800; color: var(--c-text-heading); text-transform: uppercase; text-align: center;">Akreditasi</th>
-                    <th style="padding: 16px; font-weight: 800; color: var(--c-text-heading); text-transform: uppercase; width: 35%;">Deskripsi & Prospek</th>
+                    <th style="padding: 16px; font-weight: 800; color: var(--c-text-heading); text-transform: uppercase; width: 45%;">Deskripsi & Prospek</th>
                     <th style="padding: 16px; font-weight: 800; color: var(--c-text-heading); text-transform: uppercase; text-align: center; white-space: nowrap;">Aksi</th>
                 </tr>
             </thead>
@@ -80,17 +70,6 @@
                         <td style="padding: 16px; font-weight: 700; color: var(--c-text-heading); white-space: nowrap;">{{ $prodi->kode_prodi ?? 'PRODI-' . $prodi->id }}</td>
                         <td style="padding: 16px;">
                             <div style="font-weight: 700; color: var(--c-text-heading); font-size: 15px;">{{ $prodi->nama_prodi }}</div>
-                        </td>
-                        <td style="padding: 16px;">
-                            <span style="font-weight: 700; padding: 2px 8px; border: 1px solid var(--c-border); border-radius: 4px; font-size: 11px; background: var(--c-bg); color: var(--c-text-heading);">{{ $prodi->jenjang }}</span>
-                            <span style="color: var(--c-text-muted); font-size: 13px; margin-left: 6px;">{{ $prodi->fakultas ?? '-' }}</span>
-                        </td>
-                        <td style="padding: 16px; text-align: center;">
-                            @if(in_array($prodi->akreditasi, ['Unggul', 'A']))
-                                <span style="padding: 4px 10px; border: 1px solid #A6F4C5; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; background: #EBFDF2; color: #027A48;">{{ $prodi->akreditasi }}</span>
-                            @else
-                                <span style="padding: 4px 10px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; background: var(--c-white); color: var(--c-text-heading);">{{ $prodi->akreditasi ?? 'B' }}</span>
-                            @endif
                         </td>
                         <td style="padding: 16px; color: var(--c-text-muted); font-size: 13px;">
                             <div style="line-height: 1.4; margin-bottom: 4px;">{{ Str::limit($prodi->deskripsi, 90) }}</div>
@@ -117,7 +96,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" style="padding: 32px; text-align: center; color: var(--c-text-muted);">
+                        <td colspan="4" style="padding: 32px; text-align: center; color: var(--c-text-muted);">
                             Tidak ada program studi yang ditemukan.
                         </td>
                     </tr>
@@ -153,30 +132,6 @@
                 <div>
                     <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Nama Program Studi</label>
                     <input type="text" name="nama_prodi" required placeholder="Contoh: Teknik Biomedis" style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none;">
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 14px; margin-bottom: 14px;">
-                <div>
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Jenjang</label>
-                    <select name="jenjang" required style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; background: #fff;">
-                        <option value="S1">S1</option>
-                        <option value="D4">D4</option>
-                        <option value="D3">D3</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Fakultas</label>
-                    <input type="text" name="fakultas" placeholder="Contoh: Teknik" style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Akreditasi</label>
-                    <select name="akreditasi" style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; background: #fff;">
-                        <option value="Unggul">Unggul</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="Baik Sekali">Baik Sekali</option>
-                    </select>
                 </div>
             </div>
 
@@ -220,30 +175,6 @@
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 14px; margin-bottom: 14px;">
-                <div>
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Jenjang</label>
-                    <select name="jenjang" id="editJenjang" required style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; background: #fff;">
-                        <option value="S1">S1</option>
-                        <option value="D4">D4</option>
-                        <option value="D3">D3</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Fakultas</label>
-                    <input type="text" name="fakultas" id="editFakultas" style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none;">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Akreditasi</label>
-                    <select name="akreditasi" id="editAkreditasi" style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; background: #fff;">
-                        <option value="Unggul">Unggul</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="Baik Sekali">Baik Sekali</option>
-                    </select>
-                </div>
-            </div>
-
             <div style="margin-bottom: 14px;">
                 <label style="display: block; font-size: 13px; font-weight: 700; color: var(--c-text-heading); margin-bottom: 6px;">Deskripsi Singkat</label>
                 <textarea name="deskripsi" id="editDeskripsi" required rows="3" style="width: 100%; padding: 10px 14px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); font-size: 14px; outline: none; resize: vertical;"></textarea>
@@ -277,9 +208,6 @@ function openModalEditProdi(prodi) {
 
     document.getElementById('editKodeProdi').value = prodi.kode_prodi || '';
     document.getElementById('editNamaProdi').value = prodi.nama_prodi || '';
-    document.getElementById('editJenjang').value = prodi.jenjang || 'S1';
-    document.getElementById('editFakultas').value = prodi.fakultas || '';
-    document.getElementById('editAkreditasi').value = prodi.akreditasi || 'A';
     document.getElementById('editDeskripsi').value = prodi.deskripsi || '';
     document.getElementById('editProspekKarier').value = prodi.prospek_karier || '';
 

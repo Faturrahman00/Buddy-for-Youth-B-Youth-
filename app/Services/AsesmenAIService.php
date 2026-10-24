@@ -341,12 +341,6 @@ class AsesmenAIService
         if ($pyResult && !empty($pyResult['success'])) {
             if (!empty($pyResult['recommendations'])) {
                 $pyResult['recommendations'] = array_slice($pyResult['recommendations'], 0, 3);
-                foreach ($pyResult['recommendations'] as &$rec) {
-                    $nama = $rec['nama_prodi'] ?? '';
-                    $rec['pddikti_url'] = PDDiktiService::getPddiktiSearchUrl($nama);
-                    $rec['kampus_pddikti_list'] = PDDiktiService::getCampusesForProdi($nama);
-                }
-                unset($rec);
             }
             return $pyResult;
         }
@@ -442,14 +436,8 @@ class AsesmenAIService
                 'prodi' => $prodi,
                 'nama_prodi' => $prodi->nama_prodi,
                 'kode_prodi' => $prodi->kode_prodi,
-                'fakultas' => $prodi->fakultas,
-                'jenjang' => $prodi->jenjang,
-                'akreditasi' => $prodi->akreditasi,
                 'deskripsi' => $prodi->deskripsi,
                 'prospek_karier' => $prodi->prospek_karier,
-                'kampus_rekomendasi' => $prodi->kampus_rekomendasi ?? 'Universitas Negeri & Swasta Terakreditasi Unggul',
-                'pddikti_url' => PDDiktiService::getPddiktiSearchUrl($prodi->nama_prodi),
-                'kampus_pddikti_list' => PDDiktiService::getCampusesForProdi($prodi->nama_prodi),
                 'skor' => $finalScore,
                 'skor_minat' => round($riasecMatchScore, 1),
                 'skor_akademik' => $hasValidRaport ? round($academicScore, 1) : null,
@@ -515,7 +503,7 @@ class AsesmenAIService
         $indo = $grades['bahasaindonesia'] ?? $grades['indonesia'] ?? 78.0;
         $ing = $grades['bahasainggris'] ?? $grades['inggris'] ?? 78.0;
 
-        $prodiName = strtolower($prodi->nama_prodi . ' ' . ($prodi->fakultas ?? ''));
+        $prodiName = strtolower($prodi->nama_prodi);
 
         // Tentukan bobot mata pelajaran berdasarkan disiplin ilmu
         if (str_contains($prodiName, 'komputer') || str_contains($prodiName, 'informatika') || str_contains($prodiName, 'mesin') || str_contains($prodiName, 'sipil') || str_contains($prodiName, 'teknik')) {

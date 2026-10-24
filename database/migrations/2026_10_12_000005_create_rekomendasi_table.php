@@ -8,7 +8,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * Sesuai ERD: REKOMENDASI (Id_Rekomendasi PK, Id_Asesmen FK, Id_Prodi FK, Skor, Alasan, Kampus_Rekomendasi, Prospek_Karier)
+     * Sesuai ERD: REKOMENDASI (Id_Rekomendasi PK, Id_Asesmen FK, Id_Prodi FK, Skor, Alasan, Prospek_Karier)
      */
     public function up(): void
     {
@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('id_prodi')->constrained('program_studi', 'id_prodi')->onDelete('cascade');
             $table->decimal('skor', 5, 2)->default(0);
             $table->text('alasan')->nullable();
-            $table->string('kampus_rekomendasi')->nullable();
             $table->text('prospek_karier')->nullable();
             $table->timestamps();
         });

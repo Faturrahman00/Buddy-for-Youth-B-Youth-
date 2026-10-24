@@ -104,7 +104,7 @@
       <div class="step-item-right">
         @if($step3Done)
           <span class="step-status-tag tag-success">Tersedia</span>
-          <a href="{{ route('siswa.asesmen') }}#kartuRekomendasiSection" class="btn-step-action btn-outline-action">Lihat Hasil</a>
+          <a href="{{ route('siswa.asesmen', ['view' => 'hasil']) }}" class="btn-step-action btn-outline-action">Lihat Hasil</a>
         @else
           <span class="step-status-tag tag-ready">Menunggu Tes</span>
           <a href="{{ route('siswa.asesmen') }}" class="btn-step-action btn-outline-action">Buka Asesmen</a>

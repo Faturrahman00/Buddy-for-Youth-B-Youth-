@@ -24,18 +24,14 @@
   {{-- ── Page Top Action Bar ── --}}
   <div class="page-top-action-bar">
     <div class="page-title-wrap">
-      <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
-        <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:34px; height:34px; object-fit:contain;">
-        <h2 style="margin:0;">Asesmen &amp; Rekomendasi Program Studi</h2>
-      </div>
-      <p>Petakan profil tipe kepribadian dan rekomendasi program studi terbaik melalui 42 butir soal asesmen Holland RIASEC berbasis kecerdasan AI.</p>
+      <p style="margin:0;">Petakan profil tipe kepribadian dan rekomendasi program studi terbaik melalui 42 butir soal asesmen Holland RIASEC berbasis kecerdasan AI.</p>
     </div>
 
     @if(isset($latestAsesmen) && $latestAsesmen)
       <div style="display:flex; gap:10px; align-items:center;">
         <button type="button" class="btn-table-action outline" id="btnViewLatestHistory" style="padding:8px 16px; font-weight:700;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          Lihat Hasil Terakhir ({{ $latestAsesmen->hasilAsesmen->holland_code ?? 'Tersimpan' }})
+          Lihat Detail Hasil ({{ $latestAsesmen->holland_code ?? $latestAsesmen->tipe_riasec ?? 'Tersimpan' }})
         </button>
       </div>
     @endif
@@ -304,6 +300,19 @@
 
       <div class="rec-cards-grid" id="recCardsGrid">
         {{-- Diisi secara dinamis oleh JS --}}
+      </div>
+
+      {{-- Catatan Penting: Kebijakan Program Studi Antarkampus --}}
+      <div class="rec-policy-notice-box">
+        <div class="rec-policy-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="rec-policy-content">
+          <div class="rec-policy-title">Catatan Penting Pemilihan Program Studi:</div>
+          <p class="rec-policy-text">
+            Perlu diperhatikan bahwa setiap perguruan tinggi atau kampus memiliki kebijakan, penamaan jurusan, konsentrasi peminatan, kurikulum, dan daya tampung yang berbeda-beda. Rekomendasi di atas merupakan rujukan bidang keilmuan yang paling relevan dengan potensi minat Anda, dan disarankan untuk memeriksa detail kurikulum serta ketentuan spesifik pada masing-masing kampus yang kamu tuju.
+          </p>
+        </div>
       </div>
     </section>
 

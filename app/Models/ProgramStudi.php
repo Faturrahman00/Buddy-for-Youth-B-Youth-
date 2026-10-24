@@ -11,18 +11,16 @@ class ProgramStudi extends Model
     use HasFactory;
 
     protected $table = 'program_studi';
+
     protected $primaryKey = 'id_prodi';
 
     protected $fillable = [
         'nama_prodi',
         'deskripsi_prodi',
+        'deskripsi', // alias
         'prospek_karier',
-        'akreditasi',
-        'fakultas',
         'tipe_riasec',
         'kode_prodi', // tambahan: tidak ada di ERD
-        'jenjang', // tambahan: tidak ada di ERD
-        'kampus_rekomendasi', // tambahan: tidak ada di ERD
     ];
 
     protected $appends = [

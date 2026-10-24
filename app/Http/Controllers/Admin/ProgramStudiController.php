@@ -17,13 +17,8 @@ class ProgramStudiController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('nama_prodi', 'like', "%{$search}%")
-                  ->orWhere('kode_prodi', 'like', "%{$search}%")
-                  ->orWhere('fakultas', 'like', "%{$search}%");
+                  ->orWhere('kode_prodi', 'like', "%{$search}%");
             });
-        }
-
-        if ($request->filled('jenjang') && $request->jenjang !== 'Semua Jenjang') {
-            $query->where('jenjang', $request->jenjang);
         }
 
         $prodis = $query->latest('id_prodi')->paginate(10)->withQueryString();
@@ -41,9 +36,6 @@ class ProgramStudiController extends Controller
         $validated = $request->validate([
             'kode_prodi' => 'required|string|max:50|unique:program_studi,kode_prodi',
             'nama_prodi' => 'required|string|max:255',
-            'jenjang' => 'required|string|max:10',
-            'fakultas' => 'nullable|string|max:255',
-            'akreditasi' => 'nullable|string|max:50',
             'deskripsi' => 'required|string',
             'prospek_karier' => 'nullable|string',
         ]);
@@ -62,9 +54,6 @@ class ProgramStudiController extends Controller
         $validated = $request->validate([
             'kode_prodi' => ['required', 'string', 'max:50', Rule::unique('program_studi', 'kode_prodi')->ignore($prodiId, 'id_prodi')],
             'nama_prodi' => 'required|string|max:255',
-            'jenjang' => 'required|string|max:10',
-            'fakultas' => 'nullable|string|max:255',
-            'akreditasi' => 'nullable|string|max:50',
             'deskripsi' => 'required|string',
             'prospek_karier' => 'nullable|string',
         ]);

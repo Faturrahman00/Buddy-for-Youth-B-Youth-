@@ -1,7 +1,7 @@
 @extends('Siswa.layouts.app', [
     'title' => 'Riwayat Konsultasi — Buddy For Youth (B-Youth)',
     'pageTitle' => 'Riwayat Konsultasi',
-    'active' => 'riwayat_konsultasi'
+    'active' => 'riwayat-konsultasi'
 ])
 
 @php
@@ -15,11 +15,7 @@
   <!-- Top Action Header -->
   <div class="page-top-action-bar">
     <div class="page-title-wrap">
-      <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
-        <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:34px; height:34px; object-fit:contain;">
-        <h2 style="margin:0;">Riwayat Konsultasi</h2>
-      </div>
-      <p>Rekapitulasi catatan bimbingan konseling, rekomendasi psikolog, dan rencana tindak lanjut akademis.</p>
+      <p style="margin:0;">Rekapitulasi catatan bimbingan konseling, rekomendasi psikolog, dan rencana tindak lanjut akademis.</p>
     </div>
 
     <a href="{{ route('siswa.konsultasi') }}" class="btn-primary-action">
@@ -94,38 +90,48 @@
     </div>
   </div>
 
-  <!-- Search & Filter Card -->
-  <div class="filter-card">
-    <div class="filter-row">
-      <div class="search-box">
-        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" id="searchRiwayatKonsultasi" class="search-input" placeholder="Cari nama psikolog, topik diskusi, atau catatan...">
-      </div>
-
-      <div class="filter-controls-group">
-        <select id="filterStatusKonsul" class="filter-select" data-filter-key="status">
-          <option value="all">Semua Status</option>
-          <option value="disetujui">Disetujui (Terjadwal)</option>
-          <option value="menunggu">Menunggu Verifikasi</option>
-          <option value="selesai">Selesai</option>
-          <option value="ditolak">Ditolak</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <!-- Table Container -->
+  <!-- Table Container with Integrated Search & Filter -->
   <div class="data-card">
-    <div class="data-card-header">
-      <div class="data-card-title">
-        <span>Daftar Sesi Konsultasi Psikologi</span>
-        <span class="data-count-badge" data-count-for="riwayatKonsulTableBody">{{ $riwayatList->count() }} Sesi Terdata</span>
+    <div class="table-integrated-toolbar">
+      <div class="table-toolbar-info">
+        <div class="data-card-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span>Daftar Sesi Konsultasi Psikologi</span>
+          <span class="data-count-badge" data-count-for="riwayatKonsulTableBody">{{ $riwayatList->count() }} Sesi Terdata</span>
+        </div>
+        <div class="table-toolbar-desc">Kerahasiaan data bimbingan konseling terenkripsi aman</div>
       </div>
-      <div style="font-size:12.5px; color:var(--c-text-muted);">
-        Kerahasiaan data bimbingan konseling terenkripsi aman
+
+      <div class="table-toolbar-actions">
+        <!-- Integrated Search Box -->
+        <div class="search-box table-search-box">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchRiwayatKonsultasi" class="search-input table-search-input" placeholder="Cari nama psikolog, topik, atau catatan...">
+        </div>
+
+        <!-- Integrated Filter Controls -->
+        <div class="filter-controls-group table-filter-group">
+          <select id="filterStatusKonsul" class="filter-select table-filter-select" data-filter-key="status">
+            <option value="all">Semua Status</option>
+            <option value="disetujui">Disetujui (Terjadwal)</option>
+            <option value="menunggu">Menunggu Verifikasi</option>
+            <option value="selesai">Selesai</option>
+            <option value="ditolak">Ditolak</option>
+          </select>
+
+          <button type="button" class="btn-filter-reset" id="btnResetRiwayatKonsul" title="Reset filter">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Reset</span>
+          </button>
+        </div>
       </div>
     </div>
 

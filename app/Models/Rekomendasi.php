@@ -18,7 +18,6 @@ class Rekomendasi extends Model
         'id_prodi',
         'skor',
         'alasan',
-        'kampus_rekomendasi',
         'prospek_karier',
     ];
 

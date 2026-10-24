@@ -126,14 +126,8 @@
     const card = document.createElement('div');
     card.className = 'asesmen-card-body';
 
-    const typeChar = (q.tipe_riasec ? q.tipe_riasec.charAt(0) : 'R').toUpperCase();
-    const tInfo = typeColorMap[typeChar] || { name: 'Asesmen', color: '#30618C', bg: '#EBF3FA' };
-
     card.innerHTML = `
-      <div class="asesmen-q-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:8px;">
-        <span class="dimensi-badge" style="background:${tInfo.bg}; color:${tInfo.color}; font-weight:800; font-size:12px; padding:5px 14px; border-radius:100px; border:1px solid ${tInfo.color}33;">
-          ${q.tipe_riasec ? q.tipe_riasec : 'Pertanyaan Minat'}
-        </span>
+      <div class="asesmen-q-header" style="display:flex; justify-content:flex-end; align-items:center; margin-bottom:18px;">
         <span class="q-number-pill" style="font-size:13px; font-weight:700; color:#64748B;">
           Pertanyaan <strong>${qIdx + 1}</strong> dari <strong>${questions.length}</strong>
         </span>
@@ -430,7 +424,7 @@
 
         card.innerHTML = `
           ${isPrimary ? `<span class="rec-top-badge">Rekomendasi Utama AI</span>` : ''}
-          <div class="rec-cluster">${rec.fakultas || 'Program Studi Pilihan'}</div>
+          <div class="rec-cluster">Program Studi Pilihan</div>
 
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
             <span class="rec-match ${rec.skor >= 90 ? 'high' : ''}">
@@ -453,19 +447,10 @@
             ${karierList.slice(0, 4).map(k => `<span class="rec-tag">${k}</span>`).join('')}
           </div>
 
-          <div class="rec-kampus">
-            <strong>Kampus Terakreditasi PDDikti:</strong> ${rec.kampus_rekomendasi}
-          </div>
-
-          <div class="rec-action-row">
-            <a href="${rec.pddikti_url || ('https://pddikti.kemdiktisaintek.go.id/pencarian/' + encodeURIComponent(rec.nama_prodi))}" target="_blank" rel="noopener noreferrer" class="btn-pddikti-badge" title="Cek akreditasi dan kampus se-Indonesia di portal resmi PDDikti">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              Cek PDDikti Resmi
-            </a>
-
-            <a href="/siswa/konsultasi" class="btn-rec-cta ${isPrimary ? 'btn-rec-primary' : 'btn-rec-secondary'}" style="flex:1;">
+          <div class="rec-action-row" style="margin-top:auto; padding-top:8px;">
+            <a href="/siswa/konsultasi" class="btn-rec-cta ${isPrimary ? 'btn-rec-primary' : 'btn-rec-secondary'}" style="width:100%;">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              Konsultasi
+              Konsultasikan Program Studi Ini
             </a>
           </div>
         `;
@@ -634,50 +619,118 @@
       });
     }
 
-    // Tombol Lihat Hasil Terakhir
-    if (btnViewLatestHistory && window.BYOUTH_LATEST_ASESMEN) {
-      btnViewLatestHistory.addEventListener('click', () => {
-        const latest = window.BYOUTH_LATEST_ASESMEN;
-        const hasil = latest.hasil_asesmen;
-        if (!hasil) return;
+    // ── Fungsi Buka Tampilan Hasil Asesmen Tersimpan (Riwayat Terakhir / Sesi) ──
+    function showLatestResults(customAsesmen = null) {
+      const latest = customAsesmen || window.BYOUTH_LATEST_ASESMEN;
+      if (!latest) {
+        if (window.byouthAlert) {
+          window.byouthAlert({
+            title: 'Belum Ada Hasil Tersimpan',
+            text: 'Anda belum memiliki riwayat asesmen yang telah selesai.',
+            icon: 'info'
+          });
+        }
+        return;
+      }
 
-        // Siapkan struktur data kompatibel
-        const topCodes = hasil.tipe_tertinggi || (hasil.holland_code ? hasil.holland_code.split('–') : ['I']);
-        const topInfo = topCodes.map(c => (window.BYOUTH_RIASEC_INFO && window.BYOUTH_RIASEC_INFO[c]) || typeColorMap[c] || { code: c, name: c, headline: '', description: '', jurusan: [], karier: [], lingkungan: '' });
+      const rawHolland = latest.tipe_riasec || latest.holland_code || 'I–S–R';
+      let topCodes = latest.tipe_tertinggi;
+      if (!topCodes || !Array.isArray(topCodes) || topCodes.length === 0) {
+        topCodes = rawHolland.replace(/[^A-Za-z]/g, '').split('').slice(0, 3);
+      }
+      if (!topCodes.length) topCodes = ['I', 'S', 'R'];
 
-        const formattedRecs = (hasil.rekomendasi || []).map(r => ({
-          prodi_id: r.prodi_id,
-          nama_prodi: r.program_studi?.nama_prodi || 'Program Studi',
-          kode_prodi: r.program_studi?.kode_prodi || '',
-          fakultas: r.program_studi?.fakultas || '',
-          deskripsi: r.program_studi?.deskripsi || '',
-          prospek_karier: r.program_studi?.prospek_karier || '',
-          kampus_rekomendasi: r.program_studi?.kampus_rekomendasi || 'Universitas Mitra Terakreditasi',
-          skor: r.skor || 90,
-          alasan: r.alasan || '',
-        }));
-
-        const mockData = {
-          riasec_result: {
-            holland_code: hasil.holland_code || 'I–S–R',
-            top_types: topCodes,
-            raw_scores: hasil.detail_skor?.raw_scores || { 'R': 25, 'I': 30, 'A': 22, 'S': 28, 'E': 19, 'C': 25 },
-            percent_scores: hasil.detail_skor?.percent_scores || { 'R': 71, 'I': 85, 'A': 62, 'S': 80, 'E': 54, 'C': 71 },
-          },
-          top_types_info: topInfo,
-          recommendations: formattedRecs,
-          use_raport: hasil.nilai_raport_digunakan || false,
+      const topInfo = topCodes.map(c => {
+        const char = c.toUpperCase();
+        const info = (window.BYOUTH_RIASEC_INFO && window.BYOUTH_RIASEC_INFO[char]) || typeColorMap[char] || {};
+        return {
+          code: char,
+          name: info.name || char,
+          headline: info.headline || `Karakteristik Tipe ${char}`,
+          description: info.description || `Profil minat Holland dimensi ${char}.`,
+          jurusan: info.jurusan || ['Program Studi Relevan'],
+          karier: info.karier || ['Praktisi Bidang Terkait'],
+          lingkungan: info.lingkungan || 'Lingkungan akademik dan profesional yang kolaboratif.',
+          badge_color: info.badge_color || info.color || '#30618C',
+          badge_bg: info.badge_bg || info.bg || '#EBF3FA',
         };
+      });
 
-        if (slideIntro) slideIntro.style.display = 'none';
-        if (slideQuestions) slideQuestions.style.display = 'none';
-        if (slideDisclaimer) slideDisclaimer.style.display = 'none';
-        if (slideResults) {
-          slideResults.style.display = 'flex';
-          renderResultsData(mockData);
-          slideResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const recList = latest.rekomendasi || [];
+      const formattedRecs = recList.map(r => ({
+        prodi_id: r.id_prodi || r.prodi_id,
+        nama_prodi: r.program_studi?.nama_prodi || r.nama_prodi || 'Program Studi Pilihan',
+        kode_prodi: r.program_studi?.kode_prodi || r.kode_prodi || '',
+        deskripsi: r.alasan || r.program_studi?.deskripsi || r.program_studi?.deskripsi_prodi || '',
+        prospek_karier: r.prospek_karier || r.program_studi?.prospek_karier || '',
+        skor: parseFloat(r.skor) || 90,
+        alasan: r.alasan || '',
+      }));
+
+      // Kalkulasi skor distribusi visual 6 tipe RIASEC
+      const order = ['R', 'I', 'A', 'S', 'E', 'C'];
+      const rawScores = {};
+      const percentScores = {};
+      order.forEach((c) => {
+        const rank = topCodes.indexOf(c);
+        if (rank === 0) {
+          percentScores[c] = 94;
+          rawScores[c] = 33;
+        } else if (rank === 1) {
+          percentScores[c] = 86;
+          rawScores[c] = 30;
+        } else if (rank === 2) {
+          percentScores[c] = 78;
+          rawScores[c] = 27;
+        } else {
+          const idxOther = order.indexOf(c);
+          percentScores[c] = Math.max(25, 55 - (idxOther * 6));
+          rawScores[c] = Math.round((percentScores[c] / 100) * 35);
         }
       });
+
+      const mockData = {
+        riasec_result: {
+          holland_code: topCodes.join('–'),
+          top_types: topCodes,
+          raw_scores: rawScores,
+          percent_scores: percentScores,
+        },
+        top_types_info: topInfo,
+        recommendations: formattedRecs,
+        use_raport: Boolean(latest.nilai_raport_digunakan),
+      };
+
+      if (slideIntro) slideIntro.style.display = 'none';
+      if (slideQuestions) slideQuestions.style.display = 'none';
+      if (slideDisclaimer) slideDisclaimer.style.display = 'none';
+      if (slideResults) {
+        slideResults.style.display = 'flex';
+        renderResultsData(mockData);
+
+        if (latest.tanggal) {
+          const dateEl = document.getElementById('resCompletedAtText');
+          if (dateEl) {
+            const d = new Date(latest.tanggal);
+            dateEl.textContent = `Tersimpan pada ${d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}`;
+          }
+        }
+
+        slideResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Tombol Lihat Hasil Terakhir pada Header Asesmen
+    if (btnViewLatestHistory) {
+      btnViewLatestHistory.addEventListener('click', () => {
+        showLatestResults();
+      });
+    }
+
+    // Auto-buka hasil jika URL memiliki parameter ?view=hasil atau ?id=... atau hash #slideResults
+    const urlParams = new URLSearchParams(window.location.search);
+    if ((urlParams.get('view') === 'hasil' || urlParams.has('id') || window.location.hash === '#slideResults') && window.BYOUTH_LATEST_ASESMEN) {
+      showLatestResults();
     }
   }
 

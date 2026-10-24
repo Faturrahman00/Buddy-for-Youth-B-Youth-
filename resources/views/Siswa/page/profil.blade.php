@@ -21,11 +21,7 @@
 @section('content')
 <div class="page-top-action-bar">
   <div class="page-title-wrap">
-    <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
-      <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:34px; height:34px; object-fit:contain;">
-      <h2 style="margin:0;">Profil Siswa</h2>
-    </div>
-    <p>Data identitas dan informasi akun kamu di B-Youth.</p>
+    <p style="margin:0;">Data identitas dan informasi akun kamu di B-Youth.</p>
   </div>
 </div>
 

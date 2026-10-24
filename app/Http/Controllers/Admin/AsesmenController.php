@@ -15,7 +15,7 @@ class AsesmenController extends Controller
 
         $query = SoalAsesmen::whereNull('id_siswa');
         if ($dimensi !== 'SEMUA') {
-            $query->where('tipe_riasec', 'LIKE', strtoupper(substr($dimensi, 0, 1)) . '%');
+            $query->where('tipe_riasec', 'LIKE', strtoupper(substr($dimensi, 0, 1)).'%');
         }
         $soals = $query->orderBy('id_asesmen')->get();
         if ($soals->isEmpty()) {
@@ -23,7 +23,8 @@ class AsesmenController extends Controller
         }
 
         // Also fetch submitted student assessments for Tab "Hasil & Riwayat Siswa"
-        $riwayatAsesmen = Asesmen::with(['siswa', 'user', 'rekomendasi.programStudi'])
+        $riwayatAsesmen = Asesmen::whereNotNull('id_siswa')
+            ->with(['siswa', 'user', 'rekomendasi.programStudi'])
             ->latest('tanggal')
             ->paginate(10);
 
@@ -65,7 +66,7 @@ class AsesmenController extends Controller
         ]);
 
         return redirect()->route('admin.asesmen')
-            ->with('success', 'Soal asesmen #' . $soal->id_asesmen . ' berhasil ditambahkan.');
+            ->with('success', 'Soal asesmen #'.$soal->id_asesmen.' berhasil ditambahkan.');
     }
 
     public function update(Request $request, SoalAsesmen $soal)

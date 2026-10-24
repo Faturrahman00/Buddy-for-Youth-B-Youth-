@@ -602,23 +602,40 @@ button {
 }
 
 .card-summary {
-  background-color: var(--c-white);
-  border: 1.5px solid var(--c-border);
-  border-radius: var(--radius-lg);
-  padding: 20px 22px;
+  background-color: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 18px;
+  padding: 22px 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 175px;
-  box-shadow: var(--shadow-xs);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  min-height: 180px;
+  box-shadow: 0 4px 16px -2px rgba(48, 97, 140, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  overflow: hidden;
+}
+
+.card-summary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3.5px;
+  background: linear-gradient(90deg, var(--c-primary) 0%, #60A5FA 100%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
 }
 
 .card-summary:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--c-sky-soft);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px -4px rgba(48, 97, 140, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
+  border-color: #B9D0E4;
+}
+
+.card-summary:hover::before {
+  opacity: 1;
 }
 
 .summary-header {
@@ -770,11 +787,11 @@ button {
 
 /* LEFT COLUMN: Selesaikan Langkah Selanjutnya */
 .steps-card-container {
-  background-color: var(--c-white);
-  border: 1.5px solid var(--c-border);
-  border-radius: var(--radius-lg);
+  background-color: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 18px;
   padding: 28px;
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 4px 20px -2px rgba(48, 97, 140, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
 }
 
 .section-title-wrap {
@@ -795,37 +812,38 @@ button {
 .progress-counter-badge {
   font-size: 13px;
   font-weight: 700;
-  padding: 5px 12px;
+  padding: 5px 14px;
   border-radius: var(--radius-full);
-  background: var(--c-sky-subtle);
+  background: #EBF3F9;
   color: var(--c-primary);
-  border: 1px solid var(--c-sky-soft);
+  border: 1px solid #C9DFEE;
 }
 
 /* 4 Step Items List */
 .steps-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .step-item {
-  border: 1.5px solid var(--c-border);
-  border-radius: var(--radius-md);
-  padding: 18px 20px;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 18px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  background-color: #FFFFFF;
-  transition: all var(--transition-fast);
+  background-color: #FAFBFD;
+  transition: all 0.22s ease;
   position: relative;
   overflow: hidden;
 }
 
 .step-item:hover {
-  border-color: var(--c-primary);
-  box-shadow: var(--shadow-sm);
+  background-color: #FFFFFF;
+  border-color: #CBD5E1;
+  box-shadow: 0 6px 18px rgba(48, 97, 140, 0.08);
   transform: translateY(-2px);
 }
 
@@ -836,8 +854,8 @@ button {
 
 .step-item.in-progress {
   background: linear-gradient(90deg, #FFFCF2 0%, #FFFFFF 100%);
-  border-color: var(--c-accent);
-  box-shadow: 0 2px 10px rgba(242, 183, 5, 0.12);
+  border-color: #F2B705;
+  box-shadow: 0 4px 14px rgba(242, 183, 5, 0.15);
 }
 
 .step-item-left {
@@ -974,11 +992,11 @@ button {
 
 /* RIGHT COLUMN: Jadwal Mendatang */
 .upcoming-container {
-  background-color: var(--c-white);
-  border: 1.5px solid var(--c-border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-xs);
+  background-color: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 18px;
+  padding: 26px 28px;
+  box-shadow: 0 4px 20px -2px rgba(48, 97, 140, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -991,12 +1009,13 @@ button {
 }
 
 .upcoming-card-box {
-  background: linear-gradient(145deg, #F8FAFC 0%, var(--c-sky-subtle) 100%);
-  border: 1.5px solid var(--c-sky-soft);
-  border-radius: var(--radius-md);
-  padding: 20px;
+  background: linear-gradient(145deg, #FFFFFF 0%, #F0F6FD 100%);
+  border: 1.5px solid #C4DCEE;
+  border-radius: 16px;
+  padding: 22px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 14px rgba(48, 97, 140, 0.06);
 }
 
 .upcoming-tag-ribbon {

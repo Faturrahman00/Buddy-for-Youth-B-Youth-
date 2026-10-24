@@ -179,11 +179,7 @@
   <!-- Top Action Header -->
   <div class="page-top-action-bar">
     <div class="page-title-wrap">
-      <div style="display:flex; align-items:center; gap:12px; margin-bottom:4px;">
-        <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:34px; height:34px; object-fit:contain;">
-        <h2 style="margin:0;">Data Akademik</h2>
-      </div>
-      <p>Kelola nilai rapor 4 mata pelajaran pokok untuk menentukan akurasi rekomendasi program studi.</p>
+      <p style="margin:0;">Kelola nilai rapor 4 mata pelajaran pokok untuk menentukan akurasi rekomendasi program studi.</p>
     </div>
   </div>
 
@@ -274,39 +270,48 @@
     </div>
   </div>
 
-  <!-- Search & Filter Card -->
-  <div class="filter-card">
-    <div class="filter-row">
-      <div class="search-box">
-        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" id="searchMapel" class="search-input" placeholder="Cari mata pelajaran...">
-      </div>
-
-      <div class="filter-controls-group">
-        <select id="filterSemester" class="filter-select" data-filter-key="semester">
-          <option value="all">Semua Semester</option>
-          <option value="Semester 5" selected>Semester 5 (Kelas XII Ganjil)</option>
-          <option value="Semester 4">Semester 4 (Kelas XI Genap)</option>
-          <option value="Semester 3">Semester 3 (Kelas XI Ganjil)</option>
-          <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
-          <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <!-- Table Container -->
+  <!-- Table Container with Integrated Search & Filter -->
   <div class="data-card">
-    <div class="data-card-header">
-      <div class="data-card-title">
-        <span>Daftar Nilai Rapor</span>
-        <span class="data-count-badge" data-count-for="akademikTableBody">4 Mata Pelajaran</span>
+    <div class="table-integrated-toolbar">
+      <div class="table-toolbar-info">
+        <div class="data-card-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          <span>Daftar Nilai Rapor Siswa</span>
+          <span class="data-count-badge" data-count-for="akademikTableBody">4 Mata Pelajaran</span>
+        </div>
+        <div class="table-toolbar-desc">Mata pelajaran pokok penentu kalkulasi kesesuaian program studi</div>
       </div>
-      <div style="font-size:12.5px; color:var(--c-text-muted);">
-        4 Mata Pelajaran Penentu Kurikulum
+
+      <div class="table-toolbar-actions">
+        <!-- Integrated Search Box -->
+        <div class="search-box table-search-box">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchMapel" class="search-input table-search-input" placeholder="Cari mata pelajaran...">
+        </div>
+
+        <!-- Integrated Filter Controls -->
+        <div class="filter-controls-group table-filter-group">
+          <select id="filterSemester" class="filter-select table-filter-select" data-filter-key="semester">
+            <option value="all">Semua Semester</option>
+            <option value="Semester 5" selected>Semester 5 (Kelas XII Ganjil)</option>
+            <option value="Semester 4">Semester 4 (Kelas XI Genap)</option>
+            <option value="Semester 3">Semester 3 (Kelas XI Ganjil)</option>
+            <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
+            <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
+          </select>
+          <button type="button" class="btn-filter-reset" id="btnResetAkademik" title="Reset filter">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Reset</span>
+          </button>
+        </div>
       </div>
     </div>
 
