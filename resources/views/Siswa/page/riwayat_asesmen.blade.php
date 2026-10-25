@@ -10,20 +10,6 @@
 ])
 
 @section('content')
-  <!-- Top Action Header -->
-  <div class="page-top-action-bar">
-    <div class="page-title-wrap">
-      <p style="margin:0;">Arsip hasil asesmen Holland RIASEC dan perkembangan rekomendasi prodi dari waktu ke waktu.</p>
-    </div>
-
-    <a href="{{ route('siswa.asesmen') }}" class="btn-primary-action">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-      </svg>
-      <span>Mulai Asesmen Baru</span>
-    </a>
-  </div>
-
   <!-- Summary Stats Grid -->
   <div class="stats-summary-grid">
     <div class="stat-summary-card">
@@ -120,11 +106,6 @@
             <option value="2026">Tahun 2026</option>
             <option value="2025">Tahun 2025</option>
           </select>
-
-          <button type="button" class="btn-filter-reset" id="btnResetRiwayatAsesmen" title="Reset filter">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-            <span>Reset</span>
-          </button>
         </div>
       </div>
     </div>

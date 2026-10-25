@@ -3,13 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
-use App\Models\Asesmen;
 use App\Models\DataAkademik;
 use App\Models\Konsultasi;
 use App\Models\ProgramStudi;
 use App\Models\Psikolog;
 use App\Models\Rekomendasi;
 use App\Models\Siswa;
+use App\Models\SoalAsesmen;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -244,7 +244,7 @@ class DatabaseSeeder extends Seeder
 
         // 7. Asesmen & Rekomendasi Terpadu (Holland RIASEC Sesuai ERD)
         // Sesi Asesmen 1: Dimas Wicaksono (I–R–C)
-        $asesmen1 = Asesmen::firstOrCreate(
+        $asesmen1 = SoalAsesmen::firstOrCreate(
             [
                 'id_siswa' => $siswa1->id_siswa,
                 'status' => 'selesai',
@@ -303,7 +303,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // Sesi Asesmen 2: Siti Sarah Rahmawati (S–E–A)
-        $asesmen2 = Asesmen::firstOrCreate(
+        $asesmen2 = SoalAsesmen::firstOrCreate(
             [
                 'id_siswa' => $siswa2->id_siswa,
                 'status' => 'selesai',

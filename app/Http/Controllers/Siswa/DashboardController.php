@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Siswa;
 
 use App\Http\Controllers\Controller;
-use App\Models\Asesmen;
 use App\Models\DataAkademik;
 use App\Models\Konsultasi;
 use App\Models\Rekomendasi;
 use App\Models\Siswa;
+use App\Models\SoalAsesmen;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -28,7 +28,7 @@ class DashboardController extends Controller
         $rataRataAkademik = $totalNilai > 0 ? round($dataAkademik->avg('rata_rata_nilai'), 1) : null;
 
         // 2. Status Asesmen & Rekomendasi
-        $asesmen = Asesmen::where('id_siswa', $siswaId)
+        $asesmen = SoalAsesmen::where('id_siswa', $siswaId)
             ->where('status', 'selesai')
             ->latest('tanggal')
             ->first();

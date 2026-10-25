@@ -21,32 +21,13 @@
   {{-- ── Meta CSRF untuk AJAX ── --}}
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  {{-- ── Page Top Action Bar ── --}}
-  <div class="page-top-action-bar">
-    <div class="page-title-wrap">
-      <p style="margin:0;">Petakan profil tipe kepribadian dan rekomendasi program studi terbaik melalui 42 butir soal asesmen Holland RIASEC berbasis kecerdasan AI.</p>
-    </div>
 
-    @if(isset($latestAsesmen) && $latestAsesmen)
-      <div style="display:flex; gap:10px; align-items:center;">
-        <button type="button" class="btn-table-action outline" id="btnViewLatestHistory" style="padding:8px 16px; font-weight:700;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          Lihat Detail Hasil ({{ $latestAsesmen->holland_code ?? $latestAsesmen->tipe_riasec ?? 'Tersimpan' }})
-        </button>
-      </div>
-    @endif
-  </div>
 
   {{-- ════════════════════════════════════════════════════════════════════════
        SLIDE 0: INFORMASI DAN PETUNJUK PENGERJAAN & NILAI RAPOR (OPSIONAL)
        ════════════════════════════════════════════════════════════════════════ --}}
   <div id="slideIntro" class="asesmen-intro-card">
-    <div class="intro-badge-pill">
-      <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:18px; height:18px; object-fit:contain; margin-right:4px;">
-      INFORMASI DAN PETUNJUK PENGERJAAN
-    </div>
-
-    <h3 class="intro-title">Mulai Asesmen Holland RIASEC</h3>
+    <h3 class="intro-title">Informasi dan Petunjuk Pengerjaan Asesmen</h3>
 
     <div class="intro-body-text">
       Melalui 42 pertanyaan terstruktur, kamu akan dapat mengevaluasi kecocokan diri dan rekomendasi program studi perguruan tinggi yang paling selaras dengan kepribadian dan potensi belajarmu.<br><br>

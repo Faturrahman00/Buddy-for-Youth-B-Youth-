@@ -1,10 +1,10 @@
 <!-- Modal 1: Catatan Lengkap Konseling -->
 <div class="modal-overlay-custom" id="modalCatatanLengkap" role="dialog" aria-modal="true" aria-labelledby="modalCatatanTitle">
-  <div class="modal-dialog-box" style="max-width: 680px;">
-    <div class="modal-header-custom">
+  <div class="modal-dialog-box" style="max-width: 680px; max-height: 90vh; display: flex; flex-direction: column;">
+    <div class="modal-header-custom" style="background: linear-gradient(135deg, #172C40, #30618C); color: #fff; padding: 18px 24px;">
       <div style="display:flex; align-items:center; gap:10px;">
-        <div style="width:36px; height:36px; border-radius:8px; background:#EAF2F8; color:var(--c-primary); display:flex; align-items:center; justify-content:center;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div style="width:38px; height:38px; border-radius:8px; background:rgba(255,255,255,0.15); color:#fff; display:flex; align-items:center; justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
             <polyline points="14 2 14 8 20 8"></polyline>
             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -12,64 +12,118 @@
           </svg>
         </div>
         <div>
-          <h3 id="modalCatatanTitle">Catatan Lengkap Sesi Konseling</h3>
-          <p style="font-size:12px; color:var(--c-text-muted);">Dokumen Resmi Konsultasi Psikologi B-Youth</p>
+          <h3 id="modalCatatanTitle" style="color: #fff; margin: 0; font-size: 17px;">Catatan Lengkap Sesi Konseling</h3>
+          <p style="font-size:12px; color:#B9D0E4; margin: 2px 0 0;">Dokumen Resmi Konsultasi Psikologi B-Youth</p>
         </div>
       </div>
-      <button type="button" class="modal-close-btn" data-close-modal="modalCatatanLengkap" aria-label="Tutup Modal">
+      <button type="button" class="modal-close-btn" data-close-modal="modalCatatanLengkap" aria-label="Tutup Modal" style="color: #fff; background: rgba(255,255,255,0.15); border: none; border-radius: 6px; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
     </div>
 
-    <div class="modal-body-custom">
+    <div class="modal-body-custom" style="overflow-y: auto; padding: 22px 24px; display: flex; flex-direction: column; gap: 16px;">
       <!-- Info Header Box -->
-      <div style="background:#F5F8FC; border:1px solid #D5E2EE; border-radius:10px; padding:16px; margin-bottom:18px; display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:13px;">
+      <div style="background:#F5F8FC; border:1px solid #D5E2EE; border-radius:10px; padding:16px; display:grid; grid-template-columns:1fr 1fr; gap:14px; font-size:13px;">
         <div>
-          <span style="font-size:11px; font-weight:800; color:#6B8299; text-transform:uppercase;">Nama Siswa</span>
-          <div style="font-weight:800; color:#172C40; font-size:14.5px;" id="modalSiswaNama">-</div>
+          <span style="font-size:11px; font-weight:800; color:#6B8299; text-transform:uppercase;">Identitas Siswa</span>
+          <div style="font-weight:800; color:#172C40; font-size:15px; margin-top: 2px;" id="modalSiswaNama">-</div>
           <div style="font-size:12px; color:#3E5469;" id="modalSiswaSekolah">-</div>
+          <div style="font-size:12px; color:var(--c-primary); font-weight: 600; margin-top: 2px;" id="modalSiswaKontak">WA: -</div>
         </div>
-        <div>
-          <span style="font-size:11px; font-weight:800; color:#6B8299; text-transform:uppercase;">Tanggal &amp; Durasi</span>
-          <div style="font-weight:700; color:#172C40;" id="modalSesiTanggal">-</div>
-          <div style="font-size:12px; color:#10B981; font-weight:700;" id="modalSesiDurasi">-</div>
+        <div style="text-align: right;">
+          <div id="modalCatatanStatusBadge" style="margin-bottom: 6px;">
+            <span class="status-tag" style="background:#EBFDF2; color:#027A48;">Selesai</span>
+          </div>
+          <div style="font-weight:700; color:#172C40; font-size: 13.5px;" id="modalSesiTanggal">-</div>
+          <div style="font-size:12px; color:var(--c-primary); font-weight:700;" id="modalSesiDurasi">-</div>
         </div>
       </div>
 
-      <!-- Topik Konsultasi -->
-      <div style="margin-bottom:16px;">
-        <label style="font-size:12px; font-weight:800; color:#172C40; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:4px;">Topik Bimbingan</label>
-        <div style="background:#FFF; border:1px solid #E2E8F0; border-radius:8px; padding:12px 14px; font-weight:700; color:#172C40; font-size:14px;" id="modalTopikKonseling">-</div>
+      <!-- Topik Konsultasi / Pengajuan Siswa -->
+      <div>
+        <label style="font-size:11.5px; font-weight:800; color:#172C40; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:5px;">Topik Bimbingan / Pengajuan Siswa</label>
+        <div style="background:#FFF; border:1.5px solid #E2E8F0; border-radius:8px; padding:12px 14px; font-weight:600; color:#172C40; font-size:13.5px; line-height: 1.5;" id="modalTopikKonseling">-</div>
+      </div>
+
+      <!-- Tautan Zoom (Jika Terjadwal) -->
+      <div id="modalCatatanZoomWrap" style="display:none; background:#EFF8FF; border:1px solid #B2DDFF; border-radius:8px; padding:12px 14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+          <div style="font-size:12.5px; color:#175CD3; font-weight:700;">
+            Link Zoom: <a href="#" id="modalCatatanZoomLink" target="_blank" style="color:#175CD3; text-decoration:underline;">Buka Sesi Zoom</a>
+          </div>
+          <button type="button" class="btn-secondary-link" id="modalBtnCopyZoomPsikolog" style="padding:4px 10px; font-size:11.5px;">Salin Link</button>
+        </div>
       </div>
 
       <!-- Catatan Klinis / Evaluasi Psikolog -->
-      <div style="margin-bottom:16px;">
-        <label style="font-size:12px; font-weight:800; color:#172C40; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:4px;">Catatan Observasi &amp; Diagnosis Psikolog</label>
-        <div style="background:#FFF; border:1px solid #E2E8F0; border-radius:8px; padding:14px; color:#3E5469; font-size:13.5px; line-height:1.6;" id="modalCatatanPsikolog">-</div>
-      </div>
-
-      <!-- Rekomendasi Program Studi Final -->
-      <div style="margin-bottom:16px;">
-        <label style="font-size:12px; font-weight:800; color:#172C40; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:4px;">Rekomendasi Program Studi Tervalidasi</label>
-        <div style="background:#FFF9E6; border:1px solid #FCE49E; border-radius:8px; padding:14px; color:#7A5400; font-size:13.5px; font-weight:600; line-height:1.5;" id="modalRekomendasiProdi">-</div>
-      </div>
-
-      <!-- Tindak Lanjut Siswa -->
       <div>
-        <label style="font-size:12px; font-weight:800; color:#172C40; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:4px;">Rencana Tindak Lanjut Siswa</label>
-        <div style="background:#F0F6FB; border:1px solid #B9D0E4; border-radius:8px; padding:12px 14px; color:#30618C; font-size:13px;" id="modalRencanaAksi">-</div>
+        <label style="font-size:11.5px; font-weight:800; color:#172C40; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:5px;">Catatan Observasi, Evaluasi Klinis &amp; Rekomendasi</label>
+        <div style="background:#F6FEF9; border:1.5px solid #A6F4C5; border-radius:8px; padding:16px; color:#172C40; font-size:14px; line-height:1.65; white-space: pre-line;" id="modalCatatanPsikolog">-</div>
+      </div>
+
+      <!-- Alasan Tolak (jika ditolak) -->
+      <div id="modalAlasanTolakWrap" style="display:none;">
+        <label style="font-size:11.5px; font-weight:800; color:#B42318; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:5px;">Alasan Penolakan</label>
+        <div style="background:#FEF3F2; border:1.5px solid #FECDCA; border-radius:8px; padding:14px; color:#B42318; font-size:13px; line-height:1.5;" id="modalAlasanTolak">-</div>
       </div>
     </div>
 
-    <div class="modal-footer-custom">
-      <button type="button" class="btn-secondary-link" onclick="window.print()">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-        Cetak PDF
-      </button>
+    <div class="modal-footer-custom" style="padding: 14px 24px; border-top: 1.5px solid var(--c-border-light); display: flex; justify-content: flex-end; align-items: center;">
       <button type="button" class="btn-primary-action" data-close-modal="modalCatatanLengkap">
         Tutup
       </button>
     </div>
+  </div>
+</div>
+
+<!-- Modal 1B: Form Selesaikan Konsultasi & Tulis Catatan -->
+<div class="modal-overlay-custom" id="modalSelesaiKonsultasi" role="dialog" aria-modal="true" aria-labelledby="modalSelesaiTitle">
+  <div class="modal-dialog-box" style="max-width: 600px;">
+    <div class="modal-header-custom" style="background: linear-gradient(135deg, #172C40, #027A48); color: #fff; padding: 18px 24px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:36px; height:36px; border-radius:8px; background:rgba(255,255,255,0.2); color:#fff; display:flex; align-items:center; justify-content:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <div>
+          <h3 id="modalSelesaiTitle" style="color:#fff; margin:0; font-size:17px;">Selesaikan Sesi Konsultasi</h3>
+          <p style="font-size:12px; color:#A6F4C5; margin:2px 0 0;">Simpan catatan observasi bimbingan dan rekomendasi prodi</p>
+        </div>
+      </div>
+      <button type="button" class="modal-close-btn" data-close-modal="modalSelesaiKonsultasi" aria-label="Tutup Modal" style="color: #fff; background: rgba(255,255,255,0.15); border: none; border-radius: 6px; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <form id="formSelesaiKonsultasi" method="POST">
+      @csrf
+      @method('PUT')
+      <div class="modal-body-custom" style="padding: 20px 24px; display: flex; flex-direction: column; gap: 14px;">
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px;">
+          <div style="font-size: 11px; font-weight: 800; color: #64748B; text-transform: uppercase;">Informasi Sesi Siswa</div>
+          <div style="font-weight: 800; color: var(--c-text-heading); font-size: 14.5px;" id="modalSelesaiSiswaNama">-</div>
+          <div style="font-size: 12px; color: var(--c-text-muted);" id="modalSelesaiMeta">-</div>
+        </div>
+
+        <div>
+          <label style="font-size: 12.5px; font-weight: 800; color: var(--c-text-heading); display: block; margin-bottom: 6px;">
+            Catatan Observasi, Evaluasi Klinis, &amp; Rekomendasi Program Studi
+          </label>
+          <textarea name="catatan" id="modalSelesaiInputCatatan" rows="5" required
+            placeholder="Tuliskan hasil evaluasi bimbingan, rekomendasi program studi tervalidasi, serta arahan tindak lanjut akademik untuk siswa..."
+            style="width: 100%; padding: 12px 14px; border: 1.5px solid var(--c-border); border-radius: 8px; font-size: 13.5px; line-height: 1.5; font-family: inherit; resize: vertical; box-sizing: border-box;"></textarea>
+          <div style="font-size: 11.5px; color: var(--c-text-muted); margin-top: 4px;">
+            Catatan ini akan tersimpan permanen di arsip riwayat dan dapat ditinjau oleh siswa di portal mereka.
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer-custom" style="padding: 14px 24px; border-top: 1.5px solid var(--c-border-light); display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-secondary-link" data-close-modal="modalSelesaiKonsultasi">Batal</button>
+        <button type="submit" class="btn-primary-action" style="background: #027A48; border-color: #027A48; padding: 9px 18px; font-weight: 700;">
+          Simpan &amp; Tandai Selesai
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 

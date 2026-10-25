@@ -19,11 +19,7 @@
 @endpush
 
 @section('content')
-<div class="page-top-action-bar">
-  <div class="page-title-wrap">
-    <p style="margin:0;">Data identitas dan informasi akun kamu di B-Youth.</p>
-  </div>
-</div>
+
 
 {{-- ── PROFILE HEADER CARD ── --}}
 <div class="profil-header-card">

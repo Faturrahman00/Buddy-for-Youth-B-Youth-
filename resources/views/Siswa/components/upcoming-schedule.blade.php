@@ -65,6 +65,18 @@
           <span>Status: <strong>{{ ucfirst($upcomingKonsultasi->status_booking) }}</strong> {{ $upcomingKonsultasi->catatan ? '• ' . Str::limit($upcomingKonsultasi->catatan, 45) : '' }}</span>
         </div>
       </div>
+
+      <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--c-border-light); display: flex; justify-content: space-between; align-items: center;">
+        <a href="{{ route('siswa.riwayat_konsultasi') }}" style="font-size: 12.5px; font-weight: 700; color: var(--c-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+          <span>Lihat Detail &amp; Catatan Lengkap</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </a>
+        @if(!empty($upcomingKonsultasi->link_zoom) && $upcomingKonsultasi->status_booking === 'disetujui')
+          <a href="{{ $upcomingKonsultasi->link_zoom }}" target="_blank" style="font-size: 12px; font-weight: 700; color: #175CD3; background: #EFF8FF; border: 1px solid #B2DDFF; padding: 4px 10px; border-radius: 6px; text-decoration: none;">
+            Buka Zoom
+          </a>
+        @endif
+      </div>
     </div>
   @else
     <div class="upcoming-card-box" style="text-align: center; padding: 28px 20px;">

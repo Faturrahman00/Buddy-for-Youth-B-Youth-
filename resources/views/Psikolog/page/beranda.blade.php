@@ -182,6 +182,13 @@
               <button type="button" class="btn-secondary-link" onclick="navigator.clipboard.writeText('{{ $nextSession->link_zoom }}'); alert('Link Zoom berhasil disalin!');">
                 Salin Link Zoom
               </button>
+              <a href="{{ route('psikolog.jadwal') }}" class="btn-secondary-link" style="text-decoration:none;">
+                Detail Sesi
+              </a>
+            @else
+              <a href="{{ route('psikolog.jadwal') }}" class="btn-secondary-link" style="text-decoration:none;">
+                Detail Sesi
+              </a>
             @endif
           </div>
         </div>

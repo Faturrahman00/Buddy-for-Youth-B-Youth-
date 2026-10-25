@@ -206,46 +206,138 @@
   </div>
 </div>
 
-<!-- 6. Modal Catatan Konseling (Wireframe 5) -->
+<!-- 6. Modal Catatan & Detail Konsultasi Siswa -->
 <div class="modal-overlay hidden" id="modalCatatanKonseling" tabindex="-1" aria-hidden="true">
-  <div class="modal-box" style="max-width:600px;">
-    <div class="modal-header">
-      <h4 class="modal-title">Catatan Sesi Konseling Psikologi</h4>
-      <button type="button" class="modal-close-btn modal-close-trigger" aria-label="Tutup Modal">&times;</button>
-    </div>
-    <div class="modal-body" style="display:flex; flex-direction:column; gap:16px;">
-      <div style="display:flex; align-items:center; gap:14px; padding-bottom:12px; border-bottom:1px solid var(--c-border-light);">
-        <div style="width:48px; height:48px; border-radius:50%; background:#FAE08F; color:#172C40; font-weight:800; display:flex; align-items:center; justify-content:center;">MS</div>
+  <div class="modal-box" style="max-width: 660px; width: 95%; max-height: 92vh; display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; box-shadow: 0 20px 50px rgba(15,23,42,0.25);">
+    
+    <!-- Modal Header -->
+    <div class="modal-header" style="background: linear-gradient(135deg, #172C40, #30618C); padding: 18px 24px; color: #fff; border-bottom: none; display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
         <div>
-          <div style="font-size:15px; font-weight:800; color:var(--c-text-heading);">Dr. Maya Sartika, M.Psi., Psikolog</div>
-          <div style="font-size:12.5px; color:var(--c-text-muted);">Sesi 02 Okt 2026 • Durasi 60 Menit • Selesai</div>
+          <h4 class="modal-title" style="margin: 0; font-size: 17px; font-weight: 800; color: #FFFFFF;">Detail &amp; Catatan Sesi Konsultasi</h4>
+          <span style="font-size: 12px; color: #B9D0E4;">Dokumen Resmi Bimbingan &amp; Konseling Akademik Siswa</span>
+        </div>
+      </div>
+      <button type="button" class="modal-close-btn modal-close-trigger" aria-label="Tutup Modal" style="background: rgba(255,255,255,0.15); color: #fff; border: none; cursor: pointer; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 20px;">&times;</button>
+    </div>
+
+    <!-- Modal Body (Scrollable) -->
+    <div class="modal-body" style="padding: 22px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: #FAFBFD;">
+
+      <!-- Meta Bar: ID, Jadwal, & Status Badge -->
+      <div style="display: flex; justify-content: space-between; align-items: center; background: #FFFFFF; padding: 14px 18px; border-radius: 12px; border: 1.5px solid #E2E8F0; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <span style="font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em;">Nomor Registrasi Konsultasi</span>
+          <div style="font-size: 15px; font-weight: 800; color: #0F172A;" id="modalKonsulId">#KNS-01</div>
+          <div style="font-size: 12px; color: var(--c-text-muted);" id="modalKonsulPengajuanWrap">Diajukan: <span id="modalKonsulPengajuan">-</span></div>
+        </div>
+        <div style="text-align: right;">
+          <div id="modalKonsulStatusBadge">
+            <span class="status-pill success" style="font-size: 12px; padding: 4px 12px;">Selesai</span>
+          </div>
+          <div style="font-size: 12px; font-weight: 700; color: var(--c-primary); margin-top: 4px;" id="modalKonsulWaktuPill">-</div>
         </div>
       </div>
 
-      <div>
-        <h5 style="font-size:13.5px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Topik Pembahasan:</h5>
-        <div style="font-size:13.5px; color:var(--c-text-body); background:#FAFCFE; padding:10px 14px; border-radius:var(--radius-sm); border:1px solid var(--c-border-light);">
-          Pemilihan Program Studi &amp; Analisis Potensi Bakat Saintek vs Soshum
+      <!-- Profil Psikolog Konselor -->
+      <div style="background: #FFFFFF; padding: 16px 18px; border-radius: 12px; border: 1.5px solid #E2E8F0; display: flex; align-items: center; gap: 14px;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: #FAE08F; color: #172C40; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" id="modalKonsulPsikologInisial">
+          MS
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase;">Psikolog Pembimbing</div>
+          <div style="font-size: 15px; font-weight: 800; color: var(--c-text-heading);" id="modalKonsulPsikologNama">-</div>
+          <div style="font-size: 12px; color: var(--c-text-muted); display: flex; gap: 10px; flex-wrap: wrap; margin-top: 2px;">
+            <span id="modalKonsulPsikologSpesialisasi">Psikolog Pendidikan</span>
+            <span>•</span>
+            <span id="modalKonsulPsikologSip">SIP: -</span>
+          </div>
         </div>
       </div>
 
-      <div>
-        <h5 style="font-size:13.5px; font-weight:700; color:var(--c-text-heading); margin-bottom:6px;">Catatan &amp; Rekomendasi Psikolog:</h5>
-        <p style="font-size:13.5px; color:var(--c-text-body); line-height:1.55;">
-          Siswa menunjukkan minat kuat dan ketertarikan tinggi pada logika pemrograman dan analisis data kuantitatif. Kemampuan pemecahan masalah sangat menonjol. Perlu pendampingan untuk menjaga ketenangan saat menghadapi persiapan ujian. Dianjurkan membuat target mingguan belajar terarah.
-        </p>
+      <!-- Jadwal Pelaksanaan -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div style="background: #FFFFFF; padding: 12px 16px; border-radius: 10px; border: 1.5px solid #E2E8F0;">
+          <div style="font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; margin-bottom: 2px;">Tanggal Konsultasi</div>
+          <div style="font-size: 13.5px; font-weight: 800; color: var(--c-text-heading);" id="modalKonsulTanggal">-</div>
+        </div>
+        <div style="background: #FFFFFF; padding: 12px 16px; border-radius: 10px; border: 1.5px solid #E2E8F0;">
+          <div style="font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; margin-bottom: 2px;">Waktu Konseling</div>
+          <div style="font-size: 13.5px; font-weight: 800; color: var(--c-primary);" id="modalKonsulJam">-</div>
+        </div>
       </div>
 
-      <div style="background:#ECFDF3; border:1px solid #A6F4C5; border-radius:var(--radius-md); padding:12px;">
-        <span style="font-size:12.5px; font-weight:700; color:#027A48;">Tindak Lanjut yang Disepakati:</span>
-        <div style="font-size:12.5px; color:#05603A; margin-top:4px;">
-          Jadwal konsultasi lanjutan disepakati tanggal 10 Oktober 2026 untuk peninjauan pilihan program studi di perguruan tinggi.
+      <!-- Tautan Zoom Sesi (Jika Ada & Disetujui) -->
+      <div id="modalKonsulZoomWrap" style="display:none; background: #EFF8FF; border: 1.5px solid #B2DDFF; border-radius: 12px; padding: 14px 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 34px; height: 34px; border-radius: 8px; background: #2D8CFF; color: #fff; display: flex; align-items: center; justify-content: center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+            </div>
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: #175CD3;">Tautan Ruang Zoom Sesi</div>
+              <div style="font-size: 11.5px; color: #3538CD;" id="modalKonsulZoomLinkText">https://zoom.us/...</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn-step-action btn-outline-action" id="modalKonsulBtnCopyZoom" style="padding: 6px 12px; font-size: 12px;">Salin Link</button>
+            <a href="#" target="_blank" id="modalKonsulBtnBukaZoom" class="btn-step-action btn-primary-action" style="padding: 6px 14px; font-size: 12px; text-decoration: none;">Masuk Zoom</a>
+          </div>
         </div>
+      </div>
+
+      <!-- Topik / Pertanyaan Pengajuan Siswa -->
+      <div style="background: #FFFFFF; padding: 14px 18px; border-radius: 12px; border: 1.5px solid #E2E8F0;">
+        <h5 style="margin: 0 0 6px 0; font-size: 13px; font-weight: 800; color: #1E293B; display: flex; align-items: center; gap: 6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          Topik Pembahasan / Pertanyaan yang Diajukan
+        </h5>
+        <div style="font-size: 13px; color: #334155; line-height: 1.6; background: #F8FAFC; padding: 10px 14px; border-radius: 8px; border: 1px solid #E2E8F0;" id="modalKonsulTopik">
+          -
+        </div>
+      </div>
+
+      <!-- Catatan Evaluasi & Rekomendasi Psikolog -->
+      <div style="background: #FFFFFF; padding: 16px 18px; border-radius: 12px; border: 1.5px solid #E2E8F0;" id="modalKonsulCatatanBox">
+        <h5 style="margin: 0 0 8px 0; font-size: 13.5px; font-weight: 800; color: #1E293B; display: flex; align-items: center; gap: 6px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#027A48" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          Catatan Observasi &amp; Rekomendasi Lengkap Psikolog
+        </h5>
+        <div style="font-size: 13.5px; color: #1E293B; line-height: 1.65; white-space: pre-line; background: #F6FEF9; border: 1px solid #A6F4C5; padding: 14px 16px; border-radius: 8px;" id="modalKonsulCatatan">
+          Belum ada catatan evaluasi tertulis dari psikolog.
+        </div>
+      </div>
+
+      <!-- Alasan Penolakan (Jika Ada & Ditolak) -->
+      <div id="modalKonsulTolakWrap" style="display:none; background: #FEF3F2; border: 1.5px solid #FECDCA; border-radius: 12px; padding: 14px 18px;">
+        <h5 style="margin: 0 0 6px 0; font-size: 13px; font-weight: 800; color: #B42318; display: flex; align-items: center; gap: 6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+          Alasan Penolakan Pengajuan
+        </h5>
+        <div style="font-size: 13px; color: #B42318; line-height: 1.5;" id="modalKonsulTolakAlasan">-</div>
+      </div>
+
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer" style="padding: 14px 24px; background: #FFFFFF; border-top: 1.5px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+      <button type="button" class="btn-step-action btn-outline-action modal-close-trigger" style="padding: 8px 18px; font-weight: 700;">Tutup Rincian</button>
+      <div style="display: flex; gap: 10px;">
+        <a href="#" target="_blank" id="modalKonsulBtnZoomDirect" class="btn-step-action btn-primary-action" style="padding: 8px 18px; font-weight: 700; text-decoration: none; display: none; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+          <span>Buka Ruang Zoom</span>
+        </a>
       </div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn-step-action btn-outline-action modal-close-trigger">Tutup Catatan</button>
-    </div>
+
   </div>
 </div>
 

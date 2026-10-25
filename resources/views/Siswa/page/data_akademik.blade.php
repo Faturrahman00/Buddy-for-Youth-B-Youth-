@@ -175,14 +175,9 @@
 </style>
 @endpush
 
-@section('content')
-  <!-- Top Action Header -->
-  <div class="page-top-action-bar">
-    <div class="page-title-wrap">
-      <p style="margin:0;">Kelola nilai rapor 4 mata pelajaran pokok untuk menentukan akurasi rekomendasi program studi.</p>
-    </div>
-  </div>
 
+
+@section('content')
   <!-- Summary Mini Badges -->
   <div class="stats-summary-grid-compact">
     <div class="stat-summary-card">
@@ -307,10 +302,6 @@
             <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
             <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
           </select>
-          <button type="button" class="btn-filter-reset" id="btnResetAkademik" title="Reset filter">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-            <span>Reset</span>
-          </button>
         </div>
       </div>
     </div>
@@ -321,13 +312,11 @@
           <tr>
             <th style="width: 50px;">No</th>
             <th>Mata Pelajaran</th>
-            <th>Semester</th>
-            <th style="text-align: center;">Pengetahuan</th>
-            <th style="text-align: center;">Keterampilan</th>
-            <th style="text-align: center;">Nilai Akhir</th>
-            <th style="text-align: center;">Predikat</th>
-            <th>Status</th>
-            <th style="text-align: right;">Aksi</th>
+            <th style="width: 140px; white-space: nowrap;">Semester</th>
+            <th style="text-align: center; width: 130px; white-space: nowrap;">Pengetahuan</th>
+            <th style="text-align: center; width: 130px; white-space: nowrap;">Keterampilan</th>
+            <th style="text-align: center; width: 120px; white-space: nowrap;">Nilai Akhir</th>
+            <th style="text-align: right; width: 120px; white-space: nowrap;">Aksi</th>
           </tr>
         </thead>
         <tbody id="akademikTableBody">
@@ -339,10 +328,9 @@
               $k = $record ? (float) $record->keterampilan : 0;
               $akhir = $record ? (float) $record->rata_rata_nilai : 0;
               $sem = $record ? $record->mapel_semester : 'Semester 5';
-              $predikat = $record ? $record->predikat : '-';
               $hasData = $record !== null;
             @endphp
-            <tr data-searchable="{{ $key }} {{ $meta['sub'] }} {{ $sem }} {{ $predikat }}" 
+            <tr data-searchable="{{ $key }} {{ $meta['sub'] }} {{ $sem }}" 
                 data-semester="{{ $sem }}" 
                 data-mapel="{{ $key }}" 
                 data-kkm="{{ $meta['kkm'] }}" 
@@ -355,25 +343,11 @@
                   {{ $meta['sub'] }} • KKM: <span class="row-kkm-val">{{ $meta['kkm'] }}</span>
                 </div>
               </td>
-              <td><span class="row-semester-val" style="font-weight:600;">{{ $sem }}</span></td>
+              <td style="white-space: nowrap;"><span class="row-semester-val" style="font-weight:600; white-space: nowrap;">{{ $sem }}</span></td>
               <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">{{ $hasData ? $p : '-' }}</td>
               <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">{{ $hasData ? $k : '-' }}</td>
               <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">
                 {{ $hasData ? number_format($akhir, 1) : '-' }}
-              </td>
-              <td class="row-predikat-val" style="text-align: center;">
-                @if($hasData)
-                  <span class="grade-badge {{ strtolower($predikat) }}">{{ $predikat }}</span>
-                @else
-                  <span class="grade-badge" style="background:#F1F5F9; color:#64748B;">-</span>
-                @endif
-              </td>
-              <td>
-                @if($hasData)
-                  <span class="status-pill success">Terverifikasi</span>
-                @else
-                  <span class="status-pill pending" style="background:#FEF3F2; color:#B42318; border:1px solid #FECDCA;">Belum Diisi</span>
-                @endif
               </td>
               <td style="text-align: right;">
                 <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">

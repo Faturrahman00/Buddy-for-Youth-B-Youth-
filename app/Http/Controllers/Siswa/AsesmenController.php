@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Siswa;
 
 use App\Http\Controllers\Controller;
-use App\Models\Asesmen;
 use App\Models\DataAkademik;
 use App\Models\ProgramStudi;
 use App\Models\Rekomendasi;
@@ -53,13 +52,13 @@ class AsesmenController extends Controller
         // Ambil asesmen spesifik berdasarkan id (jika diminta) atau asesmen terakhir yang selesai
         $targetAsesmen = null;
         if ($request->filled('id')) {
-            $targetAsesmen = Asesmen::where('id_siswa', $siswaId)
+            $targetAsesmen = SoalAsesmen::where('id_siswa', $siswaId)
                 ->where('id_asesmen', $request->query('id'))
                 ->with(['rekomendasi.programStudi'])
                 ->first();
         }
 
-        $latestAsesmen = $targetAsesmen ?? Asesmen::where('id_siswa', $siswaId)
+        $latestAsesmen = $targetAsesmen ?? SoalAsesmen::where('id_siswa', $siswaId)
             ->where('status', 'selesai')
             ->with(['rekomendasi.programStudi'])
             ->latest('tanggal')
@@ -139,7 +138,7 @@ class AsesmenController extends Controller
         // 4. Simpan transaksi Asesmen ke Database
         DB::beginTransaction();
         try {
-            $asesmen = Asesmen::create([
+            $asesmen = SoalAsesmen::create([
                 'id_siswa' => $siswaId,
                 'tanggal' => now(),
                 'status' => 'selesai',
@@ -204,13 +203,13 @@ class AsesmenController extends Controller
         $user = $this->currentSiswa();
         $siswaId = $user->id_siswa ?? $user->id;
 
-        $riwayats = Asesmen::where('id_siswa', $siswaId)
+        $riwayats = SoalAsesmen::where('id_siswa', $siswaId)
             ->with(['rekomendasi.programStudi'])
             ->latest('tanggal')
             ->paginate(8);
 
-        $totalSesi = Asesmen::where('id_siswa', $siswaId)->count();
-        $totalSelesai = Asesmen::where('id_siswa', $siswaId)->where('status', 'selesai')->count();
+        $totalSesi = SoalAsesmen::where('id_siswa', $siswaId)->count();
+        $totalSelesai = SoalAsesmen::where('id_siswa', $siswaId)->where('status', 'selesai')->count();
 
         // Cari rekomendasi prodi yang paling sering muncul
         $mostFrequentProdi = 'Belum Ada';

@@ -11,6 +11,7 @@ class Rekomendasi extends Model
     use HasFactory;
 
     protected $table = 'rekomendasi';
+
     protected $primaryKey = 'id_rekomendasi';
 
     protected $fillable = [
@@ -23,7 +24,7 @@ class Rekomendasi extends Model
 
     public function asesmen(): BelongsTo
     {
-        return $this->belongsTo(Asesmen::class, 'id_asesmen', 'id_asesmen');
+        return $this->belongsTo(SoalAsesmen::class, 'id_asesmen', 'id_asesmen');
     }
 
     public function programStudi(): BelongsTo
@@ -36,6 +37,6 @@ class Rekomendasi extends Model
      */
     public function hasilAsesmen(): BelongsTo
     {
-        return $this->belongsTo(Asesmen::class, 'id_asesmen', 'id_asesmen');
+        return $this->belongsTo(SoalAsesmen::class, 'id_asesmen', 'id_asesmen');
     }
 }

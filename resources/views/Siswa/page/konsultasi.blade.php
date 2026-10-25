@@ -5,23 +5,6 @@
 ])
 
 @section('content')
-  <!-- Top Action Header -->
-  <div class="page-top-action-bar">
-    <div class="page-title-wrap">
-      <p style="margin:0;">Jadwalkan sesi bimbingan 1-on-1 bersama psikolog pendidikan tersertifikasi untuk memvalidasi pilihan masa depanmu.</p>
-    </div>
-
-    <a href="{{ route('siswa.riwayat_konsultasi') }}" class="btn-step-action btn-outline-action" style="padding:10px 18px; text-decoration:none;">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-        <line x1="16" y1="2" x2="16" y2="6"></line>
-        <line x1="8" y1="2" x2="8" y2="6"></line>
-        <line x1="3" y1="10" x2="21" y2="10"></line>
-      </svg>
-      <span>Lihat Riwayat Konsultasi</span>
-    </a>
-  </div>
-
   @if(session('success'))
     <div style="background:#EBFDF2; color:#027A48; border:1px solid #A6F4C5; padding:12px 18px; border-radius:10px; margin-bottom:20px; font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px;">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -61,16 +44,22 @@
         </div>
       </div>
 
-      @if(!empty($activeSession->link_zoom))
-        <a href="{{ $activeSession->link_zoom }}" target="_blank" class="btn-zoom-action" style="text-decoration:none;">
-          <span class="zoom-pulse-dot"></span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 7l-7 5 7 5V7z"></path>
-            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-          </svg>
-          <span>Masuk Zoom</span>
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <a href="{{ route('siswa.riwayat_konsultasi') }}" class="btn-step-action btn-outline-action" style="padding:10px 16px; font-weight:700; text-decoration:none; background:rgba(255,255,255,0.95); border-radius:10px; color:var(--c-primary); display:inline-flex; align-items:center; gap:6px;" title="Lihat Detail & Catatan Lengkap Sesi Konsultasi">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <span>Detail &amp; Catatan</span>
         </a>
-      @endif
+        @if(!empty($activeSession->link_zoom))
+          <a href="{{ $activeSession->link_zoom }}" target="_blank" class="btn-zoom-action" style="text-decoration:none;">
+            <span class="zoom-pulse-dot"></span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 7l-7 5 7 5V7z"></path>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+            <span>Masuk Zoom</span>
+          </a>
+        @endif
+      </div>
     </div>
   @endif
 

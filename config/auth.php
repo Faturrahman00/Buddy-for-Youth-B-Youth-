@@ -1,6 +1,8 @@
 <?php
 
-use App\Models\User;
+use App\Models\Admin;
+use App\Models\Psikolog;
+use App\Models\Siswa;
 
 return [
 
@@ -65,19 +67,19 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Siswa::class,
+            'model' => Siswa::class,
         ],
         'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'model' => Admin::class,
         ],
         'psikologs' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Psikolog::class,
+            'model' => Psikolog::class,
         ],
         'siswas' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Siswa::class,
+            'model' => Siswa::class,
         ],
     ],
 

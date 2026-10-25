@@ -12,21 +12,6 @@
 @endphp
 
 @section('content')
-  <!-- Top Action Header -->
-  <div class="page-top-action-bar">
-    <div class="page-title-wrap">
-      <p style="margin:0;">Rekapitulasi catatan bimbingan konseling, rekomendasi psikolog, dan rencana tindak lanjut akademis.</p>
-    </div>
-
-    <a href="{{ route('siswa.konsultasi') }}" class="btn-primary-action">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-      </svg>
-      <span>Jadwalkan Sesi Baru</span>
-    </a>
-  </div>
-
   @if(session('success'))
     <div style="background:#EBFDF2; color:#027A48; border:1px solid #A6F4C5; padding:12px 18px; border-radius:10px; margin-bottom:20px; font-size:14px; font-weight:600;">
       {{ session('success') }}
@@ -126,11 +111,6 @@
             <option value="selesai">Selesai</option>
             <option value="ditolak">Ditolak</option>
           </select>
-
-          <button type="button" class="btn-filter-reset" id="btnResetRiwayatKonsul" title="Reset filter">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-            <span>Reset</span>
-          </button>
         </div>
       </div>
     </div>
@@ -154,6 +134,22 @@
               $psikologNama = $item->psikolog->nama ?? 'Psikolog B-Youth';
               $initials = strtoupper(substr($psikologNama, 0, 2));
               $status = $item->status_booking;
+
+              $detailPayload = [
+                  'id' => '#KNS-' . str_pad($item->id_konsultasi, 2, '0', STR_PAD_LEFT),
+                  'tanggal' => $tgl->translatedFormat('l, d F Y'),
+                  'hari' => $tgl->translatedFormat('l'),
+                  'jam' => substr($item->waktu_mulai, 0, 5) . ' - ' . substr($item->waktu_selesai, 0, 5) . ' WIB',
+                  'tanggal_pengajuan' => $item->tanggal_pengajuan ? \Carbon\Carbon::parse($item->tanggal_pengajuan)->translatedFormat('d F Y, H:i') . ' WIB' : 'Terjadwal Otomatis',
+                  'psikolog_nama' => $psikologNama,
+                  'psikolog_spesialisasi' => $item->psikolog->spesialisasi ?? 'Psikolog Pendidikan & Eksplorasi Karier',
+                  'psikolog_sip' => $item->psikolog->no_sip ?? 'SIP: Terverifikasi',
+                  'psikolog_inisial' => $initials,
+                  'status' => $status,
+                  'link_zoom' => $item->link_zoom ?? '',
+                  'catatan' => $item->catatan ?? '',
+                  'alasan_tolak' => $item->alasan_tolak ?? '',
+              ];
             @endphp
             <tr data-searchable="{{ $tgl->translatedFormat('d M Y') }} {{ $psikologNama }} {{ $item->catatan }} {{ $status }}" data-status="{{ $status }}">
               <td>
@@ -171,17 +167,22 @@
                   </div>
                 </div>
               </td>
+            <td style="white-space: nowrap;">
+              <span style="font-weight: 600; font-size: 13px; color: var(--c-text-heading); white-space: nowrap;">
+                {{ substr($item->waktu_mulai, 0, 5) }} - {{ substr($item->waktu_selesai, 0, 5) }} WIB
+              </span>
+            </td>
               <td>
-                <span style="font-weight:600; font-size:13px; color:var(--c-text-heading);">
-                  {{ substr($item->waktu_mulai, 0, 5) }} - {{ substr($item->waktu_selesai, 0, 5) }} WIB
-                </span>
-              </td>
-              <td>
-                <div style="font-weight:700; color:var(--c-primary); margin-bottom:2px;">
+                <div style="font-weight:700; color:var(--c-primary); margin-bottom:2px; cursor:pointer;" class="btn-open-detail-konsul" data-konsultasi="{{ json_encode($detailPayload) }}" title="Klik untuk melihat catatan lengkap">
                   {{ $item->catatan ? Str::limit($item->catatan, 70) : 'Konsultasi Bimbingan Minat Bakat' }}
                 </div>
+                @if($item->catatan && strlen($item->catatan) > 70)
+                  <a href="javascript:void(0)" class="btn-open-detail-konsul" data-konsultasi="{{ json_encode($detailPayload) }}" style="font-size:11.5px; color:var(--c-primary); font-weight:700; text-decoration:none; display:inline-block; margin-top:2px;">
+                    Lihat catatan lengkap &rarr;
+                  </a>
+                @endif
                 @if($item->alasan_tolak)
-                  <div style="font-size:12px; color:#B42318;">Alasan penolakan: {{ $item->alasan_tolak }}</div>
+                  <div style="font-size:12px; color:#B42318; margin-top:2px;">Alasan penolakan: {{ $item->alasan_tolak }}</div>
                 @endif
               </td>
               <td>
@@ -198,22 +199,28 @@
                 @endif
               </td>
               <td style="text-align: right;">
-                <div class="action-btn-group" style="justify-content: flex-end; gap:6px;">
+                <div class="action-btn-group" style="justify-content: flex-end; gap:6px; flex-wrap: wrap;">
+                  <button type="button" class="btn-table-action primary btn-open-detail-konsul"
+                    data-konsultasi="{{ json_encode($detailPayload) }}"
+                    style="font-weight:700; display:inline-flex; align-items:center; gap:5px;"
+                    title="Lihat Detail & Catatan Lengkap Sesi Konsultasi">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <span>Detail</span>
+                  </button>
+
                   @if($status === 'disetujui' && !empty($item->link_zoom))
-                    <a href="{{ $item->link_zoom }}" target="_blank" class="btn-table-action primary" style="text-decoration:none;">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                      Masuk Zoom
+                    <a href="{{ $item->link_zoom }}" target="_blank" class="btn-table-action outline" style="color:var(--c-primary); border-color:var(--c-primary); text-decoration:none;" title="Masuk Zoom Pertemuan">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                      Zoom
                     </a>
                   @elseif($status === 'menunggu')
                     <form action="{{ route('siswa.konsultasi.batal', $item->id_konsultasi) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pengajuan konsultasi ini?');" style="display:inline;">
                       @csrf
                       @method('DELETE')
-                      <button type="submit" class="btn-table-action outline" style="color:#B42318; border-color:#FECDCA;">
-                        Batalkan
+                      <button type="submit" class="btn-table-action outline" style="color:#B42318; border-color:#FECDCA;" title="Batalkan Pengajuan">
+                        Batal
                       </button>
                     </form>
-                  @else
-                    <span style="font-size:12px; color:var(--c-text-muted);">-</span>
                   @endif
                 </div>
               </td>
@@ -234,3 +241,146 @@
     </div>
   </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('modalCatatanKonseling');
+  if (!modal) return;
+
+  const elId = document.getElementById('modalKonsulId');
+  const elPengajuan = document.getElementById('modalKonsulPengajuan');
+  const elStatusBadge = document.getElementById('modalKonsulStatusBadge');
+  const elWaktuPill = document.getElementById('modalKonsulWaktuPill');
+  const elInisial = document.getElementById('modalKonsulPsikologInisial');
+  const elNama = document.getElementById('modalKonsulPsikologNama');
+  const elSpesialisasi = document.getElementById('modalKonsulPsikologSpesialisasi');
+  const elSip = document.getElementById('modalKonsulPsikologSip');
+  const elTanggal = document.getElementById('modalKonsulTanggal');
+  const elJam = document.getElementById('modalKonsulJam');
+  const elTopik = document.getElementById('modalKonsulTopik');
+  const elCatatan = document.getElementById('modalKonsulCatatan');
+  const elZoomWrap = document.getElementById('modalKonsulZoomWrap');
+  const elZoomLinkText = document.getElementById('modalKonsulZoomLinkText');
+  const elBtnBukaZoom = document.getElementById('modalKonsulBtnBukaZoom');
+  const elBtnCopyZoom = document.getElementById('modalKonsulBtnCopyZoom');
+  const elBtnZoomDirect = document.getElementById('modalKonsulBtnZoomDirect');
+  const elTolakWrap = document.getElementById('modalKonsulTolakWrap');
+  const elTolakAlasan = document.getElementById('modalKonsulTolakAlasan');
+
+  let currentZoomLink = '';
+
+  document.querySelectorAll('.btn-open-detail-konsul').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      let data = {};
+      try {
+        const raw = btn.getAttribute('data-konsultasi');
+        if (raw) data = JSON.parse(raw);
+      } catch (err) {
+        console.warn('Gagal parse data konsultasi:', err);
+      }
+
+      const id = data.id || '#KNS-01';
+      const status = data.status || 'menunggu';
+      const tgl = data.tanggal || '-';
+      const jam = data.jam || '-';
+      const psikologNama = data.psikolog_nama || 'Psikolog B-Youth';
+      const spesialisasi = data.psikolog_spesialisasi || 'Psikolog Pendidikan';
+      const sip = data.psikolog_sip || 'SIP: Terverifikasi';
+      const inisial = data.psikolog_inisial || 'PS';
+      const pengajuan = data.tanggal_pengajuan || '-';
+      const catatan = data.catatan || '';
+      const tolak = data.alasan_tolak || '';
+      currentZoomLink = data.link_zoom || '';
+
+      if (elId) elId.textContent = id;
+      if (elPengajuan) elPengajuan.textContent = pengajuan;
+      if (elWaktuPill) elWaktuPill.textContent = jam;
+      if (elInisial) elInisial.textContent = inisial;
+      if (elNama) elNama.textContent = psikologNama;
+      if (elSpesialisasi) elSpesialisasi.textContent = spesialisasi;
+      if (elSip) elSip.textContent = sip.startsWith('SIP:') ? sip : `SIP: ${sip}`;
+      if (elTanggal) elTanggal.textContent = tgl;
+      if (elJam) elJam.textContent = jam;
+
+      // Status pill rendering
+      if (elStatusBadge) {
+        if (status === 'selesai') {
+          elStatusBadge.innerHTML = '<span class="status-pill success" style="font-size:12px; padding:4px 12px; background:#EFF8FF; color:#175CD3; border:1px solid #B2DDFF;">Selesai Terlaksana</span>';
+        } else if (status === 'disetujui') {
+          elStatusBadge.innerHTML = '<span class="status-pill success" style="font-size:12px; padding:4px 12px; background:#EBFDF2; color:#027A48; border:1px solid #A6F4C5;">Disetujui (Terjadwal)</span>';
+        } else if (status === 'menunggu') {
+          elStatusBadge.innerHTML = '<span class="status-pill pending" style="font-size:12px; padding:4px 12px; background:#FFF9E6; color:#7A5400; border:1px solid #FCE49E;">Menunggu Verifikasi</span>';
+        } else if (status === 'ditolak') {
+          elStatusBadge.innerHTML = '<span class="status-pill danger" style="font-size:12px; padding:4px 12px; background:#FEF3F2; color:#B42318; border:1px solid #FECDCA;">Ditolak</span>';
+        } else {
+          elStatusBadge.innerHTML = `<span class="status-pill" style="font-size:12px; padding:4px 12px;">${status}</span>`;
+        }
+      }
+
+      // Topik pengajuan
+      if (elTopik) {
+        elTopik.textContent = catatan ? catatan : 'Pengajuan sesi bimbingan minat bakat dan arah program studi.';
+      }
+
+      // Catatan & Rekomendasi psikolog
+      if (elCatatan) {
+        if (status === 'selesai' && catatan) {
+          elCatatan.textContent = catatan;
+          elCatatan.style.fontStyle = 'normal';
+          elCatatan.style.color = '#1E293B';
+        } else if (status === 'selesai') {
+          elCatatan.textContent = 'Sesi telah selesai dilaksanakan. Psikolog telah memvalidasi rekomendasi dan arah minat studi siswa.';
+          elCatatan.style.fontStyle = 'italic';
+          elCatatan.style.color = '#475467';
+        } else {
+          elCatatan.textContent = 'Sesi konsultasi belum selesai dilaksanakan. Catatan evaluasi komprehensif dan arahan tindak lanjut akademis akan diisi oleh psikolog setelah pertemuan berakhir.';
+          elCatatan.style.fontStyle = 'italic';
+          elCatatan.style.color = '#64748B';
+        }
+      }
+
+      // Zoom wrap
+      if (elZoomWrap) {
+        if (status === 'disetujui' && currentZoomLink) {
+          elZoomWrap.style.display = 'block';
+          if (elZoomLinkText) elZoomLinkText.textContent = currentZoomLink;
+          if (elBtnBukaZoom) elBtnBukaZoom.href = currentZoomLink;
+          if (elBtnZoomDirect) {
+            elBtnZoomDirect.style.display = 'inline-flex';
+            elBtnZoomDirect.href = currentZoomLink;
+          }
+        } else {
+          elZoomWrap.style.display = 'none';
+          if (elBtnZoomDirect) elBtnZoomDirect.style.display = 'none';
+        }
+      }
+
+      // Tolak wrap
+      if (elTolakWrap) {
+        if (status === 'ditolak' && tolak) {
+          elTolakWrap.style.display = 'block';
+          if (elTolakAlasan) elTolakAlasan.textContent = tolak;
+        } else {
+          elTolakWrap.style.display = 'none';
+        }
+      }
+
+      // Buka modal
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  if (elBtnCopyZoom) {
+    elBtnCopyZoom.addEventListener('click', () => {
+      if (currentZoomLink) {
+        navigator.clipboard.writeText(currentZoomLink);
+        alert('Tautan Zoom berhasil disalin ke clipboard!');
+      }
+    });
+  }
+});
+</script>
+@endpush
