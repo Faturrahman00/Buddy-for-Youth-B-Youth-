@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Asesmen;
 use App\Models\SoalAsesmen;
 use Illuminate\Http\Request;
 
@@ -23,7 +22,7 @@ class AsesmenController extends Controller
         }
 
         // Also fetch submitted student assessments for Tab "Hasil & Riwayat Siswa"
-        $riwayatAsesmen = Asesmen::whereNotNull('id_siswa')
+        $riwayatAsesmen = SoalAsesmen::whereNotNull('id_siswa')
             ->with(['siswa', 'user', 'rekomendasi.programStudi'])
             ->latest('tanggal')
             ->paginate(10);
@@ -104,7 +103,7 @@ class AsesmenController extends Controller
         return redirect()->route('admin.asesmen')->with('success', 'Soal asesmen berhasil dihapus.');
     }
 
-    public function destroyAsesmenSiswa(Asesmen $asesmen)
+    public function destroyAsesmenSiswa(SoalAsesmen $asesmen)
     {
         $asesmen->delete();
 
