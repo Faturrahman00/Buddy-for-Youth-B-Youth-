@@ -23,6 +23,10 @@ Sertakan visualisasi tabel konsol transparan:
 import json
 import os
 import sys
+
+# Nonaktifkan pembuatan file cache bytecode (.pyc / __pycache__)
+sys.dont_write_bytecode = True
+
 from typing import Dict, Any
 
 try:

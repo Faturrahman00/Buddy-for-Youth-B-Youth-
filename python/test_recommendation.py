@@ -20,6 +20,10 @@ Memvalidasi seluruh persyaratan sistem rekomendasi B-Youth:
 import math
 import os
 import sys
+
+# Nonaktifkan pembuatan file cache bytecode (.pyc / __pycache__)
+sys.dont_write_bytecode = True
+
 import unittest
 from typing import Dict, Any
 
@@ -304,9 +308,10 @@ class TestEndToEndPipeline(unittest.TestCase):
         self.assertEqual(len(result['recommendations']), 3)
 
         top_codes = [r['kode_prodi'] for r in result['recommendations']]
-        # Harapannya prodi komputasi / teknologi (PRODI-TI, PRODI-TM, PRODI-STAT) berada di puncak
+        # Harapannya prodi rekayasa teknologi/STEM berada di puncak
+        stem_codes = ['PRODI-TI', 'PRODI-STAT', 'PRODI-TM', 'PRODI-TS', 'PRODI-TE', 'PRODI-AGRO', 'PRODI-TK']
         self.assertTrue(
-            any(code in top_codes for code in ['PRODI-TI', 'PRODI-STAT', 'PRODI-TM'])
+            any(code in top_codes for code in stem_codes)
         )
 
         # Verifikasi bahwa tidak ada NaN pada skor mana pun

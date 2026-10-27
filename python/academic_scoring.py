@@ -55,13 +55,13 @@ def determine_prodi_cluster(nama_prodi: str) -> str:
     """
     name_lower = (nama_prodi or '').lower()
 
-    if any(k in name_lower for k in ['informatika', 'komputer', 'sistem informasi', 'mesin', 'sipil', 'elektro', 'teknik']):
+    if any(k in name_lower for k in ['informatika', 'komputer', 'sistem informasi', 'mesin', 'sipil', 'elektro', 'mekatronika', 'lingkungan', 'tambang', 'geologi', 'pertanian', 'agroteknologi', 'teknik']):
         return 'teknologi_rekayasa'
-    elif any(k in name_lower for k in ['kedokteran', 'kesehatan', 'keperawatan', 'farmasi', 'biologi']):
+    elif any(k in name_lower for k in ['kedokteran', 'kesehatan', 'keperawatan', 'farmasi', 'biologi', 'bioteknologi', 'gizi']):
         return 'medis_hayati'
-    elif any(k in name_lower for k in ['akuntansi', 'manajemen', 'bisnis', 'ekonomi', 'perpajakan', 'statistika']):
+    elif any(k in name_lower for k in ['akuntansi', 'manajemen', 'bisnis', 'ekonomi', 'perpajakan', 'statistika', 'pemasaran', 'logistik', 'aktuaria', 'perbankan', 'keuangan']):
         return 'ekonomi_bisnis'
-    elif any(k in name_lower for k in ['desain', 'dkv', 'seni', 'arsitektur', 'animasi', 'film']):
+    elif any(k in name_lower for k in ['desain', 'dkv', 'seni', 'arsitektur', 'animasi', 'film', 'musik', 'interior', 'produk']):
         return 'desain_kreatif'
     else:
         return 'sosial_humaniora'

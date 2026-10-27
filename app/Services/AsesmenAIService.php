@@ -303,14 +303,15 @@ class AsesmenAIService
             $tmpFile = tempnam(sys_get_temp_dir(), 'byouth_ai_') . '.json';
             file_put_contents($tmpFile, json_encode($payload, JSON_UNESCAPED_UNICODE));
 
-            // Jalankan via Symfony Process
-            $process = new \Symfony\Component\Process\Process(['python', $scriptPath, $tmpFile]);
+            // Jalankan via Symfony Process tanpa menulis bytecode (.pyc)
+            $processEnv = array_merge($_ENV, $_SERVER, ['PYTHONDONTWRITEBYTECODE' => '1']);
+            $process = new \Symfony\Component\Process\Process(['python', '-B', $scriptPath, $tmpFile], null, $processEnv);
             $process->setTimeout(15);
             $process->run();
 
             if (!$process->isSuccessful()) {
                 // Fallback ke py command jika alias python belum di-PATH
-                $process = new \Symfony\Component\Process\Process(['py', $scriptPath, $tmpFile]);
+                $process = new \Symfony\Component\Process\Process(['py', '-B', $scriptPath, $tmpFile], null, $processEnv);
                 $process->setTimeout(15);
                 $process->run();
             }
@@ -506,20 +507,20 @@ class AsesmenAIService
         $prodiName = strtolower($prodi->nama_prodi);
 
         // Tentukan bobot mata pelajaran berdasarkan disiplin ilmu
-        if (str_contains($prodiName, 'komputer') || str_contains($prodiName, 'informatika') || str_contains($prodiName, 'mesin') || str_contains($prodiName, 'sipil') || str_contains($prodiName, 'teknik')) {
+        if (str_contains($prodiName, 'komputer') || str_contains($prodiName, 'informatika') || str_contains($prodiName, 'mesin') || str_contains($prodiName, 'sipil') || str_contains($prodiName, 'teknik') || str_contains($prodiName, 'elektro') || str_contains($prodiName, 'mekatronika') || str_contains($prodiName, 'pertanian') || str_contains($prodiName, 'agroteknologi') || str_contains($prodiName, 'lingkungan') || str_contains($prodiName, 'tambang') || str_contains($prodiName, 'geologi')) {
             $academicScore = (0.45 * $mtk) + (0.35 * $ipas) + (0.20 * $ing);
             $keyMapels = ['Matematika' => $mtk, 'IPAS' => $ipas];
-        } elseif (str_contains($prodiName, 'kedokteran') || str_contains($prodiName, 'kesehatan') || str_contains($prodiName, 'biologi') || str_contains($prodiName, 'farmasi')) {
+        } elseif (str_contains($prodiName, 'kedokteran') || str_contains($prodiName, 'kesehatan') || str_contains($prodiName, 'biologi') || str_contains($prodiName, 'bioteknologi') || str_contains($prodiName, 'farmasi') || str_contains($prodiName, 'keperawatan') || str_contains($prodiName, 'gizi')) {
             $academicScore = (0.50 * $ipas) + (0.30 * $mtk) + (0.20 * $ing);
             $keyMapels = ['IPAS/Biologi' => $ipas, 'Matematika' => $mtk];
-        } elseif (str_contains($prodiName, 'akuntansi') || str_contains($prodiName, 'manajemen') || str_contains($prodiName, 'bisnis') || str_contains($prodiName, 'statistika')) {
+        } elseif (str_contains($prodiName, 'akuntansi') || str_contains($prodiName, 'manajemen') || str_contains($prodiName, 'bisnis') || str_contains($prodiName, 'statistika') || str_contains($prodiName, 'aktuaria') || str_contains($prodiName, 'logistik') || str_contains($prodiName, 'perbankan') || str_contains($prodiName, 'pemasaran')) {
             $academicScore = (0.45 * $mtk) + (0.30 * $ing) + (0.25 * $indo);
             $keyMapels = ['Matematika' => $mtk, 'Bahasa Inggris' => $ing];
-        } elseif (str_contains($prodiName, 'desain') || str_contains($prodiName, 'seni') || str_contains($prodiName, 'dkv')) {
+        } elseif (str_contains($prodiName, 'desain') || str_contains($prodiName, 'seni') || str_contains($prodiName, 'dkv') || str_contains($prodiName, 'arsitektur') || str_contains($prodiName, 'film') || str_contains($prodiName, 'musik') || str_contains($prodiName, 'interior')) {
             $academicScore = (0.35 * $indo) + (0.35 * $ing) + (0.15 * $mtk) + (0.15 * $ipas);
             $keyMapels = ['Bahasa Indonesia' => $indo, 'Bahasa Inggris' => $ing];
         } else {
-            // Sosial, Humaniora, Psikologi, Komunikasi, BK
+            // Sosial, Humaniora, Psikologi, Komunikasi, Hukum, Hubungan Internasional, Sastra, BK, PGSD, Kesos
             $academicScore = (0.40 * $indo) + (0.30 * $ing) + (0.30 * $ipas);
             $keyMapels = ['Bahasa Indonesia' => $indo, 'IPAS/Sosial' => $ipas];
         }

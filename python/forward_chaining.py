@@ -102,7 +102,7 @@ class ForwardChainingEngine:
                 condition=lambda f: 'I' in f.get('top_types', []) and (
                     'R' in f.get('top_types', []) or 'C' in f.get('top_types', [])
                 ),
-                supported_prodis=['PRODI-TI', 'PRODI-SI', 'PRODI-STAT'],
+                supported_prodis=['PRODI-TI', 'PRODI-SI', 'PRODI-STAT', 'PRODI-AKTU', 'PRODI-TE'],
                 cluster='Sains Komputasi & Rekayasa Perangkat Lunak',
                 reason=(
                     "Kombinasi minat Investigatif (I) dengan daya teknikal (R) atau prosedural (C) "
@@ -117,7 +117,7 @@ class ForwardChainingEngine:
                 rule_id='R02_KESEHATAN_KLINIS',
                 name='Inferensi Rumpun Medis & Hayati',
                 condition=lambda f: 'I' in f.get('top_types', []) and 'S' in f.get('top_types', []),
-                supported_prodis=['PRODI-KED', 'PRODI-PSI', 'PRODI-FARM'],
+                supported_prodis=['PRODI-KED', 'PRODI-PSI', 'PRODI-FARM', 'PRODI-KEP', 'PRODI-GIZI', 'PRODI-BIO'],
                 cluster='Kedokteran & Ilmu Kesehatan Perilaku',
                 reason=(
                     "Paduan rasa ingin tahu ilmiah (I) dan kepedulian menolong sesama (S) "
@@ -134,7 +134,7 @@ class ForwardChainingEngine:
                 condition=lambda f: 'R' in f.get('top_types', []) and (
                     'I' in f.get('top_types', []) or 'C' in f.get('top_types', [])
                 ),
-                supported_prodis=['PRODI-TM', 'PRODI-TS', 'PRODI-TE'],
+                supported_prodis=['PRODI-TM', 'PRODI-TS', 'PRODI-TE', 'PRODI-TL', 'PRODI-TG', 'PRODI-AGRO', 'PRODI-TK'],
                 cluster='Teknik Industri, Mesin & Rekayasa Infrastruktur',
                 reason=(
                     "Ketertarikan kuat pada objek fisik nyata (R) disertai analisis penalaran teknis "
@@ -151,7 +151,7 @@ class ForwardChainingEngine:
                 condition=lambda f: 'A' in f.get('top_types', []) and (
                     'E' in f.get('top_types', []) or 'R' in f.get('top_types', [])
                 ),
-                supported_prodis=['PRODI-DKV', 'PRODI-ARS'],
+                supported_prodis=['PRODI-DKV', 'PRODI-ARS', 'PRODI-DES', 'PRODI-FILM', 'PRODI-SAST', 'PRODI-MUSIK'],
                 cluster='Industri Kreatif & Komunikasi Visual',
                 reason=(
                     "Sensibilitas estetika artistik (A) yang dipadukan inisiatif komunikasi (E) "
@@ -168,7 +168,7 @@ class ForwardChainingEngine:
                 condition=lambda f: 'E' in f.get('top_types', []) and (
                     'C' in f.get('top_types', []) or 'S' in f.get('top_types', [])
                 ),
-                supported_prodis=['PRODI-MBD', 'PRODI-ILKOM'],
+                supported_prodis=['PRODI-MBD', 'PRODI-ILKOM', 'PRODI-HUKUM', 'PRODI-PAR', 'PRODI-HI', 'PRODI-MARKET'],
                 cluster='Manajemen Bisnis Digital & Komunikasi Korporat',
                 reason=(
                     "Inisiatif kepemimpinan dan persuasi (E) yang didukung tata kelola teratur (C) "
@@ -185,7 +185,7 @@ class ForwardChainingEngine:
                 condition=lambda f: 'C' in f.get('top_types', []) and (
                     'E' in f.get('top_types', []) or 'I' in f.get('top_types', [])
                 ),
-                supported_prodis=['PRODI-AKT', 'PRODI-SI'],
+                supported_prodis=['PRODI-AKT', 'PRODI-SI', 'PRODI-ADM', 'PRODI-LOG', 'PRODI-AKTU', 'PRODI-BANK'],
                 cluster='Akuntansi, Perpajakan & Sistem Informasi Finansial',
                 reason=(
                     "Ketelitian tinggi pada keteraturan data prosedural (C) membentuk kecakapan "
@@ -202,7 +202,7 @@ class ForwardChainingEngine:
                 condition=lambda f: 'S' in f.get('top_types', []) and (
                     'A' in f.get('top_types', []) or 'E' in f.get('top_types', [])
                 ),
-                supported_prodis=['PRODI-BK', 'PRODI-ILKOM', 'PRODI-PSI'],
+                supported_prodis=['PRODI-BK', 'PRODI-ILKOM', 'PRODI-PSI', 'PRODI-PGSD', 'PRODI-KESOS', 'PRODI-HI'],
                 cluster='Bimbingan Konseling, Layanan Publik & Pendidikan',
                 reason=(
                     "Hasrat mendampingi orang lain (S) menjadi fondasi ideal dalam layanan "
@@ -219,7 +219,7 @@ class ForwardChainingEngine:
                 condition=lambda f: f.get('has_academic_data', False) and (
                     f.get('academic_grades', {}).get('Matematika', 0) >= 85
                 ),
-                supported_prodis=['PRODI-TI', 'PRODI-STAT', 'PRODI-TM', 'PRODI-AKT'],
+                supported_prodis=['PRODI-TI', 'PRODI-STAT', 'PRODI-TM', 'PRODI-TS', 'PRODI-TE', 'PRODI-TK', 'PRODI-AKTU', 'PRODI-AKT'],
                 cluster='Penguatan Kognitif Kuantitatif',
                 reason=(
                     "Capaian nilai Matematika >= 85 membuktikan kesiapan kognitif tinggi "
@@ -238,7 +238,7 @@ class ForwardChainingEngine:
                     f.get('academic_grades', {}).get('Biologi', 0) >= 85 or
                     f.get('academic_grades', {}).get('Kimia', 0) >= 85
                 ),
-                supported_prodis=['PRODI-KED', 'PRODI-FARM', 'PRODI-TS'],
+                supported_prodis=['PRODI-KED', 'PRODI-FARM', 'PRODI-BIO', 'PRODI-KEP', 'PRODI-GIZI', 'PRODI-TK', 'PRODI-TL', 'PRODI-AGRO'],
                 cluster='Penguatan Sains Alam Eksperimental',
                 reason=(
                     "Capaian nilai rumpun Sains Alam >= 85 memberikan dasar kokoh "
@@ -256,7 +256,7 @@ class ForwardChainingEngine:
                     f.get('academic_grades', {}).get('Bahasa Inggris', 0) >= 85 or
                     f.get('academic_grades', {}).get('Bahasa Indonesia', 0) >= 85
                 ),
-                supported_prodis=['PRODI-ILKOM', 'PRODI-MBD', 'PRODI-DKV'],
+                supported_prodis=['PRODI-ILKOM', 'PRODI-MBD', 'PRODI-DKV', 'PRODI-HUKUM', 'PRODI-HI', 'PRODI-SAST', 'PRODI-BK', 'PRODI-FILM', 'PRODI-PAR'],
                 cluster='Penguatan Literasi & Komunikasi Global',
                 reason=(
                     "Kecakapan literasi bahasa yang tinggi memperkuat daya saing "
