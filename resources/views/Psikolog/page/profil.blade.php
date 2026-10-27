@@ -11,11 +11,6 @@
 
 @section('content')
 
-@if(session('success'))
-  <div style="background:#EBFDF2; color:#027A48; border:1px solid #A6F4C5; padding:12px 18px; border-radius:10px; margin-bottom:20px; font-size:14px; font-weight:600;">
-    {{ session('success') }}
-  </div>
-@endif
 
 <!-- =========================================================================
      TOP CARD: PROFIL HEADER

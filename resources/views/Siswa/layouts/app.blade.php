@@ -78,5 +78,28 @@
 <div class="app-toast-container" id="appToastContainer" aria-live="polite"></div>
 
 @stack('scripts')
+
+{{-- Flash Messages → Bottom-Right Toast --}}
+@if(session('success') || session('error') || session('warning') || session('info') || (isset($errors) && $errors->any()))
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  @if(session('success'))
+    window.byouthToast({ type: 'success', message: @json(session('success')) });
+  @endif
+  @if(session('error'))
+    window.byouthToast({ type: 'error', message: @json(session('error')) });
+  @endif
+  @if(session('warning'))
+    window.byouthToast({ type: 'warning', message: @json(session('warning')) });
+  @endif
+  @if(session('info'))
+    window.byouthToast({ type: 'info', message: @json(session('info')) });
+  @endif
+  @if(isset($errors) && $errors->any())
+    window.byouthToast({ type: 'error', message: 'Terdapat kesalahan pada input. Silakan periksa kembali.', duration: 5000 });
+  @endif
+});
+</script>
+@endif
 </body>
 </html>

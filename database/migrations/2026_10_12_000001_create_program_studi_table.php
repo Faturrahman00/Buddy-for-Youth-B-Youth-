@@ -17,9 +17,7 @@ return new class extends Migration
             $table->text('deskripsi_prodi');
             $table->text('prospek_karier')->nullable();
             $table->string('tipe_riasec', 50)->nullable();
-            
-            // tambahan: tidak ada di ERD
-            $table->string('kode_prodi', 50)->nullable()->unique(); // tambahan: tidak ada di ERD
+            $table->string('kode_prodi', 50)->nullable()->unique(); 
             $table->timestamps();
         });
     }

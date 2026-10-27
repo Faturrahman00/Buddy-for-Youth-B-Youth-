@@ -5,20 +5,6 @@
 ])
 
 @section('content')
-  @if(session('success'))
-    <div style="background:#EBFDF2; color:#027A48; border:1px solid #A6F4C5; padding:12px 18px; border-radius:10px; margin-bottom:20px; font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-      <span>{{ session('success') }}</span>
-    </div>
-  @endif
-
-  @if(session('error'))
-    <div style="background:#FEF3F2; color:#B42318; border:1px solid #FECDCA; padding:12px 18px; border-radius:10px; margin-bottom:20px; font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-      <span>{{ session('error') }}</span>
-    </div>
-  @endif
-
   <!-- =========================================================================
        1. TOP BANNER "DISETUJUI" WITH "MASUK ZOOM" (Jika Ada Sesi Terkonfirmasi)
        ========================================================================= -->
@@ -146,7 +132,7 @@
         @csrf
         <!-- Hidden Inputs for dynamic booking -->
         <input type="hidden" name="tanggal_konsultasi" id="bookingTanggalKonsultasi" value="{{ date('Y-m-d') }}" required>
-        <input type="hidden" name="waktu_mulai" id="bookingWaktuMulai" value="13:30:00" required>
+        <input type="hidden" name="waktu_mulai" id="bookingWaktuMulai" value="" required>
         <input type="hidden" name="id_konsultasi" id="bookingIdKonsultasi" value="">
         <input type="hidden" name="id_psikolog" id="bookingIdPsikolog" value="{{ $psikologs->first()->id_psikolog ?? '' }}" required>
 
@@ -195,50 +181,13 @@
 
         <!-- 2. PILIHAN JAM SESI -->
         <div>
-          <label class="form-label" style="font-weight:700; font-size:13px; color:var(--c-text-heading); display:block; margin-bottom:8px;">
-            Pilihan Jam Konseling:
+          <label class="form-label" style="font-weight:700; font-size:13px; color:var(--c-text-heading); display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+            <span>Pilihan Jam Konseling:</span>
+            <span id="slotCountBadge" style="font-size:11.5px; color:var(--c-text-muted); font-weight:600;">Memuat slot...</span>
           </label>
 
-          <div class="time-slots-list" style="margin-bottom:0;">
-            <button type="button" class="slot-item-btn" data-time="09:00:00" data-label="09:00 - 10:00 WIB" onclick="selectTimeSlot(this, '09:00:00', '09:00 - 10:00 WIB')">
-              <div style="display:flex; align-items:center; gap:10px;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span class="slot-time">09:00 - 10:00 WIB</span>
-              </div>
-              <span class="slot-status-badge available">Tersedia</span>
-            </button>
-
-            <button type="button" class="slot-item-btn" data-time="10:30:00" data-label="10:30 - 11:30 WIB" onclick="selectTimeSlot(this, '10:30:00', '10:30 - 11:30 WIB')">
-              <div style="display:flex; align-items:center; gap:10px;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span class="slot-time">10:30 - 11:30 WIB</span>
-              </div>
-              <span class="slot-status-badge available">Tersedia</span>
-            </button>
-
-            <button type="button" class="slot-item-btn selected" data-time="13:30:00" data-label="13:30 - 14:30 WIB" onclick="selectTimeSlot(this, '13:30:00', '13:30 - 14:30 WIB')">
-              <div style="display:flex; align-items:center; gap:10px;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span class="slot-time">13:30 - 14:30 WIB</span>
-              </div>
-              <span class="slot-status-badge available">Tersedia (Dipilih)</span>
-            </button>
-
-            <button type="button" class="slot-item-btn" data-time="15:00:00" data-label="15:00 - 16:00 WIB" onclick="selectTimeSlot(this, '15:00:00', '15:00 - 16:00 WIB')">
-              <div style="display:flex; align-items:center; gap:10px;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span class="slot-time">15:00 - 16:00 WIB</span>
-              </div>
-              <span class="slot-status-badge available">Tersedia</span>
-            </button>
-
-            <button type="button" class="slot-item-btn" data-time="16:30:00" data-label="16:30 - 17:30 WIB" onclick="selectTimeSlot(this, '16:30:00', '16:30 - 17:30 WIB')">
-              <div style="display:flex; align-items:center; gap:10px;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span class="slot-time">16:30 - 17:30 WIB</span>
-              </div>
-              <span class="slot-status-badge available">Tersedia</span>
-            </button>
+          <div class="time-slots-list" id="timeSlotsContainer" style="margin-bottom:0; min-height:60px;">
+            <!-- Populated dynamically via JS from openSlotsData -->
           </div>
         </div>
 
@@ -258,7 +207,7 @@
           </div>
           <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:13px;">
             <span><strong>Sesi Waktu:</strong></span>
-            <span id="selectedSlotSummary" style="font-weight:700; color:var(--c-text-heading);">13:30 - 14:30 WIB</span>
+            <span id="selectedSlotSummary" style="font-weight:700; color:var(--c-text-heading);"><span style="color:var(--c-text-muted); font-weight:500;">Belum Dipilih</span></span>
           </div>
           <div style="display:flex; justify-content:space-between; font-size:13px;">
             <span><strong>Psikolog:</strong></span>
@@ -282,7 +231,7 @@
 @push('scripts')
 <script>
   // --------------------------------------------------------------------------
-  // INTERACTIVE CALENDAR & BOOKING LOGIC
+  // INTERACTIVE CALENDAR & REAL DYNAMIC BOOKING LOGIC
   // --------------------------------------------------------------------------
   const openSlotsData = @json($availableSlots);
   const indonesianMonths = [
@@ -317,6 +266,10 @@
   }
 
   let selectedDateStr = toISODate(currentYear, currentMonth, now.getDate());
+  let selectedPsikologId = "{{ $psikologs->first()->id_psikolog ?? '' }}";
+  let selectedPsikologNama = "{{ addslashes($psikologs->first()->nama ?? 'Psikolog Pembimbing') }}";
+  let selectedSlotId = null;
+  let selectedSlotTime = null;
 
   // Render the calendar grid
   function renderCalendar(year, month) {
@@ -329,13 +282,11 @@
 
     // First day of month (0 = Sun, 1 = Mon ... 6 = Sat)
     const firstDayIndex = new Date(year, month, 1).getDay();
-    // In Indonesian layout: Monday is index 0, Sunday is index 6
+    // Monday is index 0, Sunday is index 6
     const startOffset = (firstDayIndex === 0) ? 6 : firstDayIndex - 1;
 
     // Total days in current month
     const totalDays = new Date(year, month + 1, 0).getDate();
-
-    // Previous month total days for padding
     const prevMonthDays = new Date(year, month, 0).getDate();
 
     const todayDate = new Date();
@@ -389,7 +340,7 @@
       grid.appendChild(cell);
     }
 
-    // 3. Next month padding cells to complete rows of 7
+    // 3. Next month padding cells
     const currentTotalCells = startOffset + totalDays;
     const remaining = (7 - (currentTotalCells % 7)) % 7;
     for (let n = 1; n <= remaining; n++) {
@@ -399,8 +350,9 @@
       grid.appendChild(cell);
     }
 
-    // Update dynamic date-specific slots panel
+    // Update dynamic open slots panel & time slots selector
     updateSelectedDateSlots(selectedDateStr);
+    renderDynamicTimeSlots();
   }
 
   // Handle click on a date cell
@@ -418,11 +370,14 @@
     const summaryDate = document.getElementById('selectedDateSummary');
     if (summaryDate) summaryDate.textContent = formatDisplayDate(isoStr);
 
-    // Update dynamic open slots panel
+    // Update dynamic open slots panel on the left
     updateSelectedDateSlots(isoStr);
+
+    // Update dynamic time slots on the right
+    renderDynamicTimeSlots();
   }
 
-  // Render open slots card for the selected date
+  // Update info section under calendar
   function updateSelectedDateSlots(isoStr) {
     const container = document.getElementById('dateSpecificSlotsSection');
     if (!container) return;
@@ -433,79 +388,170 @@
     });
 
     if (matchedSlots.length > 0) {
-      let html = `
-        <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:12px; padding:14px 16px; box-shadow:0 2px 8px rgba(16,185,129,0.08);">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-            <div style="display:flex; align-items:center; gap:8px; font-weight:800; font-size:13.5px; color:#166534;">
+      container.innerHTML = `
+        <div style="background:#F0FDF4; border:1.5px solid #86EFAC; border-radius:12px; padding:12px 14px; box-shadow:0 2px 8px rgba(16,185,129,0.08);">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+            <div style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:13px; color:#166534;">
               <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10B981; box-shadow:0 0 0 3px rgba(16,185,129,0.2);"></span>
-              Slot Siap Pakai dari Psikolog:
+              <span>Slot Terbuka: <strong>${matchedSlots.length} Sesi Siap Dipilih</strong></span>
             </div>
             <span style="font-size:11.5px; font-weight:700; color:#15803D; background:#DCFCE7; padding:2px 8px; border-radius:99px;">
-              ${matchedSlots.length} Slot Terbuka
+              Tersedia
             </span>
           </div>
-          <div style="display:flex; flex-direction:column; gap:8px;">
-      `;
-
-      matchedSlots.forEach(s => {
-        const pNama = (s.psikolog && s.psikolog.nama) ? s.psikolog.nama : 'Psikolog B-Youth';
-        const start = s.waktu_mulai ? s.waktu_mulai.substring(0, 5) : '09:00';
-        const end = s.waktu_selesai ? s.waktu_selesai.substring(0, 5) : '10:00';
-        const timeLabel = `${start} - ${end} WIB`;
-
-        html += `
-          <div style="display:flex; align-items:center; justify-content:space-between; background:#FFFFFF; border:1px solid #BBF7D0; border-radius:10px; padding:10px 12px; gap:10px;">
-            <div>
-              <div style="font-weight:700; font-size:13px; color:#1F2937;">${timeLabel}</div>
-              <div style="font-size:12px; color:#059669; font-weight:600;">Oleh: ${pNama}</div>
-            </div>
-            <button type="button" class="btn-step-action btn-primary-action" style="padding:6px 14px; font-size:12px; border-radius:8px;" 
-                    onclick="claimSlot('${s.id_konsultasi}', '${s.id_psikolog}', '${pNama.replace(/'/g, "\\'")}', '${s.waktu_mulai}', '${timeLabel}')">
-              Gunakan Slot Ini
-            </button>
-          </div>
-        `;
-      });
-
-      html += `
-          </div>
+          <p style="margin:0; font-size:12px; color:#15803D; line-height:1.4;">
+            Silakan pilih psikolog dan slot jam yang Anda inginkan pada formulir di sebelah kanan.
+          </p>
         </div>
       `;
-      container.innerHTML = html;
     } else {
       container.innerHTML = `
         <div style="background:#F8FAFC; border:1px dashed #CBD5E1; border-radius:12px; padding:12px 14px; display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--c-text-muted);">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-          <span>Tanggal terpilih: <strong style="color:var(--c-text-heading);">${formatDisplayDate(isoStr)}</strong>. Anda dapat mengajukan sesi mandiri dengan memilih jam dan psikolog di formulir sebelah kanan.</span>
+          <span>Tanggal terpilih: <strong style="color:var(--c-text-heading);">${formatDisplayDate(isoStr)}</strong>. Belum ada slot jadwal pada tanggal ini.</span>
         </div>
       `;
     }
   }
 
-  // Claim a direct slot created by a psychologist
-  function claimSlot(idKonsultasi, idPsikolog, pNama, waktuMulai, timeLabel) {
-    document.getElementById('bookingIdKonsultasi').value = idKonsultasi;
-    choosePsikolog(idPsikolog, pNama);
+  // Render real dynamic time slots for selectedDateStr and selectedPsikologId
+  function renderDynamicTimeSlots() {
+    const container = document.getElementById('timeSlotsContainer');
+    const badgeCount = document.getElementById('slotCountBadge');
+    if (!container) return;
 
-    document.getElementById('bookingWaktuMulai').value = waktuMulai;
-    document.getElementById('selectedSlotSummary').textContent = `${timeLabel} (Slot Khusus)`;
-
-    // Deselect standard time slots buttons
-    document.querySelectorAll('.time-slots-list .slot-item-btn').forEach(btn => {
-      btn.classList.remove('selected');
-      const badge = btn.querySelector('.slot-status-badge');
-      if (badge) badge.textContent = 'Tersedia';
+    // Filter matching slots for this psychologist & date
+    const matchingSlots = openSlotsData.filter(slot => {
+      const sDate = slot.tanggal_konsultasi ? slot.tanggal_konsultasi.substring(0, 10) : '';
+      return sDate === selectedDateStr && String(slot.id_psikolog) === String(selectedPsikologId);
     });
 
-    if (window.showToastSuccess) {
-      window.showToastSuccess('Slot Dipilih', `Slot ${timeLabel} bersama ${pNama} telah dipilih.`);
+    // Check if slots exist for other psychologists on this date
+    const otherSlots = openSlotsData.filter(slot => {
+      const sDate = slot.tanggal_konsultasi ? slot.tanggal_konsultasi.substring(0, 10) : '';
+      return sDate === selectedDateStr && String(slot.id_psikolog) !== String(selectedPsikologId);
+    });
+
+    // Reset selected slot if not valid anymore
+    const isValidSelection = matchingSlots.some(s => String(s.id_konsultasi) === String(selectedSlotId));
+    if (!isValidSelection) {
+      selectedSlotId = null;
+      selectedSlotTime = null;
+      const idInput = document.getElementById('bookingIdKonsultasi');
+      const timeInput = document.getElementById('bookingWaktuMulai');
+      const summarySlot = document.getElementById('selectedSlotSummary');
+      if (idInput) idInput.value = '';
+      if (timeInput) timeInput.value = '';
+      if (summarySlot) summarySlot.innerHTML = '<span style="color:var(--c-text-muted); font-weight:500;">Belum Dipilih</span>';
+    }
+
+    if (matchingSlots.length > 0) {
+      if (badgeCount) {
+        badgeCount.innerHTML = `<span style="color:#10B981; font-weight:700;">${matchingSlots.length} slot tersedia</span>`;
+      }
+
+      let html = '';
+      matchingSlots.forEach(slot => {
+        const start = slot.waktu_mulai ? slot.waktu_mulai.substring(0, 5) : '09:00';
+        const end = slot.waktu_selesai ? slot.waktu_selesai.substring(0, 5) : '10:00';
+        const timeLabel = `${start} - ${end} WIB`;
+        const isSelected = (String(slot.id_konsultasi) === String(selectedSlotId));
+
+        html += `
+          <button type="button" class="slot-item-btn ${isSelected ? 'selected' : ''}" 
+                  data-id="${slot.id_konsultasi}"
+                  data-time="${slot.waktu_mulai}"
+                  data-label="${timeLabel}"
+                  onclick="selectSlotBtn(this, '${slot.id_konsultasi}', '${slot.waktu_mulai}', '${timeLabel}')">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span class="slot-time">${timeLabel}</span>
+            </div>
+            <span class="slot-status-badge available">${isSelected ? 'Tersedia (Dipilih)' : 'Tersedia'}</span>
+          </button>
+        `;
+      });
+      container.innerHTML = html;
+    } else if (otherSlots.length > 0) {
+      if (badgeCount) {
+        badgeCount.innerHTML = `<span style="color:#F59E0B; font-weight:600;">0 slot terbuka</span>`;
+      }
+      const otherPskName = (otherSlots[0].psikolog && otherSlots[0].psikolog.nama) ? otherSlots[0].psikolog.nama : 'Psikolog Lain';
+      const otherPskId = otherSlots[0].id_psikolog;
+      container.innerHTML = `
+        <div style="background:#F8FAFC; border:1.5px dashed #CBD5E1; border-radius:12px; padding:18px 16px; text-align:center;">
+          <div style="width:38px; height:38px; border-radius:50%; background:#EFF6FF; color:var(--c-primary); display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <div style="font-size:13px; font-weight:700; color:var(--c-text-heading); margin-bottom:4px;">
+            Tidak Ada Slot untuk ${selectedPsikologNama}
+          </div>
+          <div style="font-size:12px; color:var(--c-text-muted); line-height:1.4; margin-bottom:12px;">
+            Psikolog ini belum membuka jadwal pada tanggal ini.
+          </div>
+          <button type="button" onclick="choosePsikolog('${otherPskId}', '${otherPskName.replace(/'/g, "\\'")}')" 
+                  class="btn-step-action btn-outline-action" 
+                  style="padding:6px 14px; font-size:12px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; margin:0 auto; background:#FFFFFF;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>Alihkan ke ${otherPskName} (${otherSlots.length} slot)</span>
+          </button>
+        </div>
+      `;
+    } else {
+      if (badgeCount) {
+        badgeCount.innerHTML = `<span style="color:var(--c-text-muted); font-weight:600;">0 slot terbuka</span>`;
+      }
+      container.innerHTML = `
+        <div style="background:#F8FAFC; border:1.5px dashed #CBD5E1; border-radius:12px; padding:22px 16px; text-align:center;">
+          <div style="width:40px; height:40px; border-radius:50%; background:#F1F5F9; color:#94A3B8; display:inline-flex; align-items:center; justify-content:center; margin-bottom:10px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <div style="font-size:13.5px; font-weight:700; color:var(--c-text-heading); margin-bottom:4px;">
+            Tidak Ada Slot Konsultasi Tersedia
+          </div>
+          <div style="font-size:12px; color:var(--c-text-muted); line-height:1.5;">
+            Psikolog belum membuka slot sesi pada tanggal ini.<br>
+            Silakan pilih tanggal yang bertanda titik hijau (<span style="color:#10B981; font-weight:800;">●</span>) pada kalender.
+          </div>
+        </div>
+      `;
     }
   }
 
-  // Choose Psychologist
+  // Handle clicking a slot button
+  function selectSlotBtn(btn, idKonsultasi, waktuMulai, timeLabel) {
+    selectedSlotId = idKonsultasi;
+    selectedSlotTime = waktuMulai;
+    document.getElementById('bookingIdKonsultasi').value = idKonsultasi;
+    document.getElementById('bookingWaktuMulai').value = waktuMulai;
+
+    const summarySlot = document.getElementById('selectedSlotSummary');
+    if (summarySlot) {
+      summarySlot.textContent = timeLabel;
+    }
+
+    document.querySelectorAll('#timeSlotsContainer .slot-item-btn').forEach(b => {
+      b.classList.remove('selected');
+      const badge = b.querySelector('.slot-status-badge');
+      if (badge) badge.textContent = 'Tersedia';
+    });
+
+    btn.classList.add('selected');
+    const badge = btn.querySelector('.slot-status-badge');
+    if (badge) badge.textContent = 'Tersedia (Dipilih)';
+  }
+
+  // Switch psychologist
   function choosePsikolog(id, nama) {
+    selectedPsikologId = id;
+    selectedPsikologNama = nama;
     document.getElementById('bookingIdPsikolog').value = id;
-    document.getElementById('selectedPsikologSummary').textContent = nama;
+    
+    const summaryPsk = document.getElementById('selectedPsikologSummary');
+    if (summaryPsk) summaryPsk.textContent = nama;
 
     document.querySelectorAll('.psikolog-choice-card').forEach(card => {
       card.classList.remove('selected');
@@ -527,25 +573,9 @@
       const ind = activeCard.querySelector('.radio-indicator');
       if (ind) ind.style.borderColor = 'var(--c-primary)';
     }
-  }
 
-  // Choose Standard Time Slot
-  function selectTimeSlot(btn, timeValue, timeLabel) {
-    // Reset any direct slot ID
-    document.getElementById('bookingIdKonsultasi').value = '';
-
-    document.getElementById('bookingWaktuMulai').value = timeValue;
-    document.getElementById('selectedSlotSummary').textContent = timeLabel;
-
-    document.querySelectorAll('.time-slots-list .slot-item-btn').forEach(b => {
-      b.classList.remove('selected');
-      const badge = b.querySelector('.slot-status-badge');
-      if (badge) badge.textContent = 'Tersedia';
-    });
-
-    btn.classList.add('selected');
-    const curBadge = btn.querySelector('.slot-status-badge');
-    if (curBadge) curBadge.textContent = 'Tersedia (Dipilih)';
+    // Re-render time slots for newly selected psychologist
+    renderDynamicTimeSlots();
   }
 
   // Initialize events
@@ -587,6 +617,24 @@
 
     // Initial render
     renderCalendar(currentYear, currentMonth);
+
+    // Form submission validation
+    const bookingForm = document.getElementById('formBookingKonsultasi');
+    if (bookingForm) {
+      bookingForm.addEventListener('submit', function(e) {
+        const waktu = document.getElementById('bookingWaktuMulai').value;
+        const idKons = document.getElementById('bookingIdKonsultasi').value;
+        if (!waktu && !idKons) {
+          e.preventDefault();
+          if (window.showToastError) {
+            window.showToastError('Pilih Jam Konsultasi', 'Silakan pilih slot jam konsultasi yang tersedia terlebih dahulu.');
+          } else {
+            alert('Silakan pilih slot jam konsultasi yang tersedia terlebih dahulu.');
+          }
+          return false;
+        }
+      });
+    }
   });
 </script>
 @endpush

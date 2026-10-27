@@ -77,7 +77,7 @@
             <line x1="16" y1="17" x2="8" y2="17"></line>
           </svg>
           <span>Tabel Riwayat Asesmen Siswa</span>
-          <span class="data-count-badge" data-count-for="riwayatAsesmenTableBody">{{ count($riwayats ?? []) }} Sesi Terdata</span>
+          <span class="data-count-badge" data-count-for="riwayatAsesmenTableBody">{{ $totalSesi ?? (isset($riwayats) ? $riwayats->total() : 0) }} Sesi Terdata</span>
         </div>
         <div class="table-toolbar-desc">Arsip hasil asesmen Holland RIASEC dan rekam jejak rekomendasi prodi</div>
       </div>
@@ -207,63 +207,29 @@
               </tr>
             @endforeach
           @else
-            <!-- Sample Rows jika belum ada asesmen tersimpan -->
-            @php
-              $samplePayload = [
-                  'sesi' => '#ASY-01',
-                  'tanggal' => '05 Oktober 2026 • Pukul 14:20 WIB',
-                  'status' => 'Selesai',
-                  'holland' => 'I–S–R',
-                  'ringkasan' => 'Profil kemampuan logika komputasi, pemecahan masalah analitis, dan eksplorasi sains terapan sangat selaras dengan rumpun bidang teknologi informasi dan rekayasa komputasi.',
-                  'rekomendasi' => [
-                      [
-                          'ranking' => 1,
-                          'nama_prodi' => 'Teknik Informatika',
-                          'rumpun' => 'Saintek',
-                          'skor' => 95,
-                          'alasan' => 'Profil kemampuan logika komputasi dan pemecahan masalah analitis sangat selaras dengan kurikulum program studi.'
-                      ],
-                      [
-                          'ranking' => 2,
-                          'nama_prodi' => 'Sains Data',
-                          'rumpun' => 'Saintek',
-                          'skor' => 91,
-                          'alasan' => 'Kombinasi minat investigasi ilmiah dan kecakapan matematika kuantitatif memberikan fondasi kuat untuk riset komputasi data.'
-                      ],
-                      [
-                          'ranking' => 3,
-                          'nama_prodi' => 'Sistem Informasi',
-                          'rumpun' => 'Saintek',
-                          'skor' => 87,
-                          'alasan' => 'Orientasi pemecahan masalah teknologi terapan dan manajemen proses digital selaras dengan potensi siswa.'
-                      ]
-                  ]
-              ];
-            @endphp
-            <tr data-searchable="05 Okt 2026 Teknik Informatika Sains Data Selesai" data-status="Selesai" data-periode="2026">
-              <td>
-                <div style="font-weight:700; color:var(--c-text-heading);">05 Oktober 2026</div>
-                <div style="font-size:12px; color:var(--c-text-muted);">Pukul 14:20 WIB • Sesi #ASY-01</div>
-              </td>
-              <td>
-                <span style="font-weight:600; display:inline-flex; align-items:center; gap:5px;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                  42 Soal
-                </span>
-              </td>
-              <td><span class="status-pill success">Selesai</span></td>
-              <td>
-                <div style="font-weight:700; color:var(--c-primary); font-size:14px;">Teknik Informatika (95%)</div>
-                <div style="font-size:12px; color:var(--c-text-muted);">Profil Holland: I–S–R • Alternatif: Sains Data, Sistem Informasi</div>
-              </td>
-              <td style="text-align: right;">
-                <button type="button" class="btn-table-action primary btn-open-detail-modal"
-                  data-asesmen="{{ json_encode($samplePayload) }}"
-                  style="font-weight:700; display:inline-flex; align-items:center; gap:6px;"
-                  title="Lihat Card Detail Hasil Asesmen">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                  Lihat Detail
-                </button>
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 48px 20px;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
+                  <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(48, 97, 140, 0.08); display: flex; align-items: center; justify-content: center; color: var(--c-primary);">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                  </div>
+                  <div style="font-size: 16px; font-weight: 700; color: #1E293B;">Belum Ada Riwayat Asesmen</div>
+                  <p style="font-size: 13.5px; color: #64748B; margin: 0; max-width: 440px; line-height: 1.5;">
+                    Anda belum pernah menyelesaikan tes asesmen minat &amp; potensi Holland RIASEC. Mulai tes asesmen untuk melihat rekomendasi program studi terbaik Anda.
+                  </p>
+                  <a href="{{ route('siswa.asesmen') }}" class="btn-primary-action" style="margin-top: 8px; padding: 10px 22px; font-size: 13.5px; font-weight: 700; text-decoration: none; border-radius: 8px; display: inline-flex; align-items: center; gap: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Mulai Pengerjaan Asesmen</span>
+                  </a>
+                </div>
               </td>
             </tr>
           @endif
@@ -271,28 +237,46 @@
       </table>
     </div>
 
-    <!-- Table Pagination Footer matching bottom wireframe icons -->
-    <div class="table-pagination-footer">
-      <div class="pagination-info">
-        Menampilkan <strong>1 - 4</strong> dari <strong>4</strong> riwayat asesmen
-      </div>
+    <!-- Table Pagination Footer -->
+    @if(isset($riwayats) && $riwayats->total() > 0)
+      <div class="table-pagination-footer">
+        <div class="pagination-info">
+          Menampilkan <strong>{{ $riwayats->firstItem() }} - {{ $riwayats->lastItem() }}</strong> dari <strong>{{ $riwayats->total() }}</strong> riwayat asesmen
+        </div>
 
-      <div class="pagination-nav">
-        <button type="button" class="pagination-btn" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg>
-        </button>
-        <button type="button" class="pagination-btn" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-        <button type="button" class="pagination-btn active">1</button>
-        <button type="button" class="pagination-btn" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
-        <button type="button" class="pagination-btn" disabled>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg>
-        </button>
+        @if($riwayats->hasPages())
+          <div class="pagination-nav">
+            @if($riwayats->onFirstPage())
+              <button type="button" class="pagination-btn" disabled aria-label="Halaman Sebelumnya">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+            @else
+              <a href="{{ $riwayats->previousPageUrl() }}" class="pagination-btn" aria-label="Halaman Sebelumnya">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </a>
+            @endif
+
+            @foreach($riwayats->getUrlRange(1, $riwayats->lastPage()) as $page => $url)
+              @if($page == $riwayats->currentPage())
+                <button type="button" class="pagination-btn active">{{ $page }}</button>
+              @else
+                <a href="{{ $url }}" class="pagination-btn">{{ $page }}</a>
+              @endif
+            @endforeach
+
+            @if($riwayats->hasMorePages())
+              <a href="{{ $riwayats->nextPageUrl() }}" class="pagination-btn" aria-label="Halaman Selanjutnya">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </a>
+            @else
+              <button type="button" class="pagination-btn" disabled aria-label="Halaman Selanjutnya">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            @endif
+          </div>
+        @endif
       </div>
-    </div>
+    @endif
   </div>
 @endsection
 

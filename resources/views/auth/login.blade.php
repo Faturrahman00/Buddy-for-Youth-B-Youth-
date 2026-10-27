@@ -12,7 +12,7 @@
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
@@ -134,19 +134,9 @@
         <p class="form-sub-title">Masukkan akun untuk memulai bimbingan & konseling.</p>
       </div>
 
-      {{-- Notification Alerts --}}
-      @if(session('success'))
-        <div style="background: #EBFDF2; border: 1px solid #A6F4C5; color: #027A48; padding: 12px 16px; border-radius: 10px; margin-bottom: 18px; font-size: 13px; font-weight: 600;">
-          {{ session('success') }}
-        </div>
-      @endif
-
-      @if($errors->any())
-        <div style="background: #FFF4F2; border: 1px solid #FECDCA; color: #B42318; padding: 12px 16px; border-radius: 10px; margin-bottom: 18px; font-size: 13px; font-weight: 600;">
-          @foreach($errors->all() as $err)
-            <div>{{ $err }}</div>
-          @endforeach
-        </div>
+      {{-- SweetAlert2 for Toast Notifications --}}
+      @if(session('success') || session('error') || $errors->any())
+      {{-- Will be shown via toast after SweetAlert2 loads --}}
       @endif
 
 
@@ -257,6 +247,26 @@
     }
   }
 </script>
+
+<!-- SweetAlert2 & Toast Notifications -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
+<script src="{{ asset('js/byouth-dialog.js') }}"></script>
+@if(session('success') || session('error') || $errors->any())
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  @if(session('success'))
+    window.byouthToast({ type: 'success', message: @json(session('success')) });
+  @endif
+  @if(session('error'))
+    window.byouthToast({ type: 'error', message: @json(session('error')) });
+  @endif
+  @if($errors->any())
+    window.byouthToast({ type: 'error', message: @json($errors->first()), duration: 5000 });
+  @endif
+});
+</script>
+@endif
 
 </body>
 </html>

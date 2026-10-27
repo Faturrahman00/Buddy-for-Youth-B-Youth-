@@ -103,8 +103,10 @@ class AkademikController extends Controller
     {
         $siswa = $this->currentSiswa();
         if (!$siswa) {
-            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+            return response()->json(['success' => false, 'message' => 'Sesi login telah berakhir. Silakan login kembali.'], 401);
         }
+
+        $siswaId = $siswa->id_siswa ?? $siswa->getKey() ?? $siswa->id;
 
         $validated = $request->validate([
             'mata_pelajaran' => 'required|string|max:100',
@@ -126,21 +128,40 @@ class AkademikController extends Controller
         $keterampilan = (float) $validated['keterampilan'];
         $rataRata = round(($pengetahuan + $keterampilan) / 2, 2);
 
-        $akademik = DataAkademik::updateOrCreate(
-            [
-                'id_siswa' => $siswa->id_siswa ?? $siswa->id,
-                'mata_pelajaran' => $validated['mata_pelajaran'],
-                'mapel_semester' => $validated['mapel_semester'],
-            ],
-            [
+        $mapelName = $validated['mata_pelajaran'];
+        $searchMapels = [$mapelName];
+        if ($mapelName === 'MTK') {
+            $searchMapels[] = 'Matematika';
+        } elseif ($mapelName === 'Matematika') {
+            $searchMapels[] = 'MTK';
+        }
+
+        $existing = DataAkademik::where('id_siswa', $siswaId)
+            ->whereIn('mata_pelajaran', $searchMapels)
+            ->where('mapel_semester', $validated['mapel_semester'])
+            ->first();
+
+        if ($existing) {
+            $existing->update([
+                'mata_pelajaran' => $mapelName,
                 'pengetahuan' => $pengetahuan,
                 'keterampilan' => $keterampilan,
                 'rata_rata_nilai' => $rataRata,
-            ]
-        );
+            ]);
+            $akademik = $existing;
+        } else {
+            $akademik = DataAkademik::create([
+                'id_siswa' => $siswaId,
+                'mata_pelajaran' => $mapelName,
+                'mapel_semester' => $validated['mapel_semester'],
+                'pengetahuan' => $pengetahuan,
+                'keterampilan' => $keterampilan,
+                'rata_rata_nilai' => $rataRata,
+            ]);
+        }
 
         // Ambil data keseluruhan untuk menghitung ulang rata-rata global siswa
-        $allRecords = DataAkademik::where('id_siswa', $siswa->id_siswa ?? $siswa->id)->get();
+        $allRecords = DataAkademik::where('id_siswa', $siswaId)->get();
         $globalAvg = round($allRecords->avg('rata_rata_nilai'), 1);
         $highestRecord = $allRecords->sortByDesc('rata_rata_nilai')->first();
         $highestMapelStr = $highestRecord ? $highestRecord->rata_rata_nilai . ' (' . $highestRecord->mata_pelajaran . ')' : '-';

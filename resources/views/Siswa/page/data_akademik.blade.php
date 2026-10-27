@@ -303,6 +303,15 @@
             <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
           </select>
         </div>
+
+        <!-- Tombol Tambah / Masukkan Nilai -->
+        <button type="button" class="btn-primary-action btn-open-tambah-nilai" style="padding: 8px 16px; font-size: 13px; font-weight: 700; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; cursor: pointer;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>Tambah Nilai</span>
+        </button>
       </div>
     </div>
 
@@ -324,8 +333,8 @@
           @foreach($daftarMapelStandar as $key => $meta)
             @php
               $record = $mapelData[$key] ?? null;
-              $p = $record ? (float) $record->pengetahuan : 0;
-              $k = $record ? (float) $record->keterampilan : 0;
+              $p = $record ? (float) $record->pengetahuan : '';
+              $k = $record ? (float) $record->keterampilan : '';
               $akhir = $record ? (float) $record->rata_rata_nilai : 0;
               $sem = $record ? $record->mapel_semester : 'Semester 5';
               $hasData = $record !== null;
@@ -334,8 +343,8 @@
                 data-semester="{{ $sem }}" 
                 data-mapel="{{ $key }}" 
                 data-kkm="{{ $meta['kkm'] }}" 
-                data-pengetahuan="{{ $p }}" 
-                data-keterampilan="{{ $k }}">
+                data-pengetahuan="{{ $hasData ? $p : '' }}" 
+                data-keterampilan="{{ $hasData ? $k : '' }}">
               <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">{{ $no++ }}</td>
               <td>
                 <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">{{ $key }}</div>
