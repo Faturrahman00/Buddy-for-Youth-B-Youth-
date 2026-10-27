@@ -46,7 +46,13 @@ class AsesmenController extends Controller
         $dataAkademikList = DataAkademik::where('id_siswa', $siswaId)->get();
         $raportGrades = [];
         foreach ($dataAkademikList as $da) {
-            $raportGrades[$da->mata_pelajaran] = (float) $da->rata_rata_nilai;
+            $key = $da->mata_pelajaran;
+            $val = (float) $da->rata_rata_nilai;
+            $raportGrades[$key] = $val;
+            if ($key === 'MTK' || stripos($key, 'Matematika') !== false) {
+                $raportGrades['Matematika'] = $val;
+                $raportGrades['MTK'] = $val;
+            }
         }
 
         // Ambil asesmen spesifik berdasarkan id (jika diminta) atau asesmen terakhir yang selesai
@@ -101,23 +107,29 @@ class AsesmenController extends Controller
         $inferenceTrace = $aiResult['inference_trace'] ?? [];
         $aiEngineName = $aiResult['ai_engine'] ?? 'Python Forward Chaining & Collaborative Filtering';
 
-        // 2. Jika user menyertakan nilai rapor, simpan ke tabel data_akademik granular
+        // 2. Nilai rapor disinkronkan dari data_akademik (tidak meng-overwrite nilai rinci yang sudah ada)
         if ($useRaport && ! empty($raportGrades) && is_array($raportGrades)) {
             foreach ($raportGrades as $mapel => $nilai) {
-                if (is_numeric($nilai)) {
+                if (is_numeric($nilai) && (float)$nilai > 0) {
                     $scoreVal = (float) $nilai;
-                    DataAkademik::updateOrCreate(
-                        [
+                    $exists = DataAkademik::where('id_siswa', $siswaId)
+                        ->where(function ($q) use ($mapel) {
+                            $q->where('mata_pelajaran', $mapel);
+                            if ($mapel === 'MTK') $q->orWhere('mata_pelajaran', 'Matematika');
+                            if ($mapel === 'Matematika') $q->orWhere('mata_pelajaran', 'MTK');
+                        })
+                        ->exists();
+
+                    if (! $exists) {
+                        DataAkademik::create([
                             'id_siswa' => $siswaId,
                             'mapel_semester' => 'Semester 5',
                             'mata_pelajaran' => $mapel,
-                        ],
-                        [
                             'pengetahuan' => $scoreVal,
                             'keterampilan' => $scoreVal,
                             'rata_rata_nilai' => $scoreVal,
-                        ]
-                    );
+                        ]);
+                    }
                 }
             }
         }

@@ -7,28 +7,6 @@
 @endphp
 
 <div class="steps-card-container" style="padding: 24px;">
-    {{-- Flash Notifications --}}
-    @if(session('success'))
-        <div style="background: #EBFDF2; border: 1.5px solid #A6F4C5; color: #027A48; padding: 14px 18px; border-radius: var(--radius-sm); margin-bottom: 20px; font-weight: 600; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="font-weight: 800; cursor: pointer; color: #027A48; font-size: 16px;">&times;</button>
-        </div>
-    @endif
-
-    @if($errors->any())
-        <div style="background: #FFF4F2; border: 1.5px solid #FECDCA; color: #B42318; padding: 14px 18px; border-radius: var(--radius-sm); margin-bottom: 20px; font-weight: 600;">
-            <div style="margin-bottom: 6px; font-weight: 700;">Terdapat kesalahan pada input:</div>
-            <ul style="margin-left: 20px; font-size: 13px; font-weight: 500;">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <!-- Tabs Navigation -->
     <div style="display: flex; gap: 24px; border-bottom: 1.5px solid var(--c-border); margin-bottom: 24px;">
         <button type="button" id="tabBtnSoal" onclick="switchAsesmenTab('soal')" style="padding-bottom: 12px; border-bottom: 2px solid var(--c-text-heading); font-weight: 800; color: var(--c-text-heading); font-size: 15px; cursor: pointer; background: transparent; border-top: none; border-left: none; border-right: none;">

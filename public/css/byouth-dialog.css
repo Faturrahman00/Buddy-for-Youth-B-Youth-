@@ -120,3 +120,29 @@
   font-size: 13.5px !important;
   font-weight: 600 !important;
 }
+
+/* Mobile Responsive Dialog & Toast */
+@media (max-width: 480px) {
+  .byouth-swal-popup {
+    padding: 22px 16px !important;
+    width: 92% !important;
+    border-radius: 16px !important;
+  }
+  .byouth-swal-actions {
+    flex-direction: column-reverse !important;
+    gap: 8px !important;
+    margin-top: 16px !important;
+  }
+  .byouth-swal-btn-confirm,
+  .byouth-swal-btn-danger,
+  .byouth-swal-btn-cancel {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+  .byouth-toast-popup {
+    max-width: calc(100vw - 32px) !important;
+    margin: 0 16px 16px 16px !important;
+  }
+}

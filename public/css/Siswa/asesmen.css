@@ -841,6 +841,61 @@
   box-shadow: 0 0 0 3px rgba(48, 97, 140, 0.15);
 }
 
+.raport-readonly-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 10px;
+  min-height: 44px;
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.raport-readonly-box.filled {
+  background: #F0FDF4;
+  border-color: #BBF7D0;
+}
+
+.raport-score-display {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.raport-badge-status.tercatat {
+  font-size: 11px;
+  font-weight: 700;
+  color: #047857;
+  background: #DCFCE7;
+  border: 1px solid #A7F3D0;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.raport-readonly-box.empty {
+  background: #FAFAFA;
+  border: 1.5px dashed #CBD5E1;
+}
+
+.raport-empty-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #94A3B8;
+}
+
+.raport-empty-display svg {
+  color: #D97706;
+  flex-shrink: 0;
+}
+
 .raport-note {
   font-size: 12.5px;
   color: #64748B;

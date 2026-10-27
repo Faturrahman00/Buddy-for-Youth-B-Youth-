@@ -19,7 +19,7 @@
   --c-border: #E2E8F0;
   --c-input-bg: #F8FAFC;
   --c-input-focus: #FFFFFF;
-  --font-family: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 20px;
@@ -634,5 +634,27 @@ select.modern-input option:not([value=""]) {
   .field-grid-2 {
     grid-template-columns: 1fr;
     gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-options-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .btn-modern-primary {
+    height: 46px;
+    font-size: 14.5px;
+    width: 100%;
+  }
+
+  .auth-form-card {
+    padding: 20px 14px;
+  }
+
+  .form-header-box h2 {
+    font-size: 22px;
   }
 }

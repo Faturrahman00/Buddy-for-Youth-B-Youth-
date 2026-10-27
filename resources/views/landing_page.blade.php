@@ -33,7 +33,7 @@
       --radius-sm:       8px;
       --radius-md:       14px;
       --radius-lg:       22px;
-      --font:            'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font:            'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       --transition:      0.3s cubic-bezier(.4,0,.2,1);
     }
 
@@ -825,11 +825,16 @@
       .lp-menu-toggle { display: block; }
       .lp-hero h1 { font-size: clamp(32px, 7vw, 52px); }
       .lp-hero-stats { gap: 18px; margin-top: 36px; }
+    @media (max-width: 580px) {
+      .lp-hero-cta { flex-direction: column; align-items: stretch; width: 100%; }
+      .btn-hero-primary, .btn-hero-secondary, .btn-cta-big { width: 100%; justify-content: center; text-align: center; box-sizing: border-box; }
+      .lp-section, .latar-section, .cara-kerja-section, .lp-cta-section { padding: 60px 5%; }
     }
 
-    @media (max-width: 580px) {
-      .lp-hero-cta { flex-direction: column; align-items: flex-start; }
-      .lp-section, .latar-section, .cara-kerja-section, .lp-cta-section { padding: 60px 5%; }
+    @media (max-width: 440px) {
+      .btn-nav-login { padding: 6px 12px; font-size: 13px; }
+      .btn-nav-register { padding: 6px 14px; font-size: 13px; }
+      .lp-nav-actions { gap: 6px; }
     }
   </style>
 </head>

@@ -317,6 +317,123 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scoresMap['Bahasa Inggris']) updateChartMetric('pillarIng', 'chartScoreIng', 'chartGradeIng', 'chartPercentIng', scoresMap['Bahasa Inggris']);
   }
 
+  // Helper function to save/update academic grade via fetch POST /siswa/akademik
+  function saveNilaiAkademik({ mapel, sem, p, k, kkm, formEl, modalEl }) {
+    const { akhir, predikat, badgeClass } = calculateGrade(p, k);
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+      || document.querySelector('input[name="_token"]')?.value;
+
+    if (modalEl) modalEl.classList.remove('active');
+    document.body.style.overflow = '';
+
+    const executeSave = () => {
+      fetch('/siswa/akademik', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': csrfToken,
+        },
+        body: JSON.stringify({
+          mata_pelajaran: mapel,
+          mapel_semester: sem,
+          pengetahuan: p,
+          keterampilan: k,
+        })
+      })
+      .then(async response => {
+        const res = await response.json();
+        if (!response.ok) {
+          throw new Error(res.message || 'Gagal menyimpan nilai.');
+        }
+        return res;
+      })
+      .then(res => {
+        // Cari baris tabel yang bersangkutan
+        let targetRow = editingRowElement;
+        if (!targetRow && tableBodyAkademik) {
+          tableBodyAkademik.querySelectorAll('tr').forEach(r => {
+            const rowMapel = r.getAttribute('data-mapel') || '';
+            if (rowMapel === mapel || (mapel === 'MTK' && rowMapel.includes('Matematika')) || (mapel === 'Matematika' && rowMapel === 'MTK')) {
+              targetRow = r;
+            }
+          });
+        }
+
+        if (targetRow) {
+          targetRow.setAttribute('data-searchable', `${mapel} ${sem} ${predikat}`);
+          targetRow.setAttribute('data-semester', sem);
+          targetRow.setAttribute('data-mapel', mapel);
+          targetRow.setAttribute('data-kkm', kkm);
+          targetRow.setAttribute('data-pengetahuan', p);
+          targetRow.setAttribute('data-keterampilan', k);
+
+          const semEl = targetRow.querySelector('.row-semester-val');
+          if (semEl) semEl.textContent = sem;
+
+          const pEl = targetRow.querySelector('.row-pengetahuan-val');
+          if (pEl) pEl.textContent = p;
+
+          const kEl = targetRow.querySelector('.row-keterampilan-val');
+          if (kEl) kEl.textContent = k;
+
+          const akhirEl = targetRow.querySelector('.row-akhir-val');
+          if (akhirEl) akhirEl.textContent = parseFloat(akhir).toFixed(1);
+
+          const predikatEl = targetRow.querySelector('.row-predikat-val');
+          if (predikatEl) {
+            predikatEl.innerHTML = `<span class="grade-badge ${badgeClass}">${predikat}</span>`;
+          }
+
+          const btnAction = targetRow.querySelector('.btn-edit-row');
+          if (btnAction) btnAction.textContent = 'Ubah Nilai';
+        }
+
+        // Perbarui metrik kartu atas
+        const statAvg = document.getElementById('statRataRataNilai');
+        if (statAvg && res.data && res.data.global_avg) {
+          statAvg.textContent = parseFloat(res.data.global_avg).toFixed(1);
+        }
+
+        const statTop = document.getElementById('statMapelTertinggi');
+        if (statTop && res.data && res.data.highest_mapel) {
+          statTop.textContent = res.data.highest_mapel;
+        }
+
+        if (formEl) formEl.reset();
+        editingRowElement = null;
+        updateAkademikStats();
+
+        if (typeof window.byouthToast === 'function') {
+          window.byouthToast({
+            type: 'success',
+            message: res.message || `Nilai rapor ${mapel} berhasil disimpan ke database.`
+          });
+        } else if (window.showToastSuccess) {
+          window.showToastSuccess('Berhasil Disimpan', res.message || `Nilai rapor ${mapel} berhasil disimpan ke database.`);
+        }
+      })
+      .catch(err => {
+        if (window.byouthAlert) {
+          window.byouthAlert({
+            title: 'Gagal Menyimpan',
+            text: err.message || 'Terjadi kesalahan saat menyimpan data ke database.',
+            icon: 'error'
+          });
+        } else {
+          alert(err.message || 'Gagal menyimpan nilai.');
+        }
+      });
+    };
+
+    if (window.showGlassLoading) {
+      window.showGlassLoading('Menyimpan nilai ke database...', 500, executeSave);
+    } else {
+      executeSave();
+    }
+  }
+
   // Handle Form Tambah Nilai Submit (Input Nilai untuk 4 Mapel)
   if (formTambahNilai) {
     formTambahNilai.addEventListener('submit', (e) => {
@@ -330,7 +447,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const p = parseFloat(pRaw);
       const k = parseFloat(kRaw);
 
-      // Validasi Nilai Berhasil & Gagal
       if (isNaN(p) || isNaN(k) || p < 0 || p > 100 || k < 0 || k > 100) {
         if (window.byouthAlert) {
           window.byouthAlert({
@@ -342,119 +458,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const { akhir, predikat, badgeClass } = calculateGrade(p, k);
-
-      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
-        || document.querySelector('input[name="_token"]')?.value;
-
-      // Close modal
-      if (modalTambahNilai) modalTambahNilai.classList.remove('active');
-      document.body.style.overflow = '';
-
-      const sendNilaiRequest = () => {
-        fetch('/siswa/akademik', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRF-TOKEN': csrfToken,
-          },
-          body: JSON.stringify({
-            mata_pelajaran: mapel,
-            mapel_semester: sem,
-            pengetahuan: p,
-            keterampilan: k,
-          })
-        })
-        .then(async response => {
-          const res = await response.json();
-          if (!response.ok) {
-            throw new Error(res.message || 'Gagal menyimpan nilai.');
-          }
-          return res;
-        })
-        .then(res => {
-          // Cari apakah mapel ini sudah ada di tabel
-          let targetRow = null;
-          if (tableBodyAkademik) {
-            tableBodyAkademik.querySelectorAll('tr').forEach(r => {
-              if (r.getAttribute('data-mapel') === mapel) {
-                targetRow = r;
-              }
-            });
-          }
-
-          if (targetRow) {
-            targetRow.setAttribute('data-searchable', `${mapel} ${sem} ${predikat}`);
-            targetRow.setAttribute('data-semester', sem);
-            targetRow.setAttribute('data-pengetahuan', p);
-            targetRow.setAttribute('data-keterampilan', k);
-
-            const semEl = targetRow.querySelector('.row-semester-val');
-            if (semEl) semEl.textContent = sem;
-
-            const pEl = targetRow.querySelector('.row-pengetahuan-val');
-            if (pEl) pEl.textContent = p;
-
-            const kEl = targetRow.querySelector('.row-keterampilan-val');
-            if (kEl) kEl.textContent = k;
-
-            const akhirEl = targetRow.querySelector('.row-akhir-val');
-            if (akhirEl) akhirEl.textContent = akhir.toFixed(1);
-
-            const predikatEl = targetRow.querySelector('.row-predikat-val');
-            if (predikatEl) {
-              predikatEl.innerHTML = `<span class="grade-badge ${badgeClass}">${predikat}</span>`;
-            }
-
-            const statusCell = targetRow.querySelector('.status-pill');
-            if (statusCell) {
-              statusCell.className = 'status-pill success';
-              statusCell.textContent = 'Terverifikasi';
-              statusCell.style = '';
-            }
-
-            const btnAction = targetRow.querySelector('.btn-edit-row');
-            if (btnAction) btnAction.textContent = 'Ubah Nilai';
-          }
-
-          // Perbarui metrik kartu atas
-          const statAvg = document.getElementById('statRataRataNilai');
-          if (statAvg && res.data.global_avg) statAvg.textContent = res.data.global_avg.toFixed(1);
-
-          const statTop = document.getElementById('statMapelTertinggi');
-          if (statTop && res.data.highest_mapel) statTop.textContent = res.data.highest_mapel;
-
-          formTambahNilai.reset();
-          updateAkademikStats();
-
-          if (window.showToastSuccess) {
-            window.showToastSuccess('Berhasil Disimpan', res.message || `Nilai rapor ${mapel} berhasil disimpan ke database.`);
-          }
-        })
-        .catch(err => {
-          if (window.byouthAlert) {
-            window.byouthAlert({
-              title: 'Gagal Menyimpan',
-              text: err.message || 'Terjadi kesalahan saat menyimpan data ke database.',
-              icon: 'error'
-            });
-          } else {
-            alert(err.message || 'Gagal menyimpan nilai.');
-          }
-        });
-      };
-
-      // Tampilkan animasi glassmorphism loading
-      if (window.showGlassLoading) {
-        window.showGlassLoading('Menyimpan nilai ke database...', 500, sendNilaiRequest);
-      } else {
-        sendNilaiRequest();
-      }
+      saveNilaiAkademik({
+        mapel,
+        sem,
+        p,
+        k,
+        kkm,
+        formEl: formTambahNilai,
+        modalEl: modalTambahNilai
+      });
     });
   }
 
-  // Attach click events to rows (Edit Nilai)
+  // Attach click events to rows (Edit / Input Nilai)
   function attachRowEvents(row) {
     const editBtn = row.querySelector('.btn-edit-row');
 
@@ -463,8 +479,8 @@ document.addEventListener('DOMContentLoaded', () => {
         editingRowElement = row;
         const mapel = row.getAttribute('data-mapel') || 'IPAS';
         const kkm = row.getAttribute('data-kkm') || '75';
-        const p = row.getAttribute('data-pengetahuan') || '85';
-        const k = row.getAttribute('data-keterampilan') || '85';
+        const pAttr = row.getAttribute('data-pengetahuan');
+        const kAttr = row.getAttribute('data-keterampilan');
         const sem = row.getAttribute('data-semester') || 'Semester 5';
 
         const mapelSelect = document.getElementById('editMapelNama');
@@ -474,10 +490,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (kkmInput) kkmInput.value = kkm;
 
         const pInput = document.getElementById('editNilaiPengetahuan');
-        if (pInput) pInput.value = p;
+        if (pInput) pInput.value = (pAttr !== null && pAttr !== '' && !isNaN(pAttr)) ? pAttr : '';
 
         const kInput = document.getElementById('editNilaiKeterampilan');
-        if (kInput) kInput.value = k;
+        if (kInput) kInput.value = (kAttr !== null && kAttr !== '' && !isNaN(kAttr)) ? kAttr : '';
 
         const semSelect = document.getElementById('editSemester');
         if (semSelect) semSelect.value = sem;
@@ -500,7 +516,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (formEditNilai) {
     formEditNilai.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (!editingRowElement) return;
 
       const sem = document.getElementById('editSemester').value;
       const mapel = document.getElementById('editMapelNama').value.trim();
@@ -511,7 +526,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const p = parseFloat(pRaw);
       const k = parseFloat(kRaw);
 
-      // Validasi Nilai Berhasil & Gagal
       if (isNaN(p) || isNaN(k) || p < 0 || p > 100 || k < 0 || k > 100) {
         if (window.byouthAlert) {
           window.byouthAlert({
@@ -523,46 +537,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const { akhir, predikat, badgeClass } = calculateGrade(p, k);
-
-      if (modalEditNilai) modalEditNilai.classList.remove('active');
-      document.body.style.overflow = '';
-
-      if (window.showGlassLoading) {
-        window.showGlassLoading('Memperbarui nilai rapor...', 600, () => {
-          editingRowElement.setAttribute('data-searchable', `${mapel} ${sem} ${predikat}`);
-          editingRowElement.setAttribute('data-semester', sem);
-          editingRowElement.setAttribute('data-mapel', mapel);
-          editingRowElement.setAttribute('data-kkm', kkm);
-          editingRowElement.setAttribute('data-pengetahuan', p);
-          editingRowElement.setAttribute('data-keterampilan', k);
-
-          const semEl = editingRowElement.querySelector('.row-semester-val');
-          if (semEl) semEl.textContent = sem;
-
-          const pEl = editingRowElement.querySelector('.row-pengetahuan-val');
-          if (pEl) pEl.textContent = p;
-
-          const kEl = editingRowElement.querySelector('.row-keterampilan-val');
-          if (kEl) kEl.textContent = k;
-
-          const akhirEl = editingRowElement.querySelector('.row-akhir-val');
-          if (akhirEl) akhirEl.textContent = akhir;
-
-          const predikatEl = editingRowElement.querySelector('.row-predikat-val');
-          if (predikatEl) {
-            predikatEl.innerHTML = `<span class="grade-badge ${badgeClass}">${predikat}</span>`;
-          }
-
-          updateAkademikStats();
-          editingRowElement = null;
-
-          // Tampilkan Notifikasi Berhasil
-          if (window.showToastSuccess) {
-            window.showToastSuccess('Berhasil Diperbarui', `Nilai rapor ${mapel} berhasil diperbarui.`);
-          }
-        });
-      }
+      saveNilaiAkademik({
+        mapel,
+        sem,
+        p,
+        k,
+        kkm,
+        formEl: formEditNilai,
+        modalEl: modalEditNilai
+      });
     });
   }
 

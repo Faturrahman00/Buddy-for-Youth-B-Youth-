@@ -64,29 +64,54 @@
       </div>
 
       <div class="raport-inputs-grid" id="raportInputsGrid" style="{{ !empty($raportGrades) ? '' : 'display:none;' }}">
-        <div class="raport-input-item">
-          <label for="inputMtk">Matematika (MTK)</label>
-          <input type="number" id="inputMtk" class="raport-input-field" min="0" max="100" placeholder="Contoh: 90" value="{{ $raportGrades['Matematika'] ?? $raportGrades['mtk'] ?? 88 }}">
-        </div>
+        @php
+          $valMtk = $raportGrades['Matematika'] ?? $raportGrades['MTK'] ?? null;
+          $valIpas = $raportGrades['IPAS'] ?? $raportGrades['IPA'] ?? null;
+          $valIndo = $raportGrades['Bahasa Indonesia'] ?? null;
+          $valIng = $raportGrades['Bahasa Inggris'] ?? null;
 
-        <div class="raport-input-item">
-          <label for="inputIpas">IPAS / IPA (Fisika/Kimia/Bio)</label>
-          <input type="number" id="inputIpas" class="raport-input-field" min="0" max="100" placeholder="Contoh: 88" value="{{ $raportGrades['IPAS'] ?? $raportGrades['ipas'] ?? $raportGrades['Fisika'] ?? 86 }}">
-        </div>
+          $mapelList = [
+            ['id' => 'inputMtk', 'label' => 'Matematika (MTK)', 'val' => $valMtk],
+            ['id' => 'inputIpas', 'label' => 'IPAS / IPA (Fisika/Kimia/Bio)', 'val' => $valIpas],
+            ['id' => 'inputIndo', 'label' => 'Bahasa Indonesia', 'val' => $valIndo],
+            ['id' => 'inputIng', 'label' => 'Bahasa Inggris', 'val' => $valIng],
+          ];
+        @endphp
 
-        <div class="raport-input-item">
-          <label for="inputIndo">Bahasa Indonesia</label>
-          <input type="number" id="inputIndo" class="raport-input-field" min="0" max="100" placeholder="Contoh: 87" value="{{ $raportGrades['Bahasa Indonesia'] ?? $raportGrades['bahasaindonesia'] ?? 87 }}">
-        </div>
-
-        <div class="raport-input-item">
-          <label for="inputIng">Bahasa Inggris</label>
-          <input type="number" id="inputIng" class="raport-input-field" min="0" max="100" placeholder="Contoh: 90" value="{{ $raportGrades['Bahasa Inggris'] ?? $raportGrades['bahasainggris'] ?? 90 }}">
-        </div>
+        @foreach($mapelList as $m)
+          @php
+            $hasVal = $m['val'] !== null && $m['val'] !== '';
+          @endphp
+          <div class="raport-input-item">
+            <label>{{ $m['label'] }}</label>
+            <div class="raport-readonly-box {{ $hasVal ? 'filled' : 'empty' }}">
+              @if($hasVal)
+                <span class="raport-score-display">{{ number_format((float) $m['val'], 1) }}</span>
+                <span class="raport-badge-status tercatat">Tercatat di Rapor</span>
+              @else
+                <span class="raport-empty-display">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  Nilai belum diisi
+                </span>
+              @endif
+            </div>
+            {{-- Hidden input untuk payload kalkulasi asesmen --}}
+            <input type="hidden" id="{{ $m['id'] }}" value="{{ $hasVal ? $m['val'] : '' }}">
+          </div>
+        @endforeach
       </div>
 
-      <div class="raport-note">
-        💡 <strong>Catatan:</strong> Nilai rapor ini <em>bersifat opsional</em>. Jika dinonaktifkan atau tidak diisi, hasil asesmen minat Anda tetap dihitung <strong>100% akurat</strong> tanpa mengurangi atau mendistorsi skor rekomendasi.
+      <div class="raport-note" style="display:flex; flex-direction:column; gap:4px;">
+        <div>
+          🔒 <strong>Nilai Rapor Terkunci:</strong> Nilai rapor disinkronkan otomatis dari menu <a href="{{ route('siswa.akademik') }}" style="color:var(--c-primary); font-weight:700; text-decoration:underline;">Data Akademik</a> dan tidak dapat diedit di sini.
+        </div>
+        <div style="font-size:12px; color:#64748B;">
+          💡 <strong>Catatan:</strong> Nilai rapor ini <em>bersifat opsional</em>. Jika belum diisi nilainya atau dinonaktifkan, rekomendasi program studi tetap dihitung <strong>100% akurat</strong> berdasarkan minat RIASEC Anda.
+        </div>
       </div>
     </div>
 

@@ -268,17 +268,15 @@
     let grades = {};
 
     if (useRaport) {
-      const mtk = document.getElementById('inputMtk')?.value;
-      const ipas = document.getElementById('inputIpas')?.value;
-      const indo = document.getElementById('inputIndo')?.value;
-      const ing = document.getElementById('inputIng')?.value;
+      const mtk = document.getElementById('inputMtk')?.value?.trim();
+      const ipas = document.getElementById('inputIpas')?.value?.trim();
+      const indo = document.getElementById('inputIndo')?.value?.trim();
+      const ing = document.getElementById('inputIng')?.value?.trim();
 
-      grades = {
-        'Matematika': mtk !== '' ? parseFloat(mtk) : 85,
-        'IPAS': ipas !== '' ? parseFloat(ipas) : 85,
-        'Bahasa Indonesia': indo !== '' ? parseFloat(indo) : 85,
-        'Bahasa Inggris': ing !== '' ? parseFloat(ing) : 85,
-      };
+      if (mtk !== undefined && mtk !== '' && !isNaN(mtk)) grades['Matematika'] = parseFloat(mtk);
+      if (ipas !== undefined && ipas !== '' && !isNaN(ipas)) grades['IPAS'] = parseFloat(ipas);
+      if (indo !== undefined && indo !== '' && !isNaN(indo)) grades['Bahasa Indonesia'] = parseFloat(indo);
+      if (ing !== undefined && ing !== '' && !isNaN(ing)) grades['Bahasa Inggris'] = parseFloat(ing);
     }
 
     return { useRaport, grades };

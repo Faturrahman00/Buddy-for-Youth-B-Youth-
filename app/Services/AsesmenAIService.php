@@ -498,10 +498,13 @@ class AsesmenAIService
             $grades[$cleanedKey] = (float)$val;
         }
 
-        $mtk = $grades['matematika'] ?? $grades['mtk'] ?? 78.0;
-        $ipas = $grades['ipas'] ?? $grades['ipa'] ?? $grades['fisika'] ?? 78.0;
-        $indo = $grades['bahasaindonesia'] ?? $grades['indonesia'] ?? 78.0;
-        $ing = $grades['bahasainggris'] ?? $grades['inggris'] ?? 78.0;
+        $existingValues = array_values($grades);
+        $defaultFallback = !empty($existingValues) ? round(array_sum($existingValues) / count($existingValues), 1) : 78.0;
+
+        $mtk = $grades['matematika'] ?? $grades['mtk'] ?? $defaultFallback;
+        $ipas = $grades['ipas'] ?? $grades['ipa'] ?? $grades['fisika'] ?? $defaultFallback;
+        $indo = $grades['bahasaindonesia'] ?? $grades['indonesia'] ?? $defaultFallback;
+        $ing = $grades['bahasainggris'] ?? $grades['inggris'] ?? $defaultFallback;
 
         $prodiName = strtolower($prodi->nama_prodi);
 

@@ -12,7 +12,7 @@
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
@@ -118,14 +118,6 @@
         <p class="form-sub-title">Lengkapi formulir di bawah untuk mendaftar akun baru.</p>
       </div>
 
-      {{-- Error Alerts --}}
-      @if($errors->any())
-        <div style="background: #FFF4F2; border: 1px solid #FECDCA; color: #B42318; padding: 12px 16px; border-radius: 10px; margin-bottom: 18px; font-size: 13px; font-weight: 600;">
-          @foreach($errors->all() as $err)
-            <div>{{ $err }}</div>
-          @endforeach
-        </div>
-      @endif
 
       <!-- Register Form -->
       <form action="{{ route('register.post') }}" method="POST" class="modern-auth-form" id="registerForm">
@@ -343,11 +335,45 @@
     const pwdConfirm = document.getElementById('regPasswordConfirm');
     if (pwd && pwdConfirm && pwd.value !== pwdConfirm.value) {
       e.preventDefault();
-      alert('Konfirmasi Kata Sandi tidak sama dengan Kata Sandi.');
+      if (typeof window.byouthToast === 'function') {
+        window.byouthToast({ type: 'warning', message: 'Konfirmasi Kata Sandi tidak sama dengan Kata Sandi.' });
+      } else {
+        alert('Konfirmasi Kata Sandi tidak sama dengan Kata Sandi.');
+      }
       pwdConfirm.focus();
     }
   });
 </script>
+
+<!-- SweetAlert2 & Toast Notifications -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
+<script src="{{ asset('js/byouth-dialog.js') }}"></script>
+
+{{-- Flash Messages & Errors → Bottom-Right Toast --}}
+@if(session('success') || session('error') || session('warning') || session('info') || $errors->any())
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  @if(session('success'))
+    window.byouthToast({ type: 'success', message: @json(session('success')) });
+  @endif
+  @if(session('error'))
+    window.byouthToast({ type: 'error', message: @json(session('error')) });
+  @endif
+  @if(session('warning'))
+    window.byouthToast({ type: 'warning', message: @json(session('warning')) });
+  @endif
+  @if(session('info'))
+    window.byouthToast({ type: 'info', message: @json(session('info')) });
+  @endif
+  @if($errors->any())
+    @foreach($errors->all() as $err)
+      window.byouthToast({ type: 'error', message: @json($err), duration: 4500 });
+    @endforeach
+  @endif
+});
+</script>
+@endif
 
 </body>
 </html>

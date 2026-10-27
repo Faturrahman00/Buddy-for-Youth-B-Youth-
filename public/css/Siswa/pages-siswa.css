@@ -2233,3 +2233,133 @@
 .app-toast-close:hover {
   color: #475569;
 }
+
+/* ==========================================================================
+   RESPONSIVE MOBILE — BUTTON, ACTION BAR & LAYOUT
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Action bar stacks vertically */
+  .page-top-action-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  /* Primary/secondary action buttons full-width */
+  .btn-primary-action,
+  .btn-secondary-action,
+  .btn-outline-action {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 13.5px;
+  }
+
+  /* Search & filter bar stacks */
+  .toolbar-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .search-box {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .filter-controls-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+
+  .btn-filter-reset {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Calendar layout on mobile */
+  .konsultasi-two-col-layout {
+    grid-template-columns: 1fr;
+  }
+
+  /* Riwayat stats grid */
+  .stats-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Data table overflow */
+  .data-table-wrapper,
+  .riwayat-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    min-width: 480px;
+  }
+
+  /* Pagination */
+  .pagination-controls,
+  .pagination-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+  }
+
+  /* Akademik info grid */
+  .akademik-info-grid,
+  .info-two-col-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Stats grid single column */
+  .stats-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Slot time buttons wrap */
+  .slot-time-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Asesmen navigation buttons */
+  .asesmen-nav-btn-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .asesmen-nav-btn-group > * {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Card list action buttons */
+  .card-action-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card-action-row > * {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Profil form submit area */
+  .profil-form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .profil-form-actions > * {
+    width: 100%;
+    justify-content: center;
+  }
+}
