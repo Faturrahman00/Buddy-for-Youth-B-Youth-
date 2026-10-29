@@ -36,7 +36,8 @@ use App\Http\Controllers\Psikolog\ProfilController as PsikologProfilController;
 // ══════════════════════════════════════════════════════════════════════════
 
 Route::get('/', function () {
-    return view('landing_page');
+    $prodiList = \App\Models\ProgramStudi::orderBy('nama_prodi', 'asc')->get();
+    return view('landing_page', compact('prodiList'));
 })->name('home');
 
 // ══════════════════════════════════════════════════════════════════════════

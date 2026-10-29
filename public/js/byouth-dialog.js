@@ -319,39 +319,8 @@
     }
   }, 3500);
 
-  // 4. Page navigation transition: show preloader when internal links are clicked
+  // 4. Form submission transition: show loader when submitting forms
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('a[href]').forEach(function (link) {
-      link.addEventListener('click', function (e) {
-        const href = link.getAttribute('href');
-        if (!href) return;
-        // Ignore anchors, javascript:, blank targets, modifier clicks, download links, and data-no-loader
-        if (
-          href.startsWith('#') ||
-          href.startsWith('javascript:') ||
-          link.target === '_blank' ||
-          e.ctrlKey ||
-          e.metaKey ||
-          link.hasAttribute('download') ||
-          link.hasAttribute('data-no-loader') ||
-          link.classList.contains('no-loader')
-        ) {
-          return;
-        }
-
-        // Only trigger for same-origin links
-        try {
-          const targetUrl = new URL(link.href, window.location.origin);
-          if (targetUrl.origin === window.location.origin && targetUrl.pathname !== window.location.pathname) {
-            window.showGlassLoading('Memuat Halaman...', 0);
-          }
-        } catch (err) {
-          // ignore invalid URLs
-        }
-      });
-    });
-
-    // 5. Form submission transition: show loader when submitting forms
     document.querySelectorAll('form').forEach(function (form) {
       form.addEventListener('submit', function () {
         if (!form.hasAttribute('data-no-loader') && !form.classList.contains('no-loader')) {

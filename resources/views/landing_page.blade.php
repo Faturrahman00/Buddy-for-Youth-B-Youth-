@@ -15,834 +15,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
 
-  <style>
-    /* ================================================================
-       GLOBAL RESET & VARS
-       ================================================================ */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --c-primary:       #30618C;
-      --c-primary-dark:  #1E4A6E;
-      --c-primary-light: #4A88C0;
-      --c-accent:        #F2B705;
-      --c-white:         #FFFFFF;
-      --c-bg:            #F6F8FB;
-      --c-text:          #1A2535;
-      --c-text-muted:    #64748B;
-      --c-border:        #E2E8F0;
-      --radius-sm:       8px;
-      --radius-md:       14px;
-      --radius-lg:       22px;
-      --font:            'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      --transition:      0.3s cubic-bezier(.4,0,.2,1);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font);
-      background: var(--c-bg);
-      color: var(--c-text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ================================================================
-       NAVBAR
-       ================================================================ */
-    .lp-navbar {
-      position: fixed;
-      top: 0;
-      left: 0; right: 0;
-      z-index: 1000;
-      background: rgba(13, 31, 53, 0.70);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.10);
-      padding: 0 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 68px;
-      transition: background var(--transition);
-    }
-
-    .lp-navbar.scrolled {
-      background: rgba(255,255,255,0.94);
-      border-bottom-color: rgba(48,97,140,0.12);
-      box-shadow: 0 2px 24px rgba(48,97,140,0.10);
-    }
-
-    .lp-navbar.scrolled .lp-brand-name { color: var(--c-primary); }
-    .lp-navbar.scrolled .lp-nav-links a { color: var(--c-text-muted); }
-    .lp-navbar.scrolled .lp-nav-links a:hover { color: var(--c-primary); }
-    .lp-navbar.scrolled .btn-nav-login { border-color: var(--c-primary); color: var(--c-primary); }
-    .lp-navbar.scrolled .btn-nav-login:hover { background: var(--c-primary); color: #fff; }
-
-    .lp-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .lp-brand-logo {
-      width: 38px; height: 38px;
-      background: linear-gradient(135deg, var(--c-primary), var(--c-primary-light));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 12px rgba(48,97,140,0.35);
-    }
-
-    .lp-brand-name {
-      font-size: 22px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.03em;
-    }
-
-    .lp-brand-name span { color: var(--c-accent); }
-
-    .lp-nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      list-style: none;
-    }
-
-    .lp-nav-links a {
-      text-decoration: none;
-      color: rgba(255,255,255,0.80);
-      font-size: 14.5px;
-      font-weight: 500;
-      padding: 7px 14px;
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
-    }
-
-    .lp-nav-links a:hover { color: #fff; background: rgba(255,255,255,0.12); }
-
-    .lp-nav-actions { display: flex; align-items: center; gap: 10px; }
-
-    .btn-nav-login {
-      padding: 8px 20px;
-      border: 1.5px solid rgba(255,255,255,0.60);
-      color: rgba(255,255,255,0.90);
-      background: transparent;
-      font-size: 14px; font-weight: 600;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      font-family: var(--font);
-    }
-
-    .btn-nav-login:hover { background: rgba(255,255,255,0.15); border-color: #fff; color: #fff; }
-
-    .btn-nav-register {
-      padding: 8px 22px;
-      background: linear-gradient(135deg, var(--c-accent), #d49f00);
-      color: #1A2535;
-      border: none;
-      font-size: 14px; font-weight: 700;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      font-family: var(--font);
-      box-shadow: 0 4px 14px rgba(242,183,5,0.35);
-    }
-
-    .btn-nav-register:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(242,183,5,0.48); }
-
-    /* ================================================================
-       HERO SECTION — Full-screen slideshow
-       ================================================================ */
-    .lp-hero {
-      position: relative;
-      height: 100vh;
-      min-height: 600px;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    /* Slideshow background */
-    .hero-slides {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
-
-    .hero-slide {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 1.2s ease-in-out;
-    }
-
-    .hero-slide.active { opacity: 1; }
-
-    /* Dark overlay gradient on every slide */
-    .hero-slide::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        105deg,
-        rgba(13,31,53,0.82) 0%,
-        rgba(13,31,53,0.55) 55%,
-        rgba(13,31,53,0.25) 100%
-      );
-    }
-
-    /* Slide dot indicators */
-    .hero-slide-dots {
-      position: absolute;
-      bottom: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      display: flex;
-      gap: 10px;
-    }
-
-    .hero-slide-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.40);
-      border: none;
-      cursor: pointer;
-      transition: all 0.35s ease;
-      padding: 0;
-    }
-
-    .hero-slide-dot.active {
-      width: 28px;
-      border-radius: 4px;
-      background: var(--c-accent);
-    }
-
-    /* Slide progress bar */
-    .hero-progress {
-      position: absolute;
-      bottom: 0; left: 0;
-      height: 3px;
-      background: var(--c-accent);
-      z-index: 10;
-      width: 0%;
-      transition: width linear;
-    }
-
-    /* Hero content */
-    .lp-hero-content {
-      position: relative;
-      z-index: 5;
-      padding: 0 5%;
-      max-width: 720px;
-    }
-
-    .lp-hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(242,183,5,0.18);
-      border: 1px solid rgba(242,183,5,0.35);
-      color: var(--c-accent);
-      font-size: 13px; font-weight: 600;
-      border-radius: 100px;
-      padding: 6px 16px;
-      margin-bottom: 24px;
-      letter-spacing: 0.03em;
-    }
-
-    .lp-hero-badge-dot {
-      width: 8px; height: 8px;
-      background: var(--c-accent);
-      border-radius: 50%;
-      animation: heroPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes heroPulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.5); opacity: 0.6; }
-    }
-
-    .lp-hero h1 {
-      font-size: clamp(38px, 5.5vw, 72px);
-      font-weight: 900;
-      line-height: 1.06;
-      letter-spacing: -0.04em;
-      color: #fff;
-      margin-bottom: 22px;
-    }
-
-    .hero-highlight {
-      background: linear-gradient(135deg, var(--c-accent), #ffcc30);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .lp-hero-desc {
-      font-size: 17px;
-      line-height: 1.72;
-      color: rgba(255,255,255,0.75);
-      margin-bottom: 38px;
-      max-width: 500px;
-    }
-
-    .lp-hero-cta {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .btn-hero-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 15px 34px;
-      background: linear-gradient(135deg, var(--c-accent), #d49f00);
-      color: #1A2535;
-      font-size: 16px; font-weight: 800;
-      border-radius: var(--radius-md);
-      text-decoration: none;
-      box-shadow: 0 8px 28px rgba(242,183,5,0.40);
-      transition: var(--transition);
-      font-family: var(--font);
-    }
-
-    .btn-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(242,183,5,0.55); }
-
-    .btn-hero-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 15px 30px;
-      background: rgba(255,255,255,0.12);
-      color: #fff;
-      font-size: 16px; font-weight: 600;
-      border-radius: var(--radius-md);
-      border: 2px solid rgba(255,255,255,0.30);
-      text-decoration: none;
-      transition: var(--transition);
-      font-family: var(--font);
-      backdrop-filter: blur(8px);
-    }
-
-    .btn-hero-secondary:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.55); }
-
-    .lp-hero-stats {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      margin-top: 52px;
-      flex-wrap: wrap;
-    }
-
-    .hero-stat { text-align: left; }
-    .hero-stat-num { font-size: 26px; font-weight: 900; color: var(--c-accent); letter-spacing: -0.03em; }
-    .hero-stat-label { font-size: 13px; color: rgba(255,255,255,0.60); font-weight: 500; margin-top: 2px; }
-    .hero-stat-divider { width: 1px; height: 38px; background: rgba(255,255,255,0.20); }
-
-    /* ================================================================
-       SECTION GENERIC
-       ================================================================ */
-    .lp-section { padding: 88px 5%; }
-    .lp-section-white { background: #fff; }
-
-    .section-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--c-primary);
-      font-size: 12.5px; font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      margin-bottom: 14px;
-    }
-
-    .section-eyebrow-bar {
-      display: inline-block;
-      width: 22px; height: 3px;
-      background: var(--c-accent);
-      border-radius: 2px;
-    }
-
-    .section-heading {
-      font-size: clamp(26px, 3.5vw, 42px);
-      font-weight: 800;
-      color: var(--c-text);
-      letter-spacing: -0.03em;
-      line-height: 1.18;
-      margin-bottom: 14px;
-    }
-
-    .section-desc {
-      font-size: 16px;
-      color: var(--c-text-muted);
-      max-width: 520px;
-      line-height: 1.72;
-      margin-bottom: 52px;
-    }
-
-    /* ================================================================
-       LATAR BELAKANG — Glassmorphism Single-Card Carousel
-       ================================================================ */
-    .latar-section {
-      padding: 88px 5%;
-      background: linear-gradient(160deg, #0D1F35 0%, #1E3F5C 60%, #0D2A45 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .latar-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 55% 60% at 80% 30%, rgba(242,183,5,0.10) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 50% at 10% 80%, rgba(48,97,140,0.25) 0%, transparent 65%);
-      pointer-events: none;
-    }
-
-    .latar-section .section-eyebrow { color: var(--c-accent); }
-    .latar-section .section-heading { color: #fff; }
-    .latar-section .section-desc { color: rgba(255,255,255,0.58); margin-bottom: 44px; }
-
-    /* Single card wrapper */
-    .latar-card-stage {
-      position: relative;
-      width: 100%;
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    /* Cards stack */
-    .latar-card-list {
-      position: relative;
-      height: 340px;
-    }
-
-    .latar-card {
-      position: absolute;
-      inset: 0;
-      /* Glassmorphism */
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: var(--radius-lg);
-      padding: 44px 48px;
-      box-shadow:
-        0 8px 40px rgba(0,0,0,0.30),
-        inset 0 1px 0 rgba(255,255,255,0.12);
-      opacity: 0;
-      transform: translateX(60px) scale(0.97);
-      transition: opacity 0.55s cubic-bezier(.4,0,.2,1), transform 0.55s cubic-bezier(.4,0,.2,1);
-      pointer-events: none;
-    }
-
-    .latar-card.active {
-      opacity: 1;
-      transform: translateX(0) scale(1);
-      pointer-events: auto;
-    }
-
-    .latar-card.exit {
-      opacity: 0;
-      transform: translateX(-60px) scale(0.97);
-    }
-
-    /* Accent top bar on each card */
-    .latar-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 48px; right: 48px;
-      height: 3px;
-      border-radius: 0 0 3px 3px;
-    }
-
-    .latar-card-1::before { background: linear-gradient(90deg, var(--c-accent), #ffcc30); }
-    .latar-card-2::before { background: linear-gradient(90deg, #22D3C5, #0E8A7F); }
-    .latar-card-3::before { background: linear-gradient(90deg, #A78BFA, #7C3AED); }
-    .latar-card-4::before { background: linear-gradient(90deg, #FB7185, #E11D48); }
-    .latar-card-5::before { background: linear-gradient(90deg, var(--c-primary-light), var(--c-primary)); }
-
-    .latar-card-number {
-      font-size: 12px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.10em;
-      margin-bottom: 18px;
-    }
-
-    .latar-card-1 .latar-card-number { color: var(--c-accent); }
-    .latar-card-2 .latar-card-number { color: #22D3C5; }
-    .latar-card-3 .latar-card-number { color: #A78BFA; }
-    .latar-card-4 .latar-card-number { color: #FB7185; }
-    .latar-card-5 .latar-card-number { color: var(--c-primary-light); }
-
-    .latar-card h4 {
-      font-size: 22px; font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.025em;
-      line-height: 1.28;
-      margin-bottom: 16px;
-    }
-
-    .latar-card p {
-      font-size: 15px; line-height: 1.76;
-      color: rgba(255,255,255,0.68);
-    }
-
-    /* Card controls */
-    .latar-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 32px;
-      max-width: 680px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .latar-dots {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .latar-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.25);
-      cursor: pointer;
-      transition: all 0.35s ease;
-      border: none;
-      padding: 0;
-    }
-
-    .latar-dot.active {
-      width: 26px;
-      border-radius: 4px;
-      background: var(--c-accent);
-    }
-
-    .latar-nav-btns { display: flex; gap: 10px; }
-
-    .latar-nav-btn {
-      width: 46px; height: 46px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.22);
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: var(--transition);
-      backdrop-filter: blur(8px);
-    }
-
-    .latar-nav-btn:hover {
-      background: rgba(242,183,5,0.25);
-      border-color: var(--c-accent);
-      color: var(--c-accent);
-    }
-
-    .latar-card-counter {
-      font-size: 13px; font-weight: 600;
-      color: rgba(255,255,255,0.45);
-      letter-spacing: 0.05em;
-    }
-
-    /* ================================================================
-       FITUR UTAMA
-       ================================================================ */
-    .fitur-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    @media (max-width: 900px) { .fitur-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 560px) { .fitur-grid { grid-template-columns: 1fr; } }
-
-    .fitur-card {
-      background: #fff;
-      border-radius: var(--radius-lg);
-      padding: 34px 30px;
-      box-shadow: 0 4px 24px rgba(48,97,140,0.08);
-      border: 1.5px solid var(--c-border);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .fitur-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--c-primary), var(--c-primary-light));
-      opacity: 0;
-      transition: var(--transition);
-    }
-
-    .fitur-card:hover { transform: translateY(-6px); box-shadow: 0 16px 44px rgba(48,97,140,0.14); }
-    .fitur-card:hover::after { opacity: 1; }
-
-    .fitur-card-icon {
-      width: 56px; height: 56px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(135deg, rgba(48,97,140,0.12), rgba(74,136,192,0.08));
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 22px;
-      box-shadow: 0 4px 14px rgba(48,97,140,0.14);
-    }
-
-    .fitur-card-icon.accent-yellow { background: linear-gradient(135deg, rgba(242,183,5,0.15), rgba(242,183,5,0.08)); }
-    .fitur-card-icon.accent-teal   { background: linear-gradient(135deg, rgba(14,138,127,0.15), rgba(34,211,197,0.08)); }
-
-    .fitur-card h4 {
-      font-size: 18px; font-weight: 800;
-      color: var(--c-text); letter-spacing: -0.02em;
-      margin-bottom: 10px;
-    }
-
-    .fitur-card p {
-      font-size: 14px; line-height: 1.70;
-      color: var(--c-text-muted);
-    }
-
-    /* ================================================================
-       CARA KERJA
-       ================================================================ */
-    .cara-kerja-section {
-      padding: 88px 5%;
-      background: linear-gradient(180deg, var(--c-bg) 0%, #EEF4FA 100%);
-    }
-
-    .cara-kerja-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      position: relative;
-    }
-
-    @media (max-width: 900px) { .cara-kerja-steps { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 540px) { .cara-kerja-steps { grid-template-columns: 1fr; } }
-
-    .cara-kerja-steps::before {
-      content: '';
-      position: absolute;
-      top: 36px;
-      left: calc(12.5% + 24px);
-      right: calc(12.5% + 24px);
-      height: 2px;
-      background: linear-gradient(90deg, var(--c-border), var(--c-primary-light), var(--c-border));
-    }
-
-    @media (max-width: 900px) { .cara-kerja-steps::before { display: none; } }
-
-    .cara-step {
-      text-align: center;
-      padding: 28px 20px 24px;
-      background: #fff;
-      border-radius: var(--radius-lg);
-      border: 1.5px solid var(--c-border);
-      box-shadow: 0 3px 14px rgba(48,97,140,0.06);
-      transition: var(--transition);
-      position: relative;
-    }
-
-    .cara-step:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(48,97,140,0.14); }
-
-    .cara-step-num {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--c-primary), var(--c-primary-light));
-      color: #fff;
-      font-size: 18px; font-weight: 900;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 20px;
-      box-shadow: 0 6px 18px rgba(48,97,140,0.28);
-      position: relative;
-      z-index: 1;
-    }
-
-    .cara-step h4 { font-size: 15px; font-weight: 700; color: var(--c-text); margin-bottom: 8px; }
-    .cara-step p  { font-size: 13px; color: var(--c-text-muted); line-height: 1.65; }
-
-    /* ================================================================
-       TESTIMONI / STATS BAND
-       ================================================================ */
-    .stats-band {
-      padding: 64px 5%;
-      background: linear-gradient(135deg, var(--c-primary) 0%, #1E4A6E 100%);
-    }
-
-    .stats-band-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-    }
-
-    @media (max-width: 700px) { .stats-band-grid { grid-template-columns: 1fr 1fr; } }
-
-    .stat-item {
-      text-align: center;
-      padding: 20px;
-      border-right: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .stat-item:last-child { border-right: none; }
-
-    .stat-num { font-size: 36px; font-weight: 900; color: var(--c-accent); letter-spacing: -0.04em; }
-    .stat-label { font-size: 14px; color: rgba(255,255,255,0.68); margin-top: 6px; font-weight: 500; }
-
-    /* ================================================================
-       CTA SECTION
-       ================================================================ */
-    .lp-cta-section {
-      padding: 96px 5%;
-      background: #fff;
-      text-align: center;
-    }
-
-    .lp-cta-inner {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .lp-cta-inner .section-heading { margin-bottom: 16px; }
-    .lp-cta-inner .section-desc { margin: 0 auto 40px; text-align: center; }
-
-    .btn-cta-big {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 17px 42px;
-      background: linear-gradient(135deg, var(--c-primary), var(--c-primary-light));
-      color: #fff;
-      font-size: 17px; font-weight: 800;
-      border-radius: var(--radius-md);
-      text-decoration: none;
-      box-shadow: 0 10px 32px rgba(48,97,140,0.32);
-      transition: var(--transition);
-      font-family: var(--font);
-    }
-
-    .btn-cta-big:hover { transform: translateY(-3px); box-shadow: 0 16px 44px rgba(48,97,140,0.44); }
-
-    .lp-cta-sub { margin-top: 16px; font-size: 13.5px; color: var(--c-text-muted); }
-
-    /* ================================================================
-       FOOTER
-       ================================================================ */
-    .lp-footer {
-      background: #0D1F35;
-      color: rgba(255,255,255,0.65);
-      padding: 64px 5% 32px;
-    }
-
-    .lp-footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 48px;
-      margin-bottom: 52px;
-    }
-
-    @media (max-width: 800px) { .lp-footer-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 480px) { .lp-footer-grid { grid-template-columns: 1fr; } }
-
-    .footer-brand-name { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 12px; }
-    .footer-brand-name span { color: var(--c-accent); }
-
-    .footer-desc {
-      font-size: 14px; line-height: 1.72;
-      color: rgba(255,255,255,0.48);
-      margin-bottom: 22px; max-width: 270px;
-    }
-
-    .footer-social { display: flex; gap: 10px; }
-
-    .footer-social a {
-      width: 36px; height: 36px;
-      border-radius: var(--radius-sm);
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      display: flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.65);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .footer-social a:hover { background: var(--c-primary); border-color: var(--c-primary); color: #fff; }
-
-    .footer-col-title {
-      font-size: 13px; font-weight: 700;
-      color: #fff; text-transform: uppercase;
-      letter-spacing: 0.08em; margin-bottom: 18px;
-    }
-
-    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-
-    .footer-links a {
-      text-decoration: none;
-      color: rgba(255,255,255,0.55);
-      font-size: 14px;
-      transition: color var(--transition);
-    }
-
-    .footer-links a:hover { color: #fff; }
-
-    .lp-footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.35); }
-
-    /* ================================================================
-       RESPONSIVE NAV
-       ================================================================ */
-    .lp-menu-toggle {
-      display: none;
-      background: none; border: none;
-      color: #fff; cursor: pointer;
-      padding: 4px;
-    }
-
-    @media (max-width: 820px) {
-      .lp-nav-links { display: none; }
-      .lp-menu-toggle { display: block; }
-      .lp-hero h1 { font-size: clamp(32px, 7vw, 52px); }
-      .lp-hero-stats { gap: 18px; margin-top: 36px; }
-    @media (max-width: 580px) {
-      .lp-hero-cta { flex-direction: column; align-items: stretch; width: 100%; }
-      .btn-hero-primary, .btn-hero-secondary, .btn-cta-big { width: 100%; justify-content: center; text-align: center; box-sizing: border-box; }
-      .lp-section, .latar-section, .cara-kerja-section, .lp-cta-section { padding: 60px 5%; }
-    }
-
-    @media (max-width: 440px) {
-      .btn-nav-login { padding: 6px 12px; font-size: 13px; }
-      .btn-nav-register { padding: 6px 14px; font-size: 13px; }
-      .lp-nav-actions { gap: 6px; }
-    }
-  </style>
+  <link rel="stylesheet" href="{{ asset('css/landing_page.css') }}">
 </head>
 <body>
 
-  <!-- Preloader -->
-  @include('components.preloader')
 
   <!-- NAVBAR -->
   <nav class="lp-navbar" id="lpNavbar" role="navigation" aria-label="Navigasi utama">
@@ -855,6 +31,7 @@
 
     <ul class="lp-nav-links" role="list">
       <li><a href="#fitur">Fitur</a></li>
+      <li><a href="#prodi">Program Studi</a></li>
       <li><a href="#latar-belakang">Tentang</a></li>
       <li><a href="#cara-kerja">Cara Kerja</a></li>
     </ul>
@@ -874,11 +51,11 @@
   <section class="lp-hero" id="beranda" aria-label="Hero utama">
 
     <div class="hero-slides" aria-hidden="true">
-      <div class="hero-slide active" style="background-image: url('{{ asset('foto/landingpage1.jpeg') }}')"></div>
-      <div class="hero-slide" style="background-image: url('{{ asset('foto/landingpage2.jpeg') }}')"></div>
-      <div class="hero-slide" style="background-image: url('{{ asset('foto/landingpage3.jpeg') }}')"></div>
-      <div class="hero-slide" style="background-image: url('{{ asset('foto/landingpage4.jpeg') }}')"></div>
-      <div class="hero-slide" style="background-image: url('{{ asset('foto/landingpage5.jpeg') }}')"></div>
+      <div class="hero-slide active" style="background-image: url('{{ asset('foto/landingpage1.jpeg') }}?v=2')"></div>
+      <div class="hero-slide" style="background-image: url('{{ asset('foto/landingpage2.jpeg') }}?v=2')"></div>
+      <div class="hero-slide" style="background-image: url('{{ asset('foto/landingpage3.jpeg') }}?v=2')"></div>
+      <div class="hero-slide" style="background-image: url('{{ asset('foto/landingpage4.jpeg') }}?v=2')"></div>
+      <div class="hero-slide" style="background-image: url('{{ asset('foto/landingpage5.jpeg') }}?v=2')"></div>
     </div>
 
     <div class="lp-hero-content">
@@ -948,6 +125,168 @@
         <h4>Konseling Profesional</h4>
         <p>Jadwalkan sesi konsultasi langsung dengan psikolog untuk mendapat panduan pemilihan program studi yang terarah.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       KATALOG PROGRAM STUDI — 36 Pilihan Program Studi (8 Card per Halaman)
+       ================================================================ -->
+  @php
+    $prodiList = $prodiList ?? \App\Models\ProgramStudi::orderBy('nama_prodi', 'asc')->get();
+  @endphp
+  <section class="lp-section prodi-section" id="prodi" aria-labelledby="prodiHeading">
+    <div class="prodi-section-header">
+      <div class="section-eyebrow"><span class="section-eyebrow-bar"></span> Katalog Program Studi</div>
+      <h2 class="section-heading" id="prodiHeading">Eksplorasi Pilihan Program Studi</h2>
+      <p class="section-desc">Temukan pilihan program studi unggulan masa depanmu, lengkap dengan gambaran bidang keilmuan dan prospek karier lulusan.</p>
+    </div>
+
+    <!-- Toolbar: Search Input + Top Pagination Controls -->
+    <div class="prodi-toolbar">
+      <div class="prodi-search-wrap">
+        <svg class="prodi-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="prodiSearchInput" class="prodi-search-input" placeholder="Cari nama program studi atau profesi... (contoh: Informatika, Dokter, Desain)" autocomplete="off">
+        <button type="button" id="prodiSearchClear" class="prodi-search-clear" aria-label="Hapus pencarian" style="display:none;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="prodi-top-pagination">
+        <span class="prodi-page-counter">
+          Halaman <strong id="topCurrentPage">1</strong> / <span id="topTotalPages">5</span>
+        </span>
+        <div class="prodi-nav-arrows">
+          <button type="button" class="btn-page-arrow btn-prev-page" id="topBtnPrev" aria-label="Halaman Sebelumnya" title="Halaman Sebelumnya">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="btn-page-arrow btn-next-page" id="topBtnNext" aria-label="Halaman Berikutnya" title="Halaman Berikutnya">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prodi Cards Grid (Pajang 8 card per halaman) -->
+    <div class="prodi-grid" id="prodiGrid">
+      @forelse($prodiList as $prodi)
+        @php
+          $careers = array_filter(array_map('trim', explode(',', $prodi->prospek_karier ?? '')));
+        @endphp
+        <div class="prodi-card" 
+             data-name="{{ strtolower($prodi->nama_prodi) }}" 
+             data-careers="{{ strtolower($prodi->prospek_karier ?? '') }}"
+             data-desc="{{ strtolower($prodi->deskripsi_prodi ?? '') }}">
+          
+          <div class="prodi-card-header">
+            <div class="prodi-icon-badge">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+                <path d="M6 6h10"></path>
+                <path d="M6 10h10"></path>
+              </svg>
+            </div>
+            <span class="prodi-tag">Program Studi</span>
+          </div>
+
+          <h3 class="prodi-card-title">{{ $prodi->nama_prodi }}</h3>
+
+          <p class="prodi-card-desc">
+            {{ Str::limit($prodi->deskripsi_prodi, 120, '...') }}
+          </p>
+
+          <div class="prodi-card-careers">
+            <div class="prodi-careers-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              Prospek Karier:
+            </div>
+            <div class="prodi-career-tags">
+              @foreach(array_slice($careers, 0, 3) as $career)
+                <span class="career-tag">{{ $career }}</span>
+              @endforeach
+              @if(count($careers) > 3)
+                <span class="career-tag-more">+{{ count($careers) - 3 }} lainnya</span>
+              @endif
+            </div>
+          </div>
+
+          <div class="prodi-card-footer">
+            <button type="button" class="btn-prodi-detail" 
+                    onclick='openProdiModal(@json($prodi))' 
+                    aria-label="Lihat detail {{ $prodi->nama_prodi }}">
+              <span>Detail Lengkap</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </button>
+            <a href="{{ route('register') }}" class="btn-prodi-consult" title="Konsultasikan pilihan prodi ini di B-Youth">
+              Cek Kecocokan
+            </a>
+          </div>
+
+        </div>
+      @empty
+        <div class="prodi-empty-server">
+          <p>Belum ada data program studi yang tersedia saat ini.</p>
+        </div>
+      @endforelse
+    </div>
+
+    <!-- Empty State for Search Filter -->
+    <div class="prodi-empty-state" id="prodiEmptyState" style="display: none;">
+      <div class="empty-icon-wrap">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+      <h3>Tidak Ada Program Studi Ditemukan</h3>
+      <p>Tidak ada program studi yang cocok dengan pencarian "<span id="emptyQueryText"></span>". Silakan coba kata kunci lain.</p>
+      <button type="button" class="btn-reset-filter" id="btnResetProdiFilter">Reset Pencarian</button>
+    </div>
+
+    <!-- Bottom Pagination with page numbers and prev/next -->
+    <div class="prodi-bottom-pagination" id="prodiBottomPagination">
+      <div class="prodi-pagination-controls">
+        <button type="button" class="btn-page-step btn-prev-page" id="bottomBtnPrev" aria-label="Halaman Sebelumnya">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span>Sebelumnya</span>
+        </button>
+
+        <div class="prodi-page-numbers" id="prodiPageNumbers">
+          <!-- Populated by JS: [1] [2] [3] [4] [5] -->
+        </div>
+
+        <button type="button" class="btn-page-step btn-next-page" id="bottomBtnNext" aria-label="Halaman Berikutnya">
+          <span>Berikutnya</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+
+      <div class="prodi-showing-info">
+        Menampilkan <strong id="showingRangeText">1 - 8</strong> dari <strong id="totalCardsText">{{ count($prodiList) }}</strong> program studi
+      </div>
+    </div>
+
+    <!-- Section Bottom CTA Callout -->
+    <div class="prodi-section-callout">
+      <div class="callout-content">
+        <div class="callout-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F2B705" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+          </svg>
+        </div>
+        <div>
+          <h4>Bingung menentukan prodi yang paling tepat untuk masa depanmu?</h4>
+          <p>Ikuti asesmen minat bakat terpadu berstandar psikometri di B-Youth untuk mendapatkan rekomendasi program studi terbaik secara otomatis.</p>
+        </div>
+      </div>
+      <a href="{{ route('register') }}" class="btn-callout-action">
+        Mulai Asesmen Minat Bakat
+      </a>
     </div>
   </section>
 
@@ -1119,140 +458,51 @@
     </div>
   </footer>
 
-  <script>
-    /* ================================================================
-       NAVBAR — Scroll effect
-       ================================================================ */
-    const navbar = document.getElementById('lpNavbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 50);
-    }, { passive: true });
+  <!-- ================================================================
+       MODAL DETAIL PROGRAM STUDI
+       ================================================================ -->
+  <div class="prodi-modal-overlay" id="prodiModalOverlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="prodi-modal-card">
+      <button type="button" class="prodi-modal-close" id="prodiModalClose" aria-label="Tutup modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
 
-    /* ================================================================
-       HERO — Auto-slideshow with progress bar
-       ================================================================ */
-    const heroSlides = document.querySelectorAll('.hero-slide');
-    const heroSlidesDots = document.querySelectorAll('.hero-slide-dot');
-    const heroProgress = document.getElementById('heroProgress');
-    let heroCurrentSlide = 0;
-    let heroTimer = null;
-    const HERO_INTERVAL = 5500; // ms per slide
+      <div class="prodi-modal-header">
+        <div class="prodi-modal-badge-row">
+          <span class="prodi-modal-type-tag">Informasi Program Studi</span>
+        </div>
+        <h3 class="prodi-modal-title" id="modalProdiTitle"></h3>
+      </div>
 
-    function goToHeroSlide(index) {
-      heroSlides[heroCurrentSlide].classList.remove('active');
-      heroSlidesDots[heroCurrentSlide].classList.remove('active');
-      heroSlidesDots[heroCurrentSlide].setAttribute('aria-selected', 'false');
-      heroCurrentSlide = (index + heroSlides.length) % heroSlides.length;
-      heroSlides[heroCurrentSlide].classList.add('active');
-      heroSlidesDots[heroCurrentSlide].classList.add('active');
-      heroSlidesDots[heroCurrentSlide].setAttribute('aria-selected', 'true');
-      startHeroProgress();
-    }
+      <div class="prodi-modal-body">
+        <div class="modal-section-block">
+          <h5 class="modal-block-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path><path d="M6 6h10"></path><path d="M6 10h10"></path></svg>
+            Gambaran Bidang Keilmuan
+          </h5>
+          <p class="modal-prodi-desc" id="modalProdiDesc"></p>
+        </div>
 
-    function startHeroProgress() {
-      heroProgress.style.transition = 'none';
-      heroProgress.style.width = '0%';
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          heroProgress.style.transition = `width ${HERO_INTERVAL}ms linear`;
-          heroProgress.style.width = '100%';
-        });
-      });
-    }
+        <div class="modal-section-block">
+          <h5 class="modal-block-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            Peluang &amp; Prospek Karier Lulusan
+          </h5>
+          <div class="modal-careers-list" id="modalCareersList"></div>
+        </div>
+      </div>
 
-    function startHeroAuto() {
-      if (heroTimer) clearInterval(heroTimer);
-      heroTimer = setInterval(() => {
-        goToHeroSlide(heroCurrentSlide + 1);
-      }, HERO_INTERVAL);
-    }
+      <div class="prodi-modal-footer">
+        <button type="button" class="btn-modal-cancel" id="btnModalCancel">Tutup</button>
+        <a href="{{ route('register') }}" class="btn-modal-primary">
+          <span>Ikuti Asesmen &amp; Cek Kecocokan</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </a>
+      </div>
+    </div>
+  </div>
 
-    heroSlidesDots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const idx = parseInt(dot.dataset.slide);
-        goToHeroSlide(idx);
-        startHeroAuto();
-      });
-    });
-
-    startHeroProgress();
-    startHeroAuto();
-
-    /* ================================================================
-       LATAR BELAKANG — Single-card glassmorphism carousel
-       ================================================================ */
-    const latarCards = document.querySelectorAll('.latar-card');
-    const latarDots  = document.querySelectorAll('.latar-dot');
-    const latarCounter = document.getElementById('latarCounter');
-    let latarCurrent = 0;
-    let latarTimer = null;
-
-    function goToLatar(next, direction) {
-      const prev = latarCurrent;
-      latarCards[prev].classList.remove('active');
-      latarCards[prev].classList.add(direction === 'next' ? 'exit' : 'exit-right');
-      latarDots[prev].classList.remove('active');
-      latarDots[prev].setAttribute('aria-selected', 'false');
-
-      setTimeout(() => { latarCards[prev].classList.remove('exit', 'exit-right'); }, 600);
-
-      latarCurrent = (next + latarCards.length) % latarCards.length;
-      latarCards[latarCurrent].classList.add('active');
-      latarDots[latarCurrent].classList.add('active');
-      latarDots[latarCurrent].setAttribute('aria-selected', 'true');
-      latarCounter.textContent = `${latarCurrent + 1} / ${latarCards.length}`;
-    }
-
-    document.getElementById('latarNext').addEventListener('click', () => {
-      goToLatar(latarCurrent + 1, 'next');
-      if (latarTimer) { clearInterval(latarTimer); startLatarAuto(); }
-    });
-
-    document.getElementById('latarPrev').addEventListener('click', () => {
-      goToLatar(latarCurrent - 1, 'prev');
-      if (latarTimer) { clearInterval(latarTimer); startLatarAuto(); }
-    });
-
-    latarDots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const idx = parseInt(dot.dataset.latar);
-        goToLatar(idx, idx > latarCurrent ? 'next' : 'prev');
-        if (latarTimer) { clearInterval(latarTimer); startLatarAuto(); }
-      });
-    });
-
-    // Keyboard navigation for latar carousel
-    document.getElementById('latarCardList').addEventListener('keydown', e => {
-      if (e.key === 'ArrowRight') { goToLatar(latarCurrent + 1, 'next'); }
-      if (e.key === 'ArrowLeft')  { goToLatar(latarCurrent - 1, 'prev'); }
-    });
-
-    function startLatarAuto() {
-      latarTimer = setInterval(() => { goToLatar(latarCurrent + 1, 'next'); }, 6000);
-    }
-
-    startLatarAuto();
-
-    /* ================================================================
-       SCROLL REVEAL — subtle fade-in on scroll
-       ================================================================ */
-    const revealEls = document.querySelectorAll('.fitur-card, .cara-step, .latar-card-stage');
-    const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.12 });
-
-    revealEls.forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(28px)';
-      el.style.transition = 'opacity 0.60s ease, transform 0.60s ease';
-      revealObs.observe(el);
-    });
-  </script>
+  <script src="{{ asset('js/landing_page.js') }}"></script>
   <script src="{{ asset('js/byouth-dialog.js') }}"></script>
 </body>
 </html>

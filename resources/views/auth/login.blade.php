@@ -206,7 +206,7 @@
             <input type="checkbox" name="remember" id="rememberMe">
             <span>Ingat saya</span>
           </label>
-          <a href="#" class="forgot-password-link" onclick="event.preventDefault(); alert('Silakan hubungi admin sekolah untuk pengaturan ulang kata sandi.');">
+          <a href="#" class="forgot-password-link" onclick="event.preventDefault(); alert('Silakan hubungi admin B-Youth untuk pengaturan ulang kata sandi.');">
             Lupa kata sandi?
           </a>
         </div>
