@@ -29,20 +29,16 @@ class DataAkademik extends Model
     ];
 
     protected $appends = [
-        'kkm',
         'predikat',
     ];
-
-    public function getKkmAttribute(): int
-    {
-        return 75;
-    }
 
     public function getPredikatAttribute(): string
     {
         $avg = (float) $this->rata_rata_nilai;
+        if ($avg <= 0) return '-';
         if ($avg >= 88) return 'A';
-        if ($avg >= 78) return 'B';
+        if ($avg >= 78) return 'B+';
+        if ($avg >= 70) return 'B';
         return 'C';
     }
 

@@ -1308,20 +1308,38 @@ button {
 .glass-loading-overlay {
   position: fixed;
   inset: 0;
-  z-index: 99999;
-  display: none;
+  z-index: 999999;
+  display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(15, 37, 59, 0.45);
-  backdrop-filter: blur(14px) saturate(180%);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              visibility 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+}
+
+.glass-loading-overlay.fade-out {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: scale(1.02);
+}
+
+.glass-loading-overlay.hidden-overlay {
+  display: none !important;
 }
 
 .glass-loading-overlay.active {
-  display: flex;
-  opacity: 1;
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: scale(1);
 }
 
 .glass-loading-card {

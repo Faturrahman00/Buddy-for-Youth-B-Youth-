@@ -53,64 +53,6 @@
   </div>
 </div>
 
-<!-- 4. Modal Tambah / Masukkan Nilai Rapor -->
-<div class="modal-overlay hidden" id="modalTambahNilai" tabindex="-1" aria-hidden="true">
-  <div class="modal-box" style="max-width:520px;">
-    <div class="modal-header">
-      <h4 class="modal-title">Masukkan Nilai Rapor</h4>
-      <button type="button" class="modal-close-btn modal-close-trigger" aria-label="Tutup Modal">&times;</button>
-    </div>
-    <form id="formTambahNilai">
-      <div class="modal-body" style="display:flex; flex-direction:column; gap:16px;">
-        <div style="background:rgba(48,97,140,0.06); border:1px solid rgba(48,97,140,0.18); border-radius:var(--radius-sm); padding:10px 14px; font-size:12.5px; color:var(--c-primary);">
-          Siswa hanya dapat memasukkan atau memperbarui nilai untuk 4 mata pelajaran penentu yang disediakan admin sekolah.
-        </div>
-
-        <div>
-          <label class="form-label">Mata Pelajaran</label>
-          <select class="form-select" id="tambahMapelNama" required>
-            <option value="IPAS">IPAS (Ilmu Pengetahuan Alam &amp; Sosial)</option>
-            <option value="MTK">MTK (Matematika)</option>
-            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-            <option value="Bahasa Inggris">Bahasa Inggris</option>
-          </select>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-          <div>
-            <label class="form-label">Semester</label>
-            <select class="form-select" id="tambahSemester" required>
-              <option value="Semester 5" selected>Semester 5 (Kelas XII Ganjil)</option>
-              <option value="Semester 4">Semester 4 (Kelas XI Genap)</option>
-              <option value="Semester 3">Semester 3 (Kelas XI Ganjil)</option>
-              <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
-              <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
-            </select>
-          </div>
-          <div>
-            <label class="form-label">KKM Sekolah</label>
-            <input type="number" class="form-input" id="tambahKkm" value="75" min="50" max="100" readonly style="background:#F8FAFC;">
-          </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-          <div>
-            <label class="form-label">Nilai Pengetahuan (0-100)</label>
-            <input type="number" class="form-input" id="tambahNilaiPengetahuan" placeholder="Contoh: 88" min="0" max="100" required>
-          </div>
-          <div>
-            <label class="form-label">Nilai Keterampilan (0-100)</label>
-            <input type="number" class="form-input" id="tambahNilaiKeterampilan" placeholder="Contoh: 90" min="0" max="100" required>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-step-action btn-outline-action modal-close-trigger">Batal</button>
-        <button type="submit" class="btn-primary-action" style="padding:9px 18px;">Simpan Nilai</button>
-      </div>
-    </form>
-  </div>
-</div>
 
 <!-- 5. Modal Detail Hasil Asesmen (Card Detail Hasil Asesmen) -->
 <div class="modal-overlay hidden" id="modalDetailAsesmen" tabindex="-1" aria-hidden="true">
@@ -382,41 +324,40 @@
     <form id="formEditNilai">
       <input type="hidden" id="editRowIndex" value="">
       <div class="modal-body" style="display:flex; flex-direction:column; gap:16px;">
-        <div>
-          <label class="form-label">Mata Pelajaran (Disediakan Admin)</label>
-          <select class="form-select" id="editMapelNama" required>
-            <option value="IPAS">IPAS (Ilmu Pengetahuan Alam &amp; Sosial)</option>
-            <option value="MTK">MTK (Matematika)</option>
-            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-            <option value="Bahasa Inggris">Bahasa Inggris</option>
-          </select>
+        <div style="background:rgba(48,97,140,0.06); border:1px solid rgba(48,97,140,0.18); border-radius:var(--radius-sm); padding:10px 14px; font-size:12.5px; color:var(--c-primary);">
+          Perbarui nilai rapor untuk mata pelajaran dan semester yang dipilih (skala 0 - 100).
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
           <div>
-            <label class="form-label">Semester</label>
-            <select class="form-select" id="editSemester" required>
-              <option value="Semester 5" selected>Semester 5 (Kelas XII Ganjil)</option>
-              <option value="Semester 4">Semester 4 (Kelas XI Genap)</option>
-              <option value="Semester 3">Semester 3 (Kelas XI Ganjil)</option>
-              <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
-              <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
+            <label class="form-label">Mata Pelajaran</label>
+            <select class="form-select" id="editMapelNama" required>
+              <option value="IPAS">IPAS</option>
+              <option value="MTK">Matematika (MTK)</option>
+              <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+              <option value="Bahasa Inggris">Bahasa Inggris</option>
             </select>
           </div>
           <div>
-            <label class="form-label">KKM Sekolah</label>
-            <input type="number" class="form-input" id="editKkm" value="75" min="50" max="100" readonly style="background:#F8FAFC;">
+            <label class="form-label">Semester</label>
+            <select class="form-select" id="editSemester" required>
+              <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
+              <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
+              <option value="Semester 3">Semester 3 (Kelas XI Ganjil)</option>
+              <option value="Semester 4">Semester 4 (Kelas XI Genap)</option>
+              <option value="Semester 5">Semester 5 (Kelas XII Ganjil)</option>
+            </select>
           </div>
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div>
             <label class="form-label">Nilai Pengetahuan (0-100)</label>
-            <input type="number" class="form-input" id="editNilaiPengetahuan" min="0" max="100" required>
+            <input type="number" class="form-input" id="editNilaiPengetahuan" min="0" max="100" step="0.1" required>
           </div>
           <div>
             <label class="form-label">Nilai Keterampilan (0-100)</label>
-            <input type="number" class="form-input" id="editNilaiKeterampilan" min="0" max="100" required>
+            <input type="number" class="form-input" id="editNilaiKeterampilan" min="0" max="100" step="0.1" required>
           </div>
         </div>
       </div>

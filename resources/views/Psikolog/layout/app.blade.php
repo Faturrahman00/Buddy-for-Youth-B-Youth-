@@ -28,6 +28,9 @@
 </head>
 <body>
 
+<!-- Glassmorphism Clean Preloader -->
+@include('components.preloader')
+
 <div class="app-layout">
   <!-- Mobile Sidebar Backdrop Overlay -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>

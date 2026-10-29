@@ -16,6 +16,7 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
   <style>
     /* Sembunyikan ikon mata bawaan Microsoft Edge agar tidak dobel */
     input[type="password"]::-ms-reveal,
@@ -30,6 +31,9 @@
   </style>
 </head>
 <body>
+
+<!-- Preloader -->
+@include('components.preloader')
 
 <div class="auth-split-wrapper">
   

@@ -42,16 +42,23 @@ class AsesmenController extends Controller
             ->orderBy('id_asesmen')
             ->get();
 
-        // Ambil data akademik / nilai rapor siswa terkini
+        // Ambil data akademik / nilai rapor siswa (rata-rata dari semester yang diisi)
         $dataAkademikList = DataAkademik::where('id_siswa', $siswaId)->get();
         $raportGrades = [];
+        $mapelGroups = [];
         foreach ($dataAkademikList as $da) {
             $key = $da->mata_pelajaran;
+            $normKey = ($key === 'MTK' || stripos($key, 'Matematika') !== false) ? 'MTK' : $key;
             $val = (float) $da->rata_rata_nilai;
-            $raportGrades[$key] = $val;
-            if ($key === 'MTK' || stripos($key, 'Matematika') !== false) {
-                $raportGrades['Matematika'] = $val;
-                $raportGrades['MTK'] = $val;
+            if ($val > 0) {
+                $mapelGroups[$normKey][] = $val;
+            }
+        }
+        foreach ($mapelGroups as $mKey => $vals) {
+            $avgVal = round(array_sum($vals) / count($vals), 1);
+            $raportGrades[$mKey] = $avgVal;
+            if ($mKey === 'MTK') {
+                $raportGrades['Matematika'] = $avgVal;
             }
         }
 

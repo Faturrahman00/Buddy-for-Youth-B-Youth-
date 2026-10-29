@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\DataAkademik;
 use App\Models\Psikolog;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
@@ -124,16 +125,24 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:siswa,email|unique:admin,email|unique:psikolog,email',
             'asal_sekolah' => 'required|string|max:255',
-            'kelas' => 'required|string|max:50',
-            'password' => 'required|string|min:6|confirmed',
+            'kelas' => 'required|string|in:10,11,12',
+            'password' => 'required|string|min:8|confirmed',
         ], [
             'name.required' => 'Nama lengkap wajib diisi.',
+            'name.string' => 'Nama lengkap harus berupa teks.',
+            'name.max' => 'Nama lengkap maksimal 255 karakter.',
             'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email maksimal 255 karakter.',
             'email.unique' => 'Email sudah terdaftar.',
             'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
+            'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',
+            'asal_sekolah.max' => 'Asal sekolah maksimal 255 karakter.',
             'kelas.required' => 'Kelas wajib dipilih.',
+            'kelas.in' => 'Kelas yang dipilih tidak valid.',
             'password.required' => 'Kata sandi wajib diisi.',
-            'password.min' => 'Kata sandi minimal 6 karakter.',
+            'password.string' => 'Kata sandi harus berupa teks.',
+            'password.min' => 'Kata sandi minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
         ]);
 
@@ -146,6 +155,22 @@ class AuthController extends Controller
             'semester' => 'Semester 5',
             'status' => 'Aktif',
         ]);
+
+        // Inisialisasi setiap semester (1-5) dengan 4 mapel pokok default 0
+        $semesters = ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4', 'Semester 5'];
+        $mapels = ['IPAS', 'MTK', 'Bahasa Indonesia', 'Bahasa Inggris'];
+        foreach ($semesters as $sem) {
+            foreach ($mapels as $mapel) {
+                DataAkademik::create([
+                    'id_siswa' => $siswa->id_siswa,
+                    'mapel_semester' => $sem,
+                    'mata_pelajaran' => $mapel,
+                    'pengetahuan' => 0.00,
+                    'keterampilan' => 0.00,
+                    'rata_rata_nilai' => 0.00,
+                ]);
+            }
+        }
 
         Auth::guard('siswa')->login($siswa);
         Auth::shouldUse('siswa');

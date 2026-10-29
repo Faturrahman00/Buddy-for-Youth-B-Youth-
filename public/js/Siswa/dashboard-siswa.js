@@ -126,40 +126,50 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('B-Youth Student Dashboard loaded successfully.');
 });
 
-// Global Glassmorphism Loading Helper
-window.showGlassLoading = function(message = 'Memproses data...', duration = 800, callback = null) {
-  const overlay = document.getElementById('glassLoadingOverlay');
-  const textEl = document.getElementById('glassLoadingText');
+// Global Glassmorphism Loading Helper (Harmonized with byouth-dialog.js)
+if (!window.showGlassLoading) {
+  window.showGlassLoading = function(message = 'Memproses data...', duration = 0, callback = null) {
+    const overlay = document.getElementById('glassLoadingOverlay');
+    const textEl = document.getElementById('glassLoadingText');
 
-  if (!overlay) {
-    if (callback) setTimeout(callback, duration);
-    return;
-  }
+    if (!overlay) {
+      if (callback && typeof callback === 'function') setTimeout(callback, duration || 0);
+      return;
+    }
 
-  if (textEl && message) {
-    textEl.textContent = message;
-  }
+    if (textEl && message) {
+      textEl.textContent = message;
+    }
 
-  overlay.classList.add('active');
-  document.body.style.overflow = 'hidden';
+    overlay.classList.remove('fade-out', 'hidden-overlay');
+    overlay.classList.add('active');
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
 
-  if (duration > 0) {
-    setTimeout(() => {
-      window.hideGlassLoading();
-      if (typeof callback === 'function') {
-        callback();
-      }
-    }, duration);
-  }
-};
+    if (duration > 0) {
+      setTimeout(() => {
+        window.hideGlassLoading();
+        if (typeof callback === 'function') {
+          callback();
+        }
+      }, duration);
+    }
+  };
+}
 
-window.hideGlassLoading = function() {
-  const overlay = document.getElementById('glassLoadingOverlay');
-  if (overlay) {
+if (!window.hideGlassLoading) {
+  window.hideGlassLoading = function() {
+    const overlay = document.getElementById('glassLoadingOverlay');
+    if (!overlay || overlay.classList.contains('hidden-overlay')) return;
+    overlay.classList.add('fade-out');
     overlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-};
+    setTimeout(() => {
+      overlay.classList.add('hidden-overlay');
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 350);
+  };
+}
 
 // Global Glassmorphism Toast Helpers (Berhasil & Gagal)
 window.showToast = function(type, title, message, duration = 3500) {

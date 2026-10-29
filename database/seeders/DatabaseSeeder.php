@@ -103,74 +103,62 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 4. Data Akademik Granular (Siswa 1: Dimas Wicaksono)
-        $mapelsSiswa1 = [
-            ['mata_pelajaran' => 'IPAS', 'pengetahuan' => 88.00, 'keterampilan' => 88.00, 'rata_rata_nilai' => 88.00],
-            ['mata_pelajaran' => 'Matematika', 'pengetahuan' => 92.00, 'keterampilan' => 92.00, 'rata_rata_nilai' => 92.00],
-            ['mata_pelajaran' => 'Bahasa Indonesia', 'pengetahuan' => 86.00, 'keterampilan' => 88.00, 'rata_rata_nilai' => 87.00],
-            ['mata_pelajaran' => 'Bahasa Inggris', 'pengetahuan' => 90.00, 'keterampilan' => 90.00, 'rata_rata_nilai' => 90.00],
-        ];
+        // 4. Data Akademik Granular (Siswa setiap semester memiliki nilai dengan default 0)
+        $semestersList = ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4', 'Semester 5'];
+        $mapelKeys = ['IPAS', 'MTK', 'Bahasa Indonesia', 'Bahasa Inggris'];
 
-        foreach ($mapelsSiswa1 as $m) {
-            DataAkademik::firstOrCreate(
-                [
-                    'id_siswa' => $siswa1->id_siswa,
-                    'mapel_semester' => 'Semester 5',
-                    'mata_pelajaran' => $m['mata_pelajaran'],
-                ],
-                [
-                    'pengetahuan' => $m['pengetahuan'],
-                    'keterampilan' => $m['keterampilan'],
-                    'rata_rata_nilai' => $m['rata_rata_nilai'],
-                ]
-            );
-        }
+        $seedNilaiSemuaSemester = function ($siswa, $nilaiSem5) use ($semestersList, $mapelKeys) {
+            foreach ($semestersList as $sem) {
+                foreach ($mapelKeys as $mKey) {
+                    if ($sem === 'Semester 5' && isset($nilaiSem5[$mKey])) {
+                        $p = $nilaiSem5[$mKey]['pengetahuan'];
+                        $k = $nilaiSem5[$mKey]['keterampilan'];
+                        $avg = $nilaiSem5[$mKey]['rata_rata_nilai'];
+                    } else {
+                        $p = 0.00;
+                        $k = 0.00;
+                        $avg = 0.00;
+                    }
 
-        // Data Akademik Granular (Siswa 2: Siti Sarah Rahmawati)
-        $mapelsSiswa2 = [
-            ['mata_pelajaran' => 'IPAS', 'pengetahuan' => 86.00, 'keterampilan' => 86.00, 'rata_rata_nilai' => 86.00],
-            ['mata_pelajaran' => 'Matematika', 'pengetahuan' => 90.00, 'keterampilan' => 90.00, 'rata_rata_nilai' => 90.00],
-            ['mata_pelajaran' => 'Bahasa Indonesia', 'pengetahuan' => 92.00, 'keterampilan' => 92.00, 'rata_rata_nilai' => 92.00],
-            ['mata_pelajaran' => 'Bahasa Inggris', 'pengetahuan' => 91.00, 'keterampilan' => 91.00, 'rata_rata_nilai' => 91.00],
-        ];
+                    DataAkademik::firstOrCreate(
+                        [
+                            'id_siswa' => $siswa->id_siswa,
+                            'mapel_semester' => $sem,
+                            'mata_pelajaran' => $mKey,
+                        ],
+                        [
+                            'pengetahuan' => $p,
+                            'keterampilan' => $k,
+                            'rata_rata_nilai' => $avg,
+                        ]
+                    );
+                }
+            }
+        };
 
-        foreach ($mapelsSiswa2 as $m) {
-            DataAkademik::firstOrCreate(
-                [
-                    'id_siswa' => $siswa2->id_siswa,
-                    'mapel_semester' => 'Semester 5',
-                    'mata_pelajaran' => $m['mata_pelajaran'],
-                ],
-                [
-                    'pengetahuan' => $m['pengetahuan'],
-                    'keterampilan' => $m['keterampilan'],
-                    'rata_rata_nilai' => $m['rata_rata_nilai'],
-                ]
-            );
-        }
+        // Siswa 1: Dimas Wicaksono
+        $seedNilaiSemuaSemester($siswa1, [
+            'IPAS' => ['pengetahuan' => 88.00, 'keterampilan' => 88.00, 'rata_rata_nilai' => 88.00],
+            'MTK' => ['pengetahuan' => 92.00, 'keterampilan' => 92.00, 'rata_rata_nilai' => 92.00],
+            'Bahasa Indonesia' => ['pengetahuan' => 86.00, 'keterampilan' => 88.00, 'rata_rata_nilai' => 87.00],
+            'Bahasa Inggris' => ['pengetahuan' => 90.00, 'keterampilan' => 90.00, 'rata_rata_nilai' => 90.00],
+        ]);
 
-        // Data Akademik Granular (Siswa 3: Rizky Ramadhan)
-        $mapelsSiswa3 = [
-            ['mata_pelajaran' => 'IPAS', 'pengetahuan' => 85.00, 'keterampilan' => 85.00, 'rata_rata_nilai' => 85.00],
-            ['mata_pelajaran' => 'Matematika', 'pengetahuan' => 88.00, 'keterampilan' => 88.00, 'rata_rata_nilai' => 88.00],
-            ['mata_pelajaran' => 'Bahasa Indonesia', 'pengetahuan' => 87.00, 'keterampilan' => 87.00, 'rata_rata_nilai' => 87.00],
-            ['mata_pelajaran' => 'Bahasa Inggris', 'pengetahuan' => 89.00, 'keterampilan' => 89.00, 'rata_rata_nilai' => 89.00],
-        ];
+        // Siswa 2: Siti Sarah Rahmawati
+        $seedNilaiSemuaSemester($siswa2, [
+            'IPAS' => ['pengetahuan' => 86.00, 'keterampilan' => 86.00, 'rata_rata_nilai' => 86.00],
+            'MTK' => ['pengetahuan' => 90.00, 'keterampilan' => 90.00, 'rata_rata_nilai' => 90.00],
+            'Bahasa Indonesia' => ['pengetahuan' => 92.00, 'keterampilan' => 92.00, 'rata_rata_nilai' => 92.00],
+            'Bahasa Inggris' => ['pengetahuan' => 91.00, 'keterampilan' => 91.00, 'rata_rata_nilai' => 91.00],
+        ]);
 
-        foreach ($mapelsSiswa3 as $m) {
-            DataAkademik::firstOrCreate(
-                [
-                    'id_siswa' => $siswa3->id_siswa,
-                    'mapel_semester' => 'Semester 5',
-                    'mata_pelajaran' => $m['mata_pelajaran'],
-                ],
-                [
-                    'pengetahuan' => $m['pengetahuan'],
-                    'keterampilan' => $m['keterampilan'],
-                    'rata_rata_nilai' => $m['rata_rata_nilai'],
-                ]
-            );
-        }
+        // Siswa 3: Rizky Ramadhan
+        $seedNilaiSemuaSemester($siswa3, [
+            'IPAS' => ['pengetahuan' => 85.00, 'keterampilan' => 85.00, 'rata_rata_nilai' => 85.00],
+            'MTK' => ['pengetahuan' => 88.00, 'keterampilan' => 88.00, 'rata_rata_nilai' => 88.00],
+            'Bahasa Indonesia' => ['pengetahuan' => 87.00, 'keterampilan' => 87.00, 'rata_rata_nilai' => 87.00],
+            'Bahasa Inggris' => ['pengetahuan' => 89.00, 'keterampilan' => 89.00, 'rata_rata_nilai' => 89.00],
+        ]);
 
         // 5. Soal Asesmen (42 Soal RIASEC) & Katalog Program Studi
         $this->call(SoalAsesmenRiasecSeeder::class);

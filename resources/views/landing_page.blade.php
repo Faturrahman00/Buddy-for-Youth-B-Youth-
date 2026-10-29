@@ -13,6 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
 
   <style>
     /* ================================================================
@@ -840,6 +841,9 @@
 </head>
 <body>
 
+  <!-- Preloader -->
+  @include('components.preloader')
+
   <!-- NAVBAR -->
   <nav class="lp-navbar" id="lpNavbar" role="navigation" aria-label="Navigasi utama">
     <a href="{{ route('home') }}" class="lp-brand" aria-label="B-Youth Beranda">
@@ -1249,5 +1253,6 @@
       revealObs.observe(el);
     });
   </script>
+  <script src="{{ asset('js/byouth-dialog.js') }}"></script>
 </body>
 </html>

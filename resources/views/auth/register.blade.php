@@ -16,6 +16,7 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
   <style>
     /* Sembunyikan ikon mata bawaan Microsoft Edge agar tidak dobel */
     input[type="password"]::-ms-reveal,
@@ -30,6 +31,9 @@
   </style>
 </head>
 <body>
+
+<!-- Preloader -->
+@include('components.preloader')
 
 <div class="auth-split-wrapper">
 
@@ -118,9 +122,27 @@
         <p class="form-sub-title">Lengkapi formulir di bawah untuk mendaftar akun baru.</p>
       </div>
 
+      {{-- Alert Error Server-side --}}
+      @if(isset($errors) && $errors->any())
+        <div class="auth-error-alert" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:20px; height:20px; flex-shrink:0; margin-top:2px;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <div>
+            <div style="font-size:13.5px; font-weight:700; color:#991B1B; margin-bottom:4px;">Pendaftaran Belum Berhasil</div>
+            <ul style="margin:0; padding-left:16px; font-size:13px; color:#B91C1C; line-height:1.5;">
+              @foreach($errors->all() as $err)
+                <li>{{ $err }}</li>
+              @endforeach
+            </ul>
+          </div>
+        </div>
+      @endif
 
       <!-- Register Form -->
-      <form action="{{ route('register.post') }}" method="POST" class="modern-auth-form" id="registerForm">
+      <form action="{{ route('register.post') }}" method="POST" class="modern-auth-form" id="registerForm" novalidate>
         @csrf
 
         <!-- Nama Lengkap -->
@@ -138,13 +160,18 @@
               id="regName" 
               name="name" 
               value="{{ old('name') }}"
-              class="modern-input" 
+              class="modern-input @error('name') is-invalid @enderror" 
               placeholder="Masukkan Nama Anda" 
-              required 
               autocomplete="name"
               autofocus
             >
           </div>
+          @error('name')
+            <div class="input-error-msg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12"/><line x1="12" y1="16" x2="12.01"/></svg>
+              <span>{{ $message }}</span>
+            </div>
+          @enderror
         </div>
 
         <!-- Email -->
@@ -162,12 +189,17 @@
               id="regEmail" 
               name="email" 
               value="{{ old('email') }}"
-              class="modern-input" 
+              class="modern-input @error('email') is-invalid @enderror" 
               placeholder="Masukkan Email Anda" 
-              required 
               autocomplete="email"
             >
           </div>
+          @error('email')
+            <div class="input-error-msg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12"/><line x1="12" y1="16" x2="12.01"/></svg>
+              <span>{{ $message }}</span>
+            </div>
+          @enderror
         </div>
 
         <!-- Grid 2: Asal Sekolah & Kelas -->
@@ -190,11 +222,16 @@
                 id="regSekolah" 
                 name="asal_sekolah" 
                 value="{{ old('asal_sekolah') }}"
-                class="modern-input" 
+                class="modern-input @error('asal_sekolah') is-invalid @enderror" 
                 placeholder="SMA / SMK / MA" 
-                required
               >
             </div>
+            @error('asal_sekolah')
+              <div class="input-error-msg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12"/><line x1="12" y1="16" x2="12.01"/></svg>
+                <span>{{ $message }}</span>
+              </div>
+            @enderror
           </div>
 
           <div class="input-field-group">
@@ -206,13 +243,19 @@
                   <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
                 </svg>
               </span>
-              <select id="regKelas" name="kelas" class="modern-input" required>
-                <option value="" disabled selected>Pilih Kelas</option>
-                <option value="10">Kelas 10</option>
-                <option value="11">Kelas 11</option>
-                <option value="12">Kelas 12</option>
+              <select id="regKelas" name="kelas" class="modern-input @error('kelas') is-invalid @enderror">
+                <option value="" disabled {{ old('kelas') ? '' : 'selected' }}>Pilih Kelas</option>
+                <option value="10" {{ old('kelas') == '10' ? 'selected' : '' }}>Kelas 10</option>
+                <option value="11" {{ old('kelas') == '11' ? 'selected' : '' }}>Kelas 11</option>
+                <option value="12" {{ old('kelas') == '12' ? 'selected' : '' }}>Kelas 12</option>
               </select>
             </div>
+            @error('kelas')
+              <div class="input-error-msg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12"/><line x1="12" y1="16" x2="12.01"/></svg>
+                <span>{{ $message }}</span>
+              </div>
+            @enderror
           </div>
         </div>
 
@@ -231,10 +274,8 @@
                 type="password" 
                 id="regPassword" 
                 name="password" 
-                class="modern-input has-right-toggle" 
+                class="modern-input has-right-toggle @error('password') is-invalid @enderror" 
                 placeholder="Min. 8 karakter" 
-                required 
-                minlength="8"
                 autocomplete="new-password"
               >
               <button type="button" class="btn-eye-toggle" onclick="togglePasswordVisibility('regPassword', this)" aria-label="Lihat kata sandi">
@@ -244,6 +285,12 @@
                 </svg>
               </button>
             </div>
+            @error('password')
+              <div class="input-error-msg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12"/><line x1="12" y1="16" x2="12.01"/></svg>
+                <span>{{ $message }}</span>
+              </div>
+            @enderror
           </div>
 
           <div class="input-field-group">
@@ -259,10 +306,8 @@
                 type="password" 
                 id="regPasswordConfirm" 
                 name="password_confirmation" 
-                class="modern-input has-right-toggle" 
+                class="modern-input has-right-toggle @error('password_confirmation') is-invalid @enderror" 
                 placeholder="Ulangi kata sandi" 
-                required 
-                minlength="8"
                 autocomplete="new-password"
               >
               <button type="button" class="btn-eye-toggle" onclick="togglePasswordVisibility('regPasswordConfirm', this)" aria-label="Lihat konfirmasi kata sandi">
@@ -272,6 +317,12 @@
                 </svg>
               </button>
             </div>
+            @error('password_confirmation')
+              <div class="input-error-msg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12"/><line x1="12" y1="16" x2="12.01"/></svg>
+                <span>{{ $message }}</span>
+              </div>
+            @enderror
           </div>
         </div>
 
@@ -329,20 +380,107 @@
     updateSelectColor();
   }
 
-  // Password confirmation check
-  document.getElementById('registerForm')?.addEventListener('submit', function(e) {
-    const pwd = document.getElementById('regPassword');
-    const pwdConfirm = document.getElementById('regPasswordConfirm');
-    if (pwd && pwdConfirm && pwd.value !== pwdConfirm.value) {
-      e.preventDefault();
-      if (typeof window.byouthToast === 'function') {
-        window.byouthToast({ type: 'warning', message: 'Konfirmasi Kata Sandi tidak sama dengan Kata Sandi.' });
-      } else {
-        alert('Konfirmasi Kata Sandi tidak sama dengan Kata Sandi.');
-      }
-      pwdConfirm.focus();
-    }
+  // Clear validation error on input
+  document.querySelectorAll('.modern-input').forEach(inp => {
+    const clearError = () => {
+      inp.classList.remove('is-invalid');
+      const errEl = inp.closest('.input-field-group')?.querySelector('.input-error-msg');
+      if (errEl) errEl.remove();
+    };
+    inp.addEventListener('input', clearError);
+    inp.addEventListener('change', clearError);
   });
+
+  // Client-side validation on form submit
+  const regForm = document.getElementById('registerForm');
+  if (regForm) {
+    regForm.addEventListener('submit', function(e) {
+      // Hapus pesan error klien sebelumnya
+      document.querySelectorAll('.client-error-msg').forEach(el => el.remove());
+      document.querySelectorAll('.modern-input.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+      const nameInput = document.getElementById('regName');
+      const emailInput = document.getElementById('regEmail');
+      const sekolahInput = document.getElementById('regSekolah');
+      const kelasInput = document.getElementById('regKelas');
+      const pwdInput = document.getElementById('regPassword');
+      const pwdConfirmInput = document.getElementById('regPasswordConfirm');
+
+      let errors = [];
+
+      function addFieldError(input, msg) {
+        if (!input) return;
+        input.classList.add('is-invalid');
+        const parent = input.closest('.input-field-group');
+        if (parent && !parent.querySelector('.input-error-msg')) {
+          const errDiv = document.createElement('div');
+          errDiv.className = 'input-error-msg client-error-msg';
+          errDiv.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12"/><line x1="12" y1="16" x2="12.01"/>
+            </svg>
+            <span>${msg}</span>
+          `;
+          parent.appendChild(errDiv);
+        }
+        errors.push({ input, msg });
+      }
+
+      // 1. Nama lengkap
+      if (!nameInput.value.trim()) {
+        addFieldError(nameInput, 'Nama lengkap wajib diisi.');
+      }
+
+      // 2. Email
+      const emailVal = emailInput.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailVal) {
+        addFieldError(emailInput, 'Email wajib diisi.');
+      } else if (!emailRegex.test(emailVal)) {
+        addFieldError(emailInput, 'Format email tidak valid.');
+      }
+
+      // 3. Asal Sekolah
+      if (!sekolahInput.value.trim()) {
+        addFieldError(sekolahInput, 'Asal sekolah wajib diisi.');
+      }
+
+      // 4. Kelas
+      if (!kelasInput.value) {
+        addFieldError(kelasInput, 'Kelas wajib dipilih.');
+      }
+
+      // 5. Kata Sandi
+      const pwdVal = pwdInput.value;
+      if (!pwdVal) {
+        addFieldError(pwdInput, 'Kata sandi wajib diisi.');
+      } else if (pwdVal.length < 8) {
+        addFieldError(pwdInput, 'Kata sandi minimal 8 karakter.');
+      }
+
+      // 6. Konfirmasi Sandi
+      const pwdConfirmVal = pwdConfirmInput.value;
+      if (!pwdConfirmVal) {
+        addFieldError(pwdConfirmInput, 'Konfirmasi kata sandi wajib diisi.');
+      } else if (pwdVal && pwdVal !== pwdConfirmVal) {
+        addFieldError(pwdConfirmInput, 'Konfirmasi kata sandi tidak cocok.');
+      }
+
+      if (errors.length > 0) {
+        e.preventDefault();
+        const firstError = errors[0];
+        firstError.input.focus();
+
+        if (typeof window.byouthToast === 'function') {
+          window.byouthToast({
+            type: 'error',
+            message: firstError.msg,
+            duration: 4000
+          });
+        }
+      }
+    });
+  }
 </script>
 
 <!-- SweetAlert2 & Toast Notifications -->
@@ -351,7 +489,7 @@
 <script src="{{ asset('js/byouth-dialog.js') }}"></script>
 
 {{-- Flash Messages & Errors → Bottom-Right Toast --}}
-@if(session('success') || session('error') || session('warning') || session('info') || $errors->any())
+@if(session('success') || session('error') || session('warning') || session('info') || (isset($errors) && $errors->any()))
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   @if(session('success'))
@@ -366,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
   @if(session('info'))
     window.byouthToast({ type: 'info', message: @json(session('info')) });
   @endif
-  @if($errors->any())
+  @if(isset($errors) && $errors->any())
     @foreach($errors->all() as $err)
       window.byouthToast({ type: 'error', message: @json($err), duration: 4500 });
     @endforeach

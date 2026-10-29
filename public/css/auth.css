@@ -658,3 +658,45 @@ select.modern-input option:not([value=""]) {
     font-size: 22px;
   }
 }
+
+/* ----------------------------------------------------------------
+   VALIDATION ERROR STATES & FEEDBACK
+   ---------------------------------------------------------------- */
+.modern-input.is-invalid {
+  border-color: #E53E3E !important;
+  background-color: #FFF5F5 !important;
+}
+
+.modern-input.is-invalid:focus {
+  border-color: #C53030 !important;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.18) !important;
+}
+
+.input-error-msg {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #DC2626;
+  margin-top: 4px;
+}
+
+.input-error-msg svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.auth-error-alert {
+  background: #FEF2F2;
+  border: 1.5px solid #FCA5A5;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.08);
+}
+

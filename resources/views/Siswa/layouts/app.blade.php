@@ -28,6 +28,9 @@
 </head>
 <body>
 
+<!-- Glassmorphism Clean Preloader -->
+@include('components.preloader')
+
 <div class="app-layout">
   <!-- Mobile Sidebar Backdrop Overlay -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -60,19 +63,6 @@
 <!-- Dashboard Interaction Script -->
 <script src="{{ asset('js/Siswa/dashboard-siswa.js') }}"></script>
 <script src="{{ asset('js/Siswa/pages-siswa.js') }}"></script>
-
-<!-- Glassmorphism Clean Loading Overlay -->
-<div class="glass-loading-overlay" id="glassLoadingOverlay" aria-hidden="true">
-  <div class="glass-loading-card">
-    <div class="glass-spinner">
-      <div class="spinner-ring outer"></div>
-      <div class="spinner-ring inner"></div>
-      <div class="spinner-core"></div>
-    </div>
-    <div class="glass-loading-text" id="glassLoadingText">Memproses data...</div>
-    <div class="glass-loading-sub" id="glassLoadingSub">Mohon tunggu sebentar</div>
-  </div>
-</div>
 
 <!-- Glassmorphism Toast Notification Container (Berhasil & Gagal) -->
 <div class="app-toast-container" id="appToastContainer" aria-live="polite"></div>

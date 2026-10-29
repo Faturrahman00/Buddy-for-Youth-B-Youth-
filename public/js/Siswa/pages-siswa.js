@@ -200,27 +200,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 4. DATA AKADEMIK CRUD & PAGINATION INTERACTIVITY
+  // 4. DATA AKADEMIK CRUD & STATS INTERACTIVITY
   // --------------------------------------------------------------------------
-  const modalTambahNilai = document.getElementById('modalTambahNilai');
   const modalEditNilai = document.getElementById('modalEditNilai');
-  const formTambahNilai = document.getElementById('formTambahNilai');
   const formEditNilai = document.getElementById('formEditNilai');
   const tableBodyAkademik = document.getElementById('akademikTableBody');
-  const btnOpenTambahNilai = document.querySelectorAll('.btn-open-tambah-nilai');
 
   let editingRowElement = null;
-
-  // Open Modal Tambah Nilai
-  btnOpenTambahNilai.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (modalTambahNilai) {
-        modalTambahNilai.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-    });
-  });
 
   // Calculate grade & predicate helper
   function calculateGrade(p, k) {
@@ -240,85 +226,118 @@ document.addEventListener('DOMContentLoaded', () => {
     return { akhir, predikat, badgeClass };
   }
 
-  // Recalculate summary stats (Rata-rata, mapel tertinggi, serta update grafik 4 pilar)
+  // Recalculate summary stats (Rata-rata kumulatif 4 mapel dari semester yang diisi siswa)
   function updateAkademikStats() {
     if (!tableBodyAkademik) return;
     const allRows = tableBodyAkademik.querySelectorAll('tr');
-    let totalScore = 0;
-    let count = 0;
-    let maxScore = -1;
-    let maxMapel = '-';
 
-    const scoresMap = {
-      'IPAS': 0,
-      'MTK': 0,
-      'Bahasa Indonesia': 0,
-      'Bahasa Inggris': 0
+    // Group scores by core mapels across all semesters
+    const mapels = {
+      'IPAS': [],
+      'MTK': [],
+      'Bahasa Indonesia': [],
+      'Bahasa Inggris': []
     };
 
     allRows.forEach((row, idx) => {
       const numCell = row.querySelector('.row-number');
       if (numCell) numCell.textContent = idx + 1;
 
-      const mapelName = row.getAttribute('data-mapel') || '';
+      const mapelAttr = (row.getAttribute('data-mapel') || '').trim();
       const p = parseFloat(row.getAttribute('data-pengetahuan') || 0);
       const k = parseFloat(row.getAttribute('data-keterampilan') || 0);
       const akhir = (p + k) / 2;
 
-      totalScore += akhir;
-      count++;
+      // Mapel matching
+      let targetKey = null;
+      if (mapelAttr.includes('IPAS')) targetKey = 'IPAS';
+      else if (mapelAttr.includes('MTK') || mapelAttr.toLowerCase().includes('matematika')) targetKey = 'MTK';
+      else if (mapelAttr.includes('Bahasa Indonesia')) targetKey = 'Bahasa Indonesia';
+      else if (mapelAttr.includes('Bahasa Inggris')) targetKey = 'Bahasa Inggris';
 
-      if (akhir > maxScore) {
-        maxScore = akhir;
-        maxMapel = `${akhir.toFixed(1)} (${mapelName})`;
+      if (targetKey) {
+        // Hanya hitung semester yang sudah diisi siswa (nilai > 0)
+        if (akhir > 0 || p > 0 || k > 0) {
+          mapels[targetKey].push(akhir);
+        }
       }
-
-      if (mapelName.includes('IPAS')) scoresMap['IPAS'] = akhir;
-      else if (mapelName.includes('MTK')) scoresMap['MTK'] = akhir;
-      else if (mapelName.includes('Bahasa Indonesia')) scoresMap['Bahasa Indonesia'] = akhir;
-      else if (mapelName.includes('Bahasa Inggris')) scoresMap['Bahasa Inggris'] = akhir;
     });
 
-    // Update stat card rata-rata
+    const scoresMap = {};
+    const filledCounts = {};
+    let totalSubjectAverages = 0;
+    let filledSubjectCount = 0;
+    let maxScore = -1;
+    let maxMapel = '-';
+
+    for (const [key, scoresList] of Object.entries(mapels)) {
+      if (scoresList.length > 0) {
+        const sum = scoresList.reduce((acc, curr) => acc + curr, 0);
+        const avg = sum / scoresList.length;
+        scoresMap[key] = avg;
+        filledCounts[key] = scoresList.length;
+        totalSubjectAverages += avg;
+        filledSubjectCount++;
+
+        if (avg > maxScore) {
+          maxScore = avg;
+          maxMapel = `${avg.toFixed(1)} (${key})`;
+        }
+      } else {
+        scoresMap[key] = 0;
+        filledCounts[key] = 0;
+      }
+    }
+
+    // Update stat card rata-rata kumulatif
     const statAvgEl = document.getElementById('statRataRataNilai');
-    if (statAvgEl && count > 0) {
-      statAvgEl.textContent = (totalScore / count).toFixed(1);
+    if (statAvgEl) {
+      statAvgEl.textContent = filledSubjectCount > 0 ? (totalSubjectAverages / filledSubjectCount).toFixed(1) : 'Belum diisi';
     }
 
     // Update mapel tertinggi
     const statMaxEl = document.getElementById('statMapelTertinggi');
-    if (statMaxEl && maxScore >= 0) {
-      statMaxEl.textContent = maxMapel;
+    if (statMaxEl) {
+      statMaxEl.textContent = maxScore >= 0 ? maxMapel : '-';
     }
 
     // Update 4 Grafik Bar Metrik
-    function updateChartMetric(fillId, scoreId, gradeId, percentId, score) {
+    function updateChartMetric(fillId, scoreId, gradeId, percentId, detailId, score, count) {
       const fillEl = document.getElementById(fillId);
       const scoreEl = document.getElementById(scoreId);
       const gradeEl = document.getElementById(gradeId);
       const percentEl = document.getElementById(percentId);
+      const detailEl = document.getElementById(detailId);
 
+      const hasData = count > 0;
       const s = Math.max(0, Math.min(100, score));
-      if (fillEl) fillEl.style.width = `${s}%`;
-      if (scoreEl) scoreEl.textContent = s.toFixed(1);
-      if (percentEl) percentEl.textContent = `${Math.round(s)}% Tercapai`;
+
+      if (fillEl) fillEl.style.width = `${hasData ? s : 0}%`;
+      if (scoreEl) scoreEl.textContent = hasData ? s.toFixed(1) : '-';
+      if (percentEl) percentEl.textContent = hasData ? `${Math.round(s)}% Tercapai` : '0% Tercapai';
+      if (detailEl) detailEl.textContent = hasData ? `${count} Semester Terisi` : 'Belum Ada Nilai';
+
       if (gradeEl) {
-        let p = 'Predikat C';
-        if (s >= 88) p = 'Predikat A';
-        else if (s >= 78) p = 'Predikat B+';
-        else if (s >= 70) p = 'Predikat B';
-        gradeEl.textContent = p;
+        if (!hasData) {
+          gradeEl.textContent = 'Belum Diisi';
+        } else {
+          let p = 'Predikat C';
+          if (s >= 88) p = 'Predikat A';
+          else if (s >= 78) p = 'Predikat B+';
+          else if (s >= 70) p = 'Predikat B';
+          gradeEl.textContent = p;
+        }
       }
     }
 
-    if (scoresMap['IPAS']) updateChartMetric('pillarIpas', 'chartScoreIpas', 'chartGradeIpas', 'chartPercentIpas', scoresMap['IPAS']);
-    if (scoresMap['MTK']) updateChartMetric('pillarMtk', 'chartScoreMtk', 'chartGradeMtk', 'chartPercentMtk', scoresMap['MTK']);
-    if (scoresMap['Bahasa Indonesia']) updateChartMetric('pillarIndo', 'chartScoreIndo', 'chartGradeIndo', 'chartPercentIndo', scoresMap['Bahasa Indonesia']);
-    if (scoresMap['Bahasa Inggris']) updateChartMetric('pillarIng', 'chartScoreIng', 'chartGradeIng', 'chartPercentIng', scoresMap['Bahasa Inggris']);
+    updateChartMetric('pillarIpas', 'chartScoreIpas', 'chartGradeIpas', 'chartPercentIpas', 'chartDetailIpas', scoresMap['IPAS'], filledCounts['IPAS']);
+    updateChartMetric('pillarMtk', 'chartScoreMtk', 'chartGradeMtk', 'chartPercentMtk', 'chartDetailMtk', scoresMap['MTK'], filledCounts['MTK']);
+    updateChartMetric('pillarIndo', 'chartScoreIndo', 'chartGradeIndo', 'chartPercentIndo', 'chartDetailIndo', scoresMap['Bahasa Indonesia'], filledCounts['Bahasa Indonesia']);
+    updateChartMetric('pillarIng', 'chartScoreIng', 'chartGradeIng', 'chartPercentIng', 'chartDetailIng', scoresMap['Bahasa Inggris'], filledCounts['Bahasa Inggris']);
   }
 
   // Helper function to save/update academic grade via fetch POST /siswa/akademik
-  function saveNilaiAkademik({ mapel, sem, p, k, kkm, formEl, modalEl }) {
+  function saveNilaiAkademik({ mapel, sem, p, k, formEl, modalEl }) {
     const { akhir, predikat, badgeClass } = calculateGrade(p, k);
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
@@ -350,12 +369,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return res;
       })
       .then(res => {
-        // Cari baris tabel yang bersangkutan
+        // Cari baris tabel yang bersangkutan (cocokkan mapel dan semester)
         let targetRow = editingRowElement;
         if (!targetRow && tableBodyAkademik) {
           tableBodyAkademik.querySelectorAll('tr').forEach(r => {
             const rowMapel = r.getAttribute('data-mapel') || '';
-            if (rowMapel === mapel || (mapel === 'MTK' && rowMapel.includes('Matematika')) || (mapel === 'Matematika' && rowMapel === 'MTK')) {
+            const rowSem = r.getAttribute('data-semester') || '';
+            const isMapelMatch = rowMapel === mapel || (mapel === 'MTK' && rowMapel.includes('Matematika')) || (mapel === 'Matematika' && rowMapel === 'MTK');
+            if (isMapelMatch && rowSem === sem) {
               targetRow = r;
             }
           });
@@ -365,7 +386,6 @@ document.addEventListener('DOMContentLoaded', () => {
           targetRow.setAttribute('data-searchable', `${mapel} ${sem} ${predikat}`);
           targetRow.setAttribute('data-semester', sem);
           targetRow.setAttribute('data-mapel', mapel);
-          targetRow.setAttribute('data-kkm', kkm);
           targetRow.setAttribute('data-pengetahuan', p);
           targetRow.setAttribute('data-keterampilan', k);
 
@@ -373,10 +393,10 @@ document.addEventListener('DOMContentLoaded', () => {
           if (semEl) semEl.textContent = sem;
 
           const pEl = targetRow.querySelector('.row-pengetahuan-val');
-          if (pEl) pEl.textContent = p;
+          if (pEl) pEl.textContent = Math.round(p);
 
           const kEl = targetRow.querySelector('.row-keterampilan-val');
-          if (kEl) kEl.textContent = k;
+          if (kEl) kEl.textContent = Math.round(k);
 
           const akhirEl = targetRow.querySelector('.row-akhir-val');
           if (akhirEl) akhirEl.textContent = parseFloat(akhir).toFixed(1);
@@ -392,8 +412,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Perbarui metrik kartu atas
         const statAvg = document.getElementById('statRataRataNilai');
-        if (statAvg && res.data && res.data.global_avg) {
-          statAvg.textContent = parseFloat(res.data.global_avg).toFixed(1);
+        if (statAvg && res.data && res.data.global_avg !== undefined) {
+          statAvg.textContent = res.data.global_avg !== null ? parseFloat(res.data.global_avg).toFixed(1) : 'Belum diisi';
         }
 
         const statTop = document.getElementById('statMapelTertinggi');
@@ -408,10 +428,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof window.byouthToast === 'function') {
           window.byouthToast({
             type: 'success',
-            message: res.message || `Nilai rapor ${mapel} berhasil disimpan ke database.`
+            message: res.message || `Nilai rapor ${mapel} (${sem}) berhasil disimpan.`
           });
         } else if (window.showToastSuccess) {
-          window.showToastSuccess('Berhasil Disimpan', res.message || `Nilai rapor ${mapel} berhasil disimpan ke database.`);
+          window.showToastSuccess('Berhasil Disimpan', res.message || `Nilai rapor ${mapel} (${sem}) berhasil disimpan.`);
         }
       })
       .catch(err => {
@@ -434,42 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Handle Form Tambah Nilai Submit (Input Nilai untuk 4 Mapel)
-  if (formTambahNilai) {
-    formTambahNilai.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const sem = document.getElementById('tambahSemester').value;
-      const mapel = document.getElementById('tambahMapelNama').value.trim();
-      const kkm = document.getElementById('tambahKkm').value || '75';
-      const pRaw = document.getElementById('tambahNilaiPengetahuan').value;
-      const kRaw = document.getElementById('tambahNilaiKeterampilan').value;
-
-      const p = parseFloat(pRaw);
-      const k = parseFloat(kRaw);
-
-      if (isNaN(p) || isNaN(k) || p < 0 || p > 100 || k < 0 || k > 100) {
-        if (window.byouthAlert) {
-          window.byouthAlert({
-            title: 'Gagal Menyimpan Nilai',
-            text: 'Nilai Pengetahuan dan Keterampilan harus diisi antara rentang 0 hingga 100!',
-            icon: 'warning'
-          });
-        }
-        return;
-      }
-
-      saveNilaiAkademik({
-        mapel,
-        sem,
-        p,
-        k,
-        kkm,
-        formEl: formTambahNilai,
-        modalEl: modalTambahNilai
-      });
-    });
-  }
-
   // Attach click events to rows (Edit / Input Nilai)
   function attachRowEvents(row) {
     const editBtn = row.querySelector('.btn-edit-row');
@@ -478,22 +462,18 @@ document.addEventListener('DOMContentLoaded', () => {
       editBtn.addEventListener('click', () => {
         editingRowElement = row;
         const mapel = row.getAttribute('data-mapel') || 'IPAS';
-        const kkm = row.getAttribute('data-kkm') || '75';
         const pAttr = row.getAttribute('data-pengetahuan');
         const kAttr = row.getAttribute('data-keterampilan');
-        const sem = row.getAttribute('data-semester') || 'Semester 5';
+        const sem = row.getAttribute('data-semester') || 'Semester 1';
 
         const mapelSelect = document.getElementById('editMapelNama');
         if (mapelSelect) mapelSelect.value = mapel;
 
-        const kkmInput = document.getElementById('editKkm');
-        if (kkmInput) kkmInput.value = kkm;
-
         const pInput = document.getElementById('editNilaiPengetahuan');
-        if (pInput) pInput.value = (pAttr !== null && pAttr !== '' && !isNaN(pAttr)) ? pAttr : '';
+        if (pInput) pInput.value = (pAttr !== null && pAttr !== '' && !isNaN(pAttr)) ? parseFloat(pAttr) : '0';
 
         const kInput = document.getElementById('editNilaiKeterampilan');
-        if (kInput) kInput.value = (kAttr !== null && kAttr !== '' && !isNaN(kAttr)) ? kAttr : '';
+        if (kInput) kInput.value = (kAttr !== null && kAttr !== '' && !isNaN(kAttr)) ? parseFloat(kAttr) : '0';
 
         const semSelect = document.getElementById('editSemester');
         if (semSelect) semSelect.value = sem;
@@ -519,7 +499,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const sem = document.getElementById('editSemester').value;
       const mapel = document.getElementById('editMapelNama').value.trim();
-      const kkm = document.getElementById('editKkm').value || '75';
       const pRaw = document.getElementById('editNilaiPengetahuan').value;
       const kRaw = document.getElementById('editNilaiKeterampilan').value;
 
@@ -542,7 +521,6 @@ document.addEventListener('DOMContentLoaded', () => {
         sem,
         p,
         k,
-        kkm,
         formEl: formEditNilai,
         modalEl: modalEditNilai
       });

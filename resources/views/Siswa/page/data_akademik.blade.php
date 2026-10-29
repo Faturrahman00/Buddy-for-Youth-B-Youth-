@@ -221,7 +221,7 @@
           </svg>
           Grafik Nilai 4 Mata Pelajaran Pokok
         </h3>
-        <p>Visualisasi capaian kompetensi untuk penyesuaian kecocokan program studi.</p>
+        <p>Visualisasi akumulasi rata-rata nilai dari seluruh semester yang diisi untuk penyesuaian kecocokan program studi.</p>
       </div>
       <div class="chart-curriculum-badge">
         Kurikulum Merdeka • Skala 0 - 100
@@ -229,14 +229,14 @@
     </div>
 
     <div class="academic-metric-grid">
-      @foreach($daftarMapelStandar as $key => $meta)
+      @foreach($mapelStats as $key => $meta)
         @php
-          $record = $mapelData[$key] ?? null;
-          $score = $record ? (float) $record->rata_rata_nilai : 0;
-          $hasData = $record !== null;
-          $percent = min(100, round($score));
-          $predikat = $record ? $record->predikat : '-';
+          $score = (float) $meta['score'];
+          $hasData = $meta['has_data'];
+          $percent = $meta['percent'];
+          $predikat = $meta['predikat'];
           $kId = strtolower(str_replace([' ', '(', ')'], '', $key));
+          $filledCount = $meta['filled_count'];
         @endphp
         <div class="metric-bar-card">
           <div class="metric-bar-top">
@@ -257,7 +257,7 @@
             <div class="metric-fill {{ $meta['fillClass'] }}" id="pillar{{ ucfirst($kId) }}" style="width: {{ $percent }}%;"></div>
           </div>
           <div class="metric-bar-footer">
-            <span>KKM: {{ $meta['kkm'] }}</span>
+            <span id="chartDetail{{ ucfirst($kId) }}">{{ $filledCount > 0 ? $filledCount . ' Semester Terisi' : 'Belum Ada Nilai' }}</span>
             <span id="chartPercent{{ ucfirst($kId) }}">{{ $hasData ? $percent . '% Tercapai' : '0% Tercapai' }}</span>
           </div>
         </div>
@@ -277,9 +277,9 @@
             <line x1="16" y1="17" x2="8" y2="17"></line>
           </svg>
           <span>Daftar Nilai Rapor Siswa</span>
-          <span class="data-count-badge" data-count-for="akademikTableBody">4 Mata Pelajaran</span>
+          <span class="data-count-badge" data-count-for="akademikTableBody">{{ count($sortedRecords) }} Nilai Rapor</span>
         </div>
-        <div class="table-toolbar-desc">Mata pelajaran pokok penentu kalkulasi kesesuaian program studi</div>
+        <div class="table-toolbar-desc">Setiap semester memiliki 4 mata pelajaran pokok dengan nilai default 0</div>
       </div>
 
       <div class="table-toolbar-actions">
@@ -295,23 +295,14 @@
         <!-- Integrated Filter Controls -->
         <div class="filter-controls-group table-filter-group">
           <select id="filterSemester" class="filter-select table-filter-select" data-filter-key="semester">
-            <option value="all">Semua Semester</option>
-            <option value="Semester 5" selected>Semester 5 (Kelas XII Ganjil)</option>
-            <option value="Semester 4">Semester 4 (Kelas XI Genap)</option>
-            <option value="Semester 3">Semester 3 (Kelas XI Ganjil)</option>
-            <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
+            <option value="all" selected>Semua Semester</option>
             <option value="Semester 1">Semester 1 (Kelas X Ganjil)</option>
+            <option value="Semester 2">Semester 2 (Kelas X Genap)</option>
+            <option value="Semester 3">Semester 3 (Kelas XI Ganjil)</option>
+            <option value="Semester 4">Semester 4 (Kelas XI Genap)</option>
+            <option value="Semester 5">Semester 5 (Kelas XII Ganjil)</option>
           </select>
         </div>
-
-        <!-- Tombol Tambah / Masukkan Nilai -->
-        <button type="button" class="btn-primary-action btn-open-tambah-nilai" style="padding: 8px 16px; font-size: 13px; font-weight: 700; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; cursor: pointer;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-          <span>Tambah Nilai</span>
-        </button>
       </div>
     </div>
 
@@ -330,38 +321,44 @@
         </thead>
         <tbody id="akademikTableBody">
           @php $no = 1; @endphp
-          @foreach($daftarMapelStandar as $key => $meta)
+          @foreach($sortedRecords as $r)
             @php
-              $record = $mapelData[$key] ?? null;
-              $p = $record ? (float) $record->pengetahuan : '';
-              $k = $record ? (float) $record->keterampilan : '';
-              $akhir = $record ? (float) $record->rata_rata_nilai : 0;
-              $sem = $record ? $record->mapel_semester : 'Semester 5';
-              $hasData = $record !== null;
+              $p = (float) $r->pengetahuan;
+              $k = (float) $r->keterampilan;
+              $akhir = (float) $r->rata_rata_nilai;
+              $sem = $r->mapel_semester;
+              $mapelKey = $r->mata_pelajaran;
+              if (stripos($mapelKey, 'Matematika') !== false) {
+                  $mapelKey = 'MTK';
+              }
+              $meta = $mapelStats[$mapelKey] ?? [
+                  'sub' => $mapelKey,
+                  'alias' => $r->mata_pelajaran,
+              ];
+              $isFilled = $akhir > 0 || $p > 0 || $k > 0;
             @endphp
-            <tr data-searchable="{{ $key }} {{ $meta['sub'] }} {{ $sem }}" 
+            <tr data-searchable="{{ $r->mata_pelajaran }} {{ $meta['sub'] }} {{ $sem }}" 
                 data-semester="{{ $sem }}" 
-                data-mapel="{{ $key }}" 
-                data-kkm="{{ $meta['kkm'] }}" 
-                data-pengetahuan="{{ $hasData ? $p : '' }}" 
-                data-keterampilan="{{ $hasData ? $k : '' }}">
+                data-mapel="{{ $mapelKey }}" 
+                data-pengetahuan="{{ $p }}" 
+                data-keterampilan="{{ $k }}">
               <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">{{ $no++ }}</td>
               <td>
-                <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">{{ $key }}</div>
+                <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">{{ $meta['alias'] ?? $r->mata_pelajaran }}</div>
                 <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">
-                  {{ $meta['sub'] }} • KKM: <span class="row-kkm-val">{{ $meta['kkm'] }}</span>
+                  {{ $meta['sub'] }}
                 </div>
               </td>
               <td style="white-space: nowrap;"><span class="row-semester-val" style="font-weight:600; white-space: nowrap;">{{ $sem }}</span></td>
-              <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">{{ $hasData ? $p : '-' }}</td>
-              <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">{{ $hasData ? $k : '-' }}</td>
+              <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">{{ number_format($p, 0) }}</td>
+              <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">{{ number_format($k, 0) }}</td>
               <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">
-                {{ $hasData ? number_format($akhir, 1) : '-' }}
+                {{ number_format($akhir, 1) }}
               </td>
               <td style="text-align: right;">
                 <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
                   <button type="button" class="btn-table-action outline btn-edit-row">
-                    {{ $hasData ? 'Ubah Nilai' : 'Masukkan Nilai' }}
+                    {{ $isFilled ? 'Ubah Nilai' : 'Isi Nilai' }}
                   </button>
                 </div>
               </td>
@@ -372,8 +369,8 @@
     </div>
 
     <div style="padding:16px 20px; border-top:1px solid var(--c-border-light); font-size:13px; color:var(--c-text-muted); display:flex; justify-content:space-between; align-items:center;">
-      <div>Hanya 4 mata pelajaran pokok ini yang disediakan oleh pihak sekolah/admin untuk kalkulasi program studi.</div>
-      <div style="font-weight:700; color:var(--c-primary);">Total 4 Mata Pelajaran</div>
+      <div>Setiap semester memiliki 4 mata pelajaran pokok (default nilai 0). Klik tombol Ubah/Isi Nilai untuk memperbarui nilai rapor.</div>
+      <div style="font-weight:700; color:var(--c-primary);">5 Semester Tersedia</div>
     </div>
   </div>
 @endsection

@@ -184,3 +184,17 @@ Route::middleware('role:psikolog')->prefix('psikolog')->name('psikolog.')->group
     Route::get('/profil', [PsikologProfilController::class, 'index'])->name('profil');
     Route::put('/profil', [PsikologProfilController::class, 'update'])->name('profil.update');
 });
+
+// ══════════════════════════════════════════════════════════════════════════
+// 6. ERROR PAGE PREVIEW (Pengujian Tampilan Error)
+// ══════════════════════════════════════════════════════════════════════════
+if (config('app.debug')) {
+    Route::get('/preview-error/{code}', function ($code) {
+        if (view()->exists("errors.{$code}")) {
+            return response()->view("errors.{$code}", [
+                'exception' => new \Exception("Simulasi pesan teknis untuk pengujian tampilan error HTTP {$code}."),
+            ], (int) $code);
+        }
+        abort(404);
+    })->name('errors.preview');
+}

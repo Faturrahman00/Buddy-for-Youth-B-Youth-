@@ -237,4 +237,128 @@
   } else {
     setupConfirmForms();
   }
+
+  /* ==========================================================================
+     GLOBAL B-YOUTH GLASS PRELOADER & LOADING CONTROLLER
+     ========================================================================== */
+
+  let hideLoadingTimeout = null;
+
+  window.showGlassLoading = function (message = 'Memproses data...', duration = 0, callback = null) {
+    if (hideLoadingTimeout) {
+      clearTimeout(hideLoadingTimeout);
+      hideLoadingTimeout = null;
+    }
+
+    const overlay = document.getElementById('glassLoadingOverlay');
+    const textEl = document.getElementById('glassLoadingText');
+
+    if (!overlay) {
+      if (callback && typeof callback === 'function') setTimeout(callback, duration || 0);
+      return;
+    }
+
+    if (textEl && message) {
+      textEl.textContent = message;
+    }
+
+    overlay.classList.remove('fade-out', 'hidden-overlay');
+    overlay.classList.add('active');
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    if (duration > 0) {
+      setTimeout(() => {
+        window.hideGlassLoading();
+        if (typeof callback === 'function') {
+          callback();
+        }
+      }, duration);
+    }
+  };
+
+  window.hideGlassLoading = function () {
+    const overlay = document.getElementById('glassLoadingOverlay');
+    if (!overlay || overlay.classList.contains('hidden-overlay')) return;
+
+    overlay.classList.add('fade-out');
+    overlay.classList.remove('active');
+
+    if (hideLoadingTimeout) clearTimeout(hideLoadingTimeout);
+    hideLoadingTimeout = setTimeout(() => {
+      overlay.classList.add('hidden-overlay');
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+      hideLoadingTimeout = null;
+    }, 350);
+  };
+
+  // 1. Dismiss preloader when page finishes loading (images, scripts, styles ready)
+  window.addEventListener('load', function () {
+    const overlay = document.getElementById('glassLoadingOverlay');
+    if (overlay) {
+      // Small buffer (250ms) ensures complete visual paint and smooth fade
+      setTimeout(function () {
+        window.hideGlassLoading();
+      }, 250);
+    }
+  });
+
+  // 2. Dismiss preloader when navigated from browser bfcache (Back/Forward)
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+      window.hideGlassLoading();
+    }
+  });
+
+  // 3. Fallback safety timer: in case external CDN hangs, unlock page after 3.5s
+  setTimeout(function () {
+    const overlay = document.getElementById('glassLoadingOverlay');
+    if (overlay && !overlay.classList.contains('hidden-overlay')) {
+      window.hideGlassLoading();
+    }
+  }, 3500);
+
+  // 4. Page navigation transition: show preloader when internal links are clicked
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('a[href]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        // Ignore anchors, javascript:, blank targets, modifier clicks, download links, and data-no-loader
+        if (
+          href.startsWith('#') ||
+          href.startsWith('javascript:') ||
+          link.target === '_blank' ||
+          e.ctrlKey ||
+          e.metaKey ||
+          link.hasAttribute('download') ||
+          link.hasAttribute('data-no-loader') ||
+          link.classList.contains('no-loader')
+        ) {
+          return;
+        }
+
+        // Only trigger for same-origin links
+        try {
+          const targetUrl = new URL(link.href, window.location.origin);
+          if (targetUrl.origin === window.location.origin && targetUrl.pathname !== window.location.pathname) {
+            window.showGlassLoading('Memuat Halaman...', 0);
+          }
+        } catch (err) {
+          // ignore invalid URLs
+        }
+      });
+    });
+
+    // 5. Form submission transition: show loader when submitting forms
+    document.querySelectorAll('form').forEach(function (form) {
+      form.addEventListener('submit', function () {
+        if (!form.hasAttribute('data-no-loader') && !form.classList.contains('no-loader')) {
+          const actionText = form.getAttribute('data-loading-text') || 'Memproses data...';
+          window.showGlassLoading(actionText, 0);
+        }
+      });
+    });
+  });
 })();

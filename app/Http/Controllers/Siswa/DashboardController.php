@@ -22,10 +22,19 @@ class DashboardController extends Controller
         $siswa = $this->currentSiswa();
         $siswaId = $siswa->id_siswa ?? $siswa->id;
 
-        // 1. Data Akademik
+        // 1. Data Akademik (hitung rata-rata dari semester yang diisi siswa)
         $dataAkademik = DataAkademik::where('id_siswa', $siswaId)->get();
-        $totalNilai = $dataAkademik->count();
-        $rataRataAkademik = $totalNilai > 0 ? round($dataAkademik->avg('rata_rata_nilai'), 1) : null;
+        $filledAkademik = $dataAkademik->filter(function ($da) {
+            return (float)$da->rata_rata_nilai > 0 || (float)$da->pengetahuan > 0 || (float)$da->keterampilan > 0;
+        });
+
+        // Jumlah mapel unik yang sudah terisi oleh siswa (maks 4: IPAS, MTK, B. Indo, B. Inggris)
+        $totalNilai = $filledAkademik->map(function ($da) {
+            $key = $da->mata_pelajaran;
+            return ($key === 'MTK' || stripos($key, 'Matematika') !== false) ? 'MTK' : $key;
+        })->unique()->count();
+
+        $rataRataAkademik = $filledAkademik->count() > 0 ? round($filledAkademik->avg('rata_rata_nilai'), 1) : null;
 
         // 2. Status Asesmen & Rekomendasi
         $asesmen = SoalAsesmen::where('id_siswa', $siswaId)
