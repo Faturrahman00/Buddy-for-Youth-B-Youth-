@@ -67,7 +67,26 @@ RIASEC_INFO: Dict[str, Dict[str, Any]] = {
             'Individu dengan tipe Realistic menyukai aktivitas fisik, penggunaan alat mesin, '
             'perbaikan perangkat keras, dan kerja di lapangan dengan hasil nyata dan terukur.'
         ),
-        'typical_fields': ['Teknik Mesin', 'Teknik Elektro', 'Teknik Sipil', 'Teknologi Informasi'],
+        'typical_fields': ['Teknik Mesin', 'Teknik Elektro', 'Teknik Sipil', 'Teknologi Pertanian', 'Teknik Otomotif', 'Teknik Lingkungan'],
+        'jurusan': [
+            'Teknik Mesin',
+            'Teknik Elektro',
+            'Teknik Sipil',
+            'Teknik Otomotif',
+            'Teknologi Pertanian',
+            'Teknik Lingkungan',
+            'Pendidikan Jasmani dan Olahraga',
+        ],
+        'karier': [
+            'Teknisi atau teknisi laboratorium',
+            'Insinyur',
+            'Mekanik',
+            'Operator peralatan teknis',
+            'Ahli konstruksi',
+            'Teknisi jaringan',
+            'Praktisi bidang pertanian atau lingkungan',
+        ],
+        'lingkungan': 'kegiatan praktik, kerja lapangan, penggunaan teknologi atau peralatan, serta tugas dengan hasil yang konkret.',
     },
     'I': {
         'code': 'I',
@@ -79,7 +98,28 @@ RIASEC_INFO: Dict[str, Dict[str, Any]] = {
             'Individu dengan tipe Investigative senang mengamati, menganalisis data, meneliti '
             'fenomena ilmiah, dan memecahkan teka-teki logika serta konsep matematis abstrak.'
         ),
-        'typical_fields': ['Informatika / Ilmu Komputer', 'Kedokteran', 'Statistika / Sains Data', 'Farmasi'],
+        'typical_fields': ['Informatika atau Ilmu Komputer', 'Kedokteran', 'Statistika / Sains Data', 'Matematika', 'Biologi', 'Kimia'],
+        'jurusan': [
+            'Psikologi',
+            'Statistika',
+            'Matematika',
+            'Informatika atau Ilmu Komputer',
+            'Kedokteran',
+            'Biologi',
+            'Kimia',
+            'Ilmu Data',
+        ],
+        'karier': [
+            'Peneliti',
+            'Data analyst atau data scientist',
+            'Programmer atau software developer',
+            'Analis laboratorium',
+            'Psikolog, setelah memenuhi pendidikan dan persyaratan profesi',
+            'Dokter, setelah memenuhi pendidikan dan persyaratan profesi',
+            'Analis bisnis',
+            'Analis riset',
+        ],
+        'lingkungan': 'kegiatan analisis, pemecahan masalah, eksperimen, riset, dan pekerjaan yang memberi ruang untuk terus belajar.',
     },
     'A': {
         'code': 'A',
@@ -91,7 +131,27 @@ RIASEC_INFO: Dict[str, Dict[str, Any]] = {
             'Individu dengan tipe Artistic menikmati eksplorasi ide orisinal, penciptaan media visual, '
             'desain grafis, penulisan naratif, serta lingkungan kerja yang bebas dan fleksibel.'
         ),
-        'typical_fields': ['Desain Komunikasi Visual (DKV)', 'Arsitektur', 'Film & Animasi', 'Sastra'],
+        'typical_fields': ['Desain Komunikasi Visual (DKV)', 'Arsitektur', 'Film & Animasi', 'Seni Rupa', 'Musik', 'Sastra'],
+        'jurusan': [
+            'Desain Komunikasi Visual',
+            'Desain Produk',
+            'Seni Rupa',
+            'Film dan Televisi',
+            'Musik',
+            'Sastra atau Penulisan Kreatif',
+            'Desain Interior',
+            'Ilmu Komunikasi',
+        ],
+        'karier': [
+            'Desainer grafis',
+            'Penulis konten atau copywriter',
+            'Art director',
+            'Musisi atau komposer',
+            'Animator',
+            'Fotografer atau videografer',
+            'Kurator seni',
+        ],
+        'lingkungan': 'proyek kreatif, studio, media, produksi konten, dan ruang kerja yang fleksibel serta menghargai ekspresi ide.',
     },
     'S': {
         'code': 'S',
@@ -103,7 +163,26 @@ RIASEC_INFO: Dict[str, Dict[str, Any]] = {
             'Individu dengan tipe Social memiliki kepedulian tinggi, senang berinteraksi sosial, '
             'mengajar, membimbing, memberi konsultasi, serta merawat kesejahteraan orang lain.'
         ),
-        'typical_fields': ['Psikologi', 'Bimbingan Konseling', 'Pendidikan', 'Keperawatan & Kesehatan Masyarakat'],
+        'typical_fields': ['Bimbingan dan Konseling', 'Pendidikan Guru', 'Kesejahteraan Sosial', 'Keperawatan', 'Kesehatan Masyarakat'],
+        'jurusan': [
+            'Bimbingan dan Konseling',
+            'Pendidikan Guru',
+            'Kesejahteraan Sosial',
+            'Keperawatan',
+            'Kesehatan Masyarakat',
+            'Hubungan Masyarakat',
+            'Sosiologi',
+        ],
+        'karier': [
+            'Konselor atau pembimbing',
+            'Guru atau pengajar',
+            'Pekerja sosial',
+            'Tenaga kesehatan atau perawat',
+            'Spesialis hubungan masyarakat (PR)',
+            'Pelatih (coach) atau fasilitator pelatihan',
+            'Koordinator kegiatan sosial atau komunitas',
+        ],
+        'lingkungan': 'sekolah, fasilitas layanan kesehatan, lembaga sosial, pusat konseling, dan lingkungan kerja yang berbasis kerja tim serta pelayanan manusia.',
     },
     'E': {
         'code': 'E',
@@ -115,7 +194,26 @@ RIASEC_INFO: Dict[str, Dict[str, Any]] = {
             'Individu dengan tipe Enterprising pandai mempengaruhi orang lain, berani mengambil risiko, '
             'memimpin proyek, bernegosiasi bisnis, serta memotivasi kelompok mencapai target.'
         ),
-        'typical_fields': ['Manajemen Bisnis', 'Ilmu Komunikasi / PR', 'Bisnis Digital', 'Hubungan Internasional'],
+        'typical_fields': ['Manajemen Bisnis', 'Pemasaran', 'Kewirausahaan', 'Ilmu Komunikasi', 'Hubungan Internasional', 'Bisnis Digital'],
+        'jurusan': [
+            'Manajemen Bisnis',
+            'Pemasaran',
+            'Kewirausahaan',
+            'Ilmu Komunikasi',
+            'Hubungan Internasional',
+            'Hukum Bisnis',
+            'Administrasi Bisnis',
+        ],
+        'karier': [
+            'Manajer atau eksekutif',
+            'Wirausahawan atau pendiri bisnis',
+            'Spesialis pemasaran atau penjualan',
+            'Konsultan manajemen',
+            'Pengacara bisnis',
+            'Negosiator',
+            'Pemimpin proyek (project manager)',
+        ],
+        'lingkungan': 'organisasi bisnis, ruang rapat, presentasi di depan publik, kegiatan negosiasi, dan lingkungan yang kompetitif serta berorientasi target.',
     },
     'C': {
         'code': 'C',
@@ -127,7 +225,26 @@ RIASEC_INFO: Dict[str, Dict[str, Any]] = {
             'Individu dengan tipe Conventional teliti dalam mencatat transaksi, mengelola basis data, '
             'mengikuti standar operasional yang terstruktur, dan menjamin keakuratan sistematis.'
         ),
-        'typical_fields': ['Akuntansi', 'Sistem Informasi', 'Administrasi Publik', 'Perpajakan'],
+        'typical_fields': ['Akuntansi', 'Sistem Informasi', 'Administrasi Perkantoran', 'Perbankan dan Keuangan', 'Statistika Terapan'],
+        'jurusan': [
+            'Akuntansi',
+            'Sistem Informasi Akuntansi',
+            'Administrasi Perkantoran',
+            'Perbankan dan Keuangan',
+            'Manajemen Logistik',
+            'Statistika Terapan',
+            'Ilmu Perpustakaan dan Informasi',
+        ],
+        'karier': [
+            'Akuntan atau auditor',
+            'Analis keuangan',
+            'Administrator data atau staf administrasi',
+            'Petugas kepatuhan (compliance officer)',
+            'Operator sistem basis data',
+            'Spesialis logistik atau rantai pasok (supply chain)',
+            'Arsiparis atau analis dokumen',
+        ],
+        'lingkungan': 'kantor, lingkungan yang terorganisasi rapi, sistem basis data yang jelas, prosedur kerja yang baku, dan aktivitas yang mengutamakan ketelitian dokumen.',
     }
 }
 

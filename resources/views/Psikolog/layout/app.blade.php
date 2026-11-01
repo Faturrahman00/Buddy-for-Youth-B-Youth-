@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="{{ asset('css/Psikolog/dashboard-psikolog.css') }}">
   <link rel="stylesheet" href="{{ asset('css/Psikolog/pages-psikolog.css') }}">
   <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/byouth-responsive.css') }}">
 
   @stack('styles')
 </head>
@@ -69,6 +70,9 @@
 <!-- Interaction Scripts -->
 <script src="{{ asset('js/Psikolog/dashboard-psikolog.js') }}"></script>
 <script src="{{ asset('js/Psikolog/pages-psikolog.js') }}"></script>
+
+<!-- Glassmorphism Toast Notification Container (Berhasil & Gagal) -->
+<div class="app-toast-container" id="appToastContainer" aria-live="polite"></div>
 
 @stack('scripts')
 

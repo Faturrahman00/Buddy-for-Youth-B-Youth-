@@ -45,6 +45,10 @@ html, body {
   width: 100%;
 }
 
+.auth-split-wrapper.auth-reverse {
+  flex-direction: row-reverse;
+}
+
 /* ----------------------------------------------------------------
    LEFT HERO SIDE (BRAND GRADIENT & GLASS FEATURE PILLS)
    ---------------------------------------------------------------- */
@@ -270,28 +274,44 @@ html, body {
 
 .auth-form-card {
   width: 100%;
-  max-width: 480px;
+  max-width: 440px;
   background: #FFFFFF;
-  border-radius: var(--radius-xl);
-  padding: 44px 40px;
+  border-radius: 20px;
+  padding: 38px 34px;
   box-shadow: 
     0 20px 40px -15px rgba(20, 50, 77, 0.08),
-    0 0 1px 1px rgba(20, 50, 77, 0.04);
-  border: 1px solid #EDF2F7;
+    0 2px 8px rgba(20, 50, 77, 0.04);
+  border: none;
   position: relative;
+}
+
+/* Card Top Navigation Row (Back Link) */
+.card-top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 22px;
+}
+
+.card-brand-badge {
+  display: none !important;
 }
 
 /* Top Back Link inside Form Card */
 .form-back-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13.5px;
+  gap: 7px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--c-text-muted);
   text-decoration: none;
-  margin-bottom: 22px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
   transition: all 0.2s ease;
+  margin-bottom: 0;
 }
 
 .form-back-btn svg {
@@ -299,10 +319,11 @@ html, body {
   height: 16px;
   stroke: var(--c-text-muted);
   stroke-width: 2.2;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, stroke 0.2s ease;
 }
 
 .form-back-btn:hover {
+  background: transparent;
   color: var(--c-primary);
 }
 
@@ -313,39 +334,39 @@ html, body {
 
 /* Form Header */
 .form-header-box {
-  margin-bottom: 28px;
+  margin-bottom: 18px;
 }
 
 .form-main-title {
-  font-size: 32px;
+  font-size: 25px;
   font-weight: 800;
   color: var(--c-text-dark);
-  letter-spacing: -0.8px;
+  letter-spacing: -0.4px;
   line-height: 1.2;
 }
 
 .form-sub-title {
-  font-size: 14.5px;
+  font-size: 13px;
   color: var(--c-text-muted);
-  margin-top: 6px;
-  line-height: 1.5;
+  margin-top: 4px;
+  line-height: 1.4;
 }
 
 /* Form Fields */
 .modern-auth-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
 }
 
 .input-field-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
 .input-label {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--c-text-body);
 }
@@ -580,15 +601,18 @@ select.modern-input option:not([value=""]) {
   color: var(--c-text-body);
 }
 
+
+
 /* ================================================================
-   RESPONSIVE DESIGN (TABLETS & MOBILE)
+   RESPONSIVE DESIGN (TABLETS & MOBILE SMARTPHONES)
+   Dioptimalkan khusus untuk layar ponsel (HP) agar cepat & elegan
    ================================================================ */
 @media (max-width: 1024px) {
   .auth-hero-side {
-    padding: 44px 36px;
+    padding: 40px 32px;
   }
   .auth-form-side {
-    padding: 40px 24px;
+    padding: 36px 24px;
   }
   .auth-form-card {
     padding: 36px 28px;
@@ -596,66 +620,309 @@ select.modern-input option:not([value=""]) {
 }
 
 @media (max-width: 860px) {
-  .auth-split-wrapper {
+  .auth-split-wrapper,
+  .auth-split-wrapper.auth-reverse {
     flex-direction: column;
+    min-height: 100vh;
+    background-color: #F1F5F9;
+    justify-content: flex-start;
   }
 
+  /* Compact Branded Top Banner on Mobile */
   .auth-hero-side {
     flex: none;
-    padding: 36px 24px;
+    width: 100%;
+    padding: 24px 20px 34px 20px;
+    background: linear-gradient(150deg, #0F253B 0%, #15385B 50%, #1E4A6E 100%);
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    box-shadow: 0 8px 20px rgba(15, 37, 59, 0.12);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    align-items: center;
+    text-align: center;
+    height: auto;
+    gap: 8px;
+  }
+
+  .hero-brand {
+    margin: 0 auto;
+    gap: 8px;
+  }
+
+  .hero-brand-name {
+    font-size: 22px;
+  }
+
+  .hero-brand-logo {
+    width: 32px;
+    height: 32px;
   }
 
   .hero-body {
-    margin: 28px 0;
+    margin: 2px 0 0 0;
   }
 
   .hero-headline {
-    font-size: 28px;
+    font-size: 18px;
+    line-height: 1.25;
+    margin-bottom: 4px;
   }
 
+  .hero-description {
+    font-size: 12.5px;
+    line-height: 1.4;
+    max-width: 420px;
+    margin: 0 auto;
+    opacity: 0.88;
+  }
+
+  /* Sembunyikan kartu fitur besar dan footer panjang di HP agar form langsung terlihat di layar */
   .hero-feature-list {
-    margin-top: 20px;
-    gap: 10px;
+    display: none !important;
   }
 
+  .hero-footer-note {
+    display: none !important;
+  }
+
+  /* Form Container on Mobile */
   .auth-form-side {
-    flex: 1;
-    padding: 28px 16px;
+    flex: 1 1 auto;
+    width: 100%;
+    padding: 0 16px 24px 16px !important;
+    background: transparent !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    position: relative;
+    z-index: 5;
   }
 
+  /* Form Card: Clearly defined Card Shape with 4 rounded corners & elevation */
   .auth-form-card {
-    max-width: 100%;
-    padding: 28px 20px;
-    box-shadow: none;
-    border: none;
-    background: transparent;
+    flex: 1 1 auto;
+    width: 100% !important;
+    max-width: 440px !important;
+    background: #FFFFFF !important;
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 26px 22px 24px 22px !important;
+    box-shadow: 0 14px 35px -6px rgba(15, 37, 59, 0.09), 0 2px 10px rgba(15, 37, 59, 0.04) !important;
+    margin-top: -18px !important;
+    margin-bottom: 0 !important;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 6;
   }
 
+  .card-top-nav {
+    margin-bottom: 12px !important;
+    justify-content: flex-start;
+  }
+
+  .form-header-box {
+    margin-bottom: 16px !important;
+  }
+
+  .form-main-title {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.3px !important;
+  }
+
+  .form-sub-title {
+    font-size: 13px !important;
+    margin-top: 3px !important;
+    line-height: 1.35 !important;
+    color: var(--c-text-muted);
+  }
+
+  /* Form compact layout without excessive vertical gaps */
+  .modern-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 13px !important;
+    width: 100%;
+  }
+
+  .input-field-group {
+    gap: 4px !important;
+  }
+
+  .input-label {
+    font-size: 13px !important;
+    font-weight: 600;
+    color: var(--c-text-body);
+    line-height: 1.2;
+  }
+
+  /* Inputs on Mobile: font-size 15px with compact 44px height */
+  .modern-input {
+    font-size: 15px !important;
+    height: 44px !important;
+    border-radius: 11px !important;
+    padding: 0 14px 0 40px !important;
+  }
+
+  .input-icon-start {
+    left: 13px !important;
+  }
+
+  .input-icon-start svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  /* Two Column Grid collapsed on phone */
   .field-grid-2 {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 13px !important;
+  }
+
+  .modern-auth-form .btn-modern-primary {
+    width: 100% !important;
+    height: 46px !important;
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    margin-top: 6px !important;
+    box-shadow: 0 6px 16px rgba(242, 183, 5, 0.3) !important;
+  }
+
+  .btn-modern-primary:active {
+    transform: scale(0.98);
+  }
+
+  .btn-eye-toggle {
+    width: 42px !important;
+    height: 42px !important;
+    right: 2px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+  }
+
+  .form-options-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px !important;
+    margin-top: 0 !important;
+    line-height: 1.2;
+  }
+
+  .remember-checkbox span {
+    font-size: 12.5px !important;
+  }
+
+  .forgot-password-link {
+    font-size: 12.5px !important;
+    white-space: nowrap;
+  }
+
+  .auth-bottom-switch {
+    margin-top: 14px !important;
+    margin-bottom: 2px !important;
+    font-size: 13px !important;
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  .form-back-btn {
+    margin-bottom: 0;
+    font-size: 13px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    color: var(--c-text-muted);
+  }
+
+  .form-back-btn svg {
+    width: 15px !important;
+    height: 15px !important;
+    stroke: var(--c-text-muted);
+    stroke-width: 2.2;
   }
 }
 
 @media (max-width: 480px) {
-  .form-options-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+  .auth-hero-side {
+    padding: 20px 16px 30px 16px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
   }
 
-  .btn-modern-primary {
-    height: 46px;
-    font-size: 14.5px;
-    width: 100%;
+  .hero-headline {
+    font-size: 17.5px;
+    line-height: 1.25;
+  }
+
+  .hero-description {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .auth-form-side {
+    padding: 0 12px 20px 12px !important;
   }
 
   .auth-form-card {
-    padding: 20px 14px;
+    padding: 22px 18px 20px 18px !important;
+    border-radius: 18px !important;
+    margin-top: -16px !important;
   }
 
-  .form-header-box h2 {
-    font-size: 22px;
+  .form-main-title {
+    font-size: 20px !important;
+  }
+
+  .form-sub-title {
+    font-size: 12px !important;
+    margin-top: 2px !important;
+  }
+
+  .modern-auth-form {
+    gap: 12px !important;
+  }
+
+  .input-field-group {
+    gap: 4px !important;
+  }
+
+  .modern-input {
+    height: 44px !important;
+    font-size: 14.5px !important;
+    border-radius: 10px !important;
+  }
+
+  .modern-auth-form .btn-modern-primary {
+    height: 46px !important;
+    font-size: 14.5px !important;
+  }
+
+  .form-options-row {
+    flex-wrap: wrap;
+    gap: 6px;
   }
 }
 

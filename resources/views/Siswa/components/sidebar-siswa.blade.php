@@ -9,17 +9,25 @@
 <aside class="sidebar" id="sidebar" aria-label="Sidebar Siswa">
   <!-- Brand / Logo Area -->
   <div class="sidebar-brand">
-    <a href="{{ route('dashboard_siswa') }}" style="display:flex; align-items:center; gap:12px; text-decoration:none; width:100%;">
-      <div class="brand-logo-img" style="width:38px; height:38px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+    <a href="{{ route('dashboard_siswa') }}" class="brand-link" style="display:flex; align-items:center; gap:10px; text-decoration:none; flex:1; min-width:0;">
+      <div class="brand-logo-img" style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
         <img src="{{ asset('foto/logo.png') }}" alt="Buddy For Youth Logo" style="width:100%; height:100%; object-fit:contain;">
       </div>
-      <div class="brand-info">
-        <div class="brand-title">
-          B-Youth <span class="brand-badge">Siswa</span>
+      <div class="brand-info" style="display:flex; flex-direction:column; min-width:0; overflow:hidden; flex-shrink:0;">
+        <div class="brand-title" style="display:flex; align-items:center; gap:6px; white-space:nowrap; flex-shrink:0;">
+          <span class="brand-name" style="white-space:nowrap !important; font-weight:800; color:var(--c-primary); flex-shrink:0;">B&#8209;Youth</span>
+          <span class="brand-badge" style="white-space:nowrap !important; flex-shrink:0;">Siswa</span>
         </div>
-        <span class="brand-subtitle">Buddy For Youth Portal</span>
+        <span class="brand-subtitle" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:11px; color:var(--c-text-muted); line-height:1.2; margin-top:2px;">Buddy For Youth Portal</span>
       </div>
     </a>
+    <!-- Tombol Tutup Sidebar untuk Layar HP / Kecil -->
+    <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Tutup menu sidebar" title="Tutup menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
   </div>
 
   <!-- Navigation Menu List -->
@@ -31,6 +39,9 @@
         <polyline points="9 22 9 12 15 12 15 22"></polyline>
       </svg>
       <span>Beranda</span>
+      @if(in_array($active, ['beranda', 'dashboard']))
+        <span class="nav-indicator-dot" title="Halaman Aktif"></span>
+      @endif
     </a>
 
     <!-- 2. Data Akademik -->
@@ -42,6 +53,9 @@
         <line x1="8" y1="10" x2="16" y2="10"></line>
       </svg>
       <span>Data Akademik</span>
+      @if(in_array($active, ['akademik', 'data-akademik', 'data_akademik']))
+        <span class="nav-indicator-dot" title="Halaman Aktif"></span>
+      @endif
     </a>
 
     <!-- 3. Asesmen & Rekomendasi -->
@@ -51,6 +65,9 @@
         <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
       </svg>
       <span>Asesmen & Rekomendasi</span>
+      @if(in_array($active, ['asesmen', 'asesmen-rekomendasi', 'asesmen_rekomendasi']))
+        <span class="nav-indicator-dot" title="Halaman Aktif"></span>
+      @endif
     </a>
 
     <!-- 4. Riwayat Asesmen -->
@@ -60,6 +77,9 @@
         <polyline points="12 6 12 12 16 14"></polyline>
       </svg>
       <span>Riwayat Asesmen</span>
+      @if(in_array($active, ['riwayat-asesmen', 'riwayat_asesmen']))
+        <span class="nav-indicator-dot" title="Halaman Aktif"></span>
+      @endif
     </a>
 
     <!-- 5. Konsultasi -->
@@ -68,6 +88,9 @@
         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
       </svg>
       <span>Konsultasi</span>
+      @if(in_array($active, ['konsultasi']))
+        <span class="nav-indicator-dot" title="Halaman Aktif"></span>
+      @endif
     </a>
 
     <!-- 6. Riwayat Konsultasi -->
@@ -80,6 +103,9 @@
         <path d="M9 16l2 2 4-4"></path>
       </svg>
       <span>Riwayat Konsultasi</span>
+      @if(in_array($active, ['riwayat-konsultasi', 'riwayat_konsultasi']))
+        <span class="nav-indicator-dot" title="Halaman Aktif"></span>
+      @endif
     </a>
 
     <!-- 7. Profil -->
@@ -89,6 +115,9 @@
         <circle cx="12" cy="7" r="4"></circle>
       </svg>
       <span>Profil</span>
+      @if(in_array($active, ['profil', 'profile']))
+        <span class="nav-indicator-dot" title="Halaman Aktif"></span>
+      @endif
     </a>
   </nav>
 

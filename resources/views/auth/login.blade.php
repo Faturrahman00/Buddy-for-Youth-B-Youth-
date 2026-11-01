@@ -2,12 +2,15 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0F253B">
   <title>Masuk — B-Youth | Buddy for Youth</title>
   <meta name="description" content="Masuk ke portal B-Youth untuk mengakses bimbingan karier AI, asesmen minat bakat, dan konseling psikologi.">
 
   <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2330618C'/%3E%3Cpolygon points='16,7 26,12 16,17 6,12' fill='%23F2B705'/%3E%3Cpath d='M9 14.5v5c0 2 3.1 3.5 7 3.5s7-1.5 7-3.5v-5' fill='none' stroke='%23FFFFFF' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="{{ asset('foto/logo.png') }}">
+  <link rel="shortcut icon" type="image/png" href="{{ asset('foto/logo.png') }}">
+  <link rel="apple-touch-icon" href="{{ asset('foto/logo.png') }}">
 
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +20,7 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
   <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/byouth-responsive.css') }}">
   <style>
     /* Sembunyikan ikon mata bawaan Microsoft Edge agar tidak dobel */
     input[type="password"]::-ms-reveal,
@@ -123,14 +127,16 @@
   <div class="auth-form-side">
     <div class="auth-form-card">
       
-      <!-- Back to Home -->
-      <a href="{{ route('home') }}" class="form-back-btn" title="Kembali ke Beranda">
-        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        Kembali ke Beranda
-      </a>
+      <!-- Card Top Navigation -->
+      <div class="card-top-nav">
+        <a href="{{ route('home') }}" class="form-back-btn" title="Kembali ke Beranda">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Kembali ke Beranda
+        </a>
+      </div>
 
       <!-- Form Header -->
       <div class="form-header-box">
@@ -206,7 +212,7 @@
             <input type="checkbox" name="remember" id="rememberMe">
             <span>Ingat saya</span>
           </label>
-          <a href="#" class="forgot-password-link" onclick="event.preventDefault(); alert('Silakan hubungi admin B-Youth untuk pengaturan ulang kata sandi.');">
+          <a href="#" class="forgot-password-link" onclick="event.preventDefault(); showForgotPasswordModal();">
             Lupa kata sandi?
           </a>
         </div>
@@ -248,6 +254,23 @@
           <circle cx="12" cy="12" r="3"></circle>
         </svg>
       `;
+    }
+  }
+
+  function showForgotPasswordModal() {
+    if (typeof Swal !== 'undefined') {
+      Swal.fire({
+        icon: 'info',
+        title: 'Pengaturan Ulang Kata Sandi',
+        html: '<div style="font-size:14px; color:#475569; line-height:1.6; text-align:left; padding:4px 0;"><p style="margin-bottom:10px;">Untuk menjaga keamanan data asesmen dan privasi bimbingan, pembaruan kata sandi diverifikasi melalui pihak sekolah.</p><p style="margin:0;">Silakan hubungi <strong>Admin B-Youth</strong> atau guru Bimbingan Konseling (BK) di sekolah Anda untuk mengatur ulang kata sandi akun Anda.</p></div>',
+        confirmButtonText: 'Saya Mengerti',
+        confirmButtonColor: '#30618C',
+        customClass: {
+          popup: 'byouth-swal-modal'
+        }
+      });
+    } else {
+      alert('Silakan hubungi admin B-Youth untuk pengaturan ulang kata sandi.');
     }
   }
 </script>

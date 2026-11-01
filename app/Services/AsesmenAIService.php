@@ -343,6 +343,19 @@ class AsesmenAIService
             if (!empty($pyResult['recommendations'])) {
                 $pyResult['recommendations'] = array_slice($pyResult['recommendations'], 0, 3);
             }
+
+            // Pastikan top_types_info selalu lengkap dengan jurusan, karier, dan lingkungan
+            $topTypes = $pyResult['riasec_result']['top_types'] ?? [];
+            $enrichedTopInfo = [];
+            foreach ($topTypes as $type) {
+                if (isset(self::RIASEC_INFO[$type])) {
+                    $enrichedTopInfo[] = self::RIASEC_INFO[$type];
+                }
+            }
+            if (!empty($enrichedTopInfo)) {
+                $pyResult['top_types_info'] = $enrichedTopInfo;
+            }
+
             return $pyResult;
         }
 

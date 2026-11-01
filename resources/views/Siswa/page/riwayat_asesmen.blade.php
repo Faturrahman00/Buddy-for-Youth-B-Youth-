@@ -69,14 +69,16 @@
   <div class="data-card">
     <div class="table-integrated-toolbar">
       <div class="table-toolbar-info">
-        <div class="data-card-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-          </svg>
-          <span>Tabel Riwayat Asesmen Siswa</span>
+        <div class="table-toolbar-header-row">
+          <div class="data-card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <span>Tabel Riwayat Asesmen Siswa</span>
+          </div>
           <span class="data-count-badge" data-count-for="riwayatAsesmenTableBody">{{ $totalSesi ?? (isset($riwayats) ? $riwayats->total() : 0) }} Sesi Terdata</span>
         </div>
         <div class="table-toolbar-desc">Arsip hasil asesmen Holland RIASEC dan rekam jejak rekomendasi prodi</div>
@@ -400,6 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const badgeColor = isTop ? '#854D0E' : '#475569';
           const borderStyle = isTop ? 'border: 1.5px solid #30618C; background: #FFFFFF;' : 'border: 1.5px solid #E2E8F0; background: #FAFBFD;';
 
+          const namaProdi = rec.nama_prodi || rec.nama || rec.prodi || (rec.program_studi && rec.program_studi.nama_prodi) || 'Program Studi Pilihan';
           const card = document.createElement('div');
           card.style.cssText = `${borderStyle} border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);`;
           card.innerHTML = `
@@ -408,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span style="background:${badgeBg}; color:${badgeColor}; font-size:11px; font-weight:800; padding:2px 8px; border-radius:6px;">
                   ${isTop ? '★ #1 Rekomendasi Utama' : `#${rank} Pilihan Alternatif`}
                 </span>
-                <h6 style="margin:0; font-size:14.5px; font-weight:800; color:#0F172A;">${rec.nama_prodi}</h6>
+                <h6 style="margin:0; font-size:14.5px; font-weight:800; color:#0F172A;">${namaProdi}</h6>
                 <span style="font-size:11px; background:#EFF6FF; color:#1D4ED8; padding:2px 8px; border-radius:4px; font-weight:700;">${rec.rumpun || 'Saintek'}</span>
               </div>
               <span style="font-size:12.5px; font-weight:800; color:#059669; background:#ECFDF5; padding:3px 10px; border-radius:20px; border:1px solid #A7F3D0; white-space:nowrap;">

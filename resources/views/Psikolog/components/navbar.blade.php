@@ -9,9 +9,9 @@
       </svg>
     </button>
 
-    <div class="topbar-title-group" style="display:flex; align-items:center; gap:10px;">
-      <a href="{{ route('psikolog.dashboard') }}" style="display:inline-flex; align-items:center; text-decoration:none;" title="Buddy For Youth Psikolog">
-        <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" style="width:30px; height:30px; object-fit:contain;">
+    <div class="topbar-title-group">
+      <a href="{{ route('psikolog.dashboard') }}" class="topbar-logo-link" title="Buddy For Youth Psikolog">
+        <img src="{{ asset('foto/logo.png') }}" alt="Logo B-Youth" class="topbar-logo-img">
       </a>
       <h1 class="topbar-title">{{ $pageTitle ?? 'Beranda' }}</h1>
       @if(!empty($specTitle))
@@ -24,11 +24,11 @@
   </div>
 
   <div class="topbar-right">
-    <!-- User profile box matching Wireframe -->
+    <!-- User profile box matching Wireframe & Siswa design -->
     <a href="{{ route('psikolog.profil') }}" class="topbar-user" title="Lihat Profil">
       <div class="user-text">
-        <div class="user-name-small">{{ Auth::check() ? (Auth::user()->nama ?? Auth::user()->name) : 'Psikolog' }}</div>
-        <div class="user-role-small">{{ Auth::check() ? (Auth::user()->spesialisasi ?? 'Konselor Pendidikan') : 'Konselor Pendidikan' }}</div>
+        <div class="user-name-small">{{ Auth::check() ? (Auth::user()->nama ?? Auth::user()->name) : 'Psikolog B-Youth' }}</div>
+        <div class="user-role-small">Psikolog Konselor</div>
       </div>
       <div class="avatar-box">
         {{ strtoupper(substr(Auth::check() ? (Auth::user()->nama ?? Auth::user()->name ?? 'PS') : 'PS', 0, 2)) }}

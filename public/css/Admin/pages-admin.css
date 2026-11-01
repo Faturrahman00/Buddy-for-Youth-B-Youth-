@@ -275,6 +275,10 @@
   color: var(--c-primary);
   border-radius: var(--radius-full);
   font-weight: 600;
+  white-space: nowrap !important;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
 }
 
 .table-responsive {

@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="{{ asset('css/Admin/dashboard-admin.css') }}">
   <link rel="stylesheet" href="{{ asset('css/Admin/pages-admin.css') }}">
   <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/byouth-responsive.css') }}">
 
   @stack('styles')
 </head>

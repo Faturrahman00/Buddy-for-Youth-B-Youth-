@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="{{ asset('css/Siswa/dashboard-siswa.css') }}">
   <link rel="stylesheet" href="{{ asset('css/Siswa/pages-siswa.css') }}">
   <link rel="stylesheet" href="{{ asset('css/byouth-dialog.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/byouth-responsive.css') }}">
 
   @stack('styles')
 </head>

@@ -269,14 +269,16 @@
   <div class="data-card">
     <div class="table-integrated-toolbar">
       <div class="table-toolbar-info">
-        <div class="data-card-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-          </svg>
-          <span>Daftar Nilai Rapor Siswa</span>
+        <div class="table-toolbar-header-row">
+          <div class="data-card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <span>Daftar Nilai Rapor Siswa</span>
+          </div>
           <span class="data-count-badge" data-count-for="akademikTableBody">{{ count($sortedRecords) }} Nilai Rapor</span>
         </div>
         <div class="table-toolbar-desc">Setiap semester memiliki 4 mata pelajaran pokok dengan nilai default 0</div>

@@ -4,29 +4,74 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Mobile Sidebar Toggle
+  // 1. Mobile Sidebar Toggle (Open, Close, Overlay & Touch Swipe)
   const menuToggle = document.getElementById('menuToggle');
   const sidebar = document.getElementById('sidebar');
   const sidebarOverlay = document.getElementById('sidebarOverlay');
+  const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
 
   function openSidebar() {
-    if (sidebar && sidebarOverlay) {
-      sidebar.classList.add('open');
-      sidebarOverlay.classList.add('active');
+    if (sidebar) {
+      sidebar.classList.add('open', 'active', 'mobile-open');
+      if (sidebarOverlay) {
+        sidebarOverlay.classList.add('active', 'open');
+      }
       document.body.style.overflow = 'hidden';
     }
   }
 
   function closeSidebar() {
-    if (sidebar && sidebarOverlay) {
-      sidebar.classList.remove('open');
-      sidebarOverlay.classList.remove('active');
+    if (sidebar) {
+      sidebar.classList.remove('open', 'active', 'mobile-open');
+      if (sidebarOverlay) {
+        sidebarOverlay.classList.remove('active', 'open');
+      }
       document.body.style.overflow = '';
     }
   }
 
-  if (menuToggle) menuToggle.addEventListener('click', openSidebar);
-  if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+  if (menuToggle) {
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openSidebar();
+    });
+  }
+
+  if (sidebarCloseBtn) {
+    sidebarCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeSidebar();
+    });
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', closeSidebar);
+  }
+
+  // Touch Swipe to close on mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+  if (sidebar) {
+    sidebar.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    sidebar.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        closeSidebar();
+      }
+    }, { passive: true });
+  }
+
+  // Close sidebar on mobile when navigating via nav item
+  document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if (window.innerWidth <= 900) {
+        closeSidebar();
+      }
+    });
+  });
 
   // Close sidebar & modals on Escape key
   document.addEventListener('keydown', (e) => {

@@ -6,8 +6,41 @@
 
 @section('content')
 
+@php
+  $userPsikolog = Auth::guard('psikolog')->user() ?? Auth::user();
+  $namaPsikolog = $userPsikolog->nama ?? $userPsikolog->name ?? 'Psikolog B-Youth';
+  $spesialisasi = $userPsikolog->spesialisasi ?? 'Psikologi Pendidikan & Eksplorasi Karier';
+  $noSip = $userPsikolog->no_sip ?? 'Terverifikasi';
+@endphp
+
 <!-- =========================================================================
-     TOP 3 METRIC CARDS
+     1. WELCOME BANNER (MATCHING SISWA PORTAL)
+     ========================================================================= -->
+<section class="welcome-banner">
+  <div class="welcome-details">
+    <p class="welcome-lead">Selamat datang kembali, Konselor</p>
+    <h2 class="welcome-name">
+      {{ $namaPsikolog }}
+    </h2>
+    <p class="welcome-school">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--c-primary);">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      </svg>
+      <span class="school-tag">{{ $spesialisasi }}</span> &bull; 
+      <span>SIP: {{ $noSip }}</span>
+    </p>
+  </div>
+
+  <div class="welcome-actions">
+    <a href="{{ route('psikolog.jadwal') }}" class="btn-primary-action" style="text-decoration:none; white-space:nowrap; padding:10px 20px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      <span>Buka Slot Baru</span>
+    </a>
+  </div>
+</section>
+
+<!-- =========================================================================
+     2. TOP 3 METRIC CARDS
      ========================================================================= -->
 <div class="metrics-grid-3">
 
@@ -31,12 +64,14 @@
     </div>
 
     <div class="metric-footer-note">
-      @if(!empty($bookingBaruSample))
-        <span>Dari: {{ $bookingBaruSample->siswa->nama ?? 'Siswa' }} ({{ $bookingBaruSample->siswa->sekolah ?? 'Sekolah' }})</span>
-      @else
-        <span>Belum ada pengajuan baru</span>
-      @endif
-      <a href="{{ route('psikolog.jadwal') }}" class="metric-action-link">
+      <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:170px;">
+        @if(!empty($bookingBaruSample))
+          Dari: {{ $bookingBaruSample->siswa->nama ?? 'Siswa' }}
+        @else
+          Belum ada pengajuan baru
+        @endif
+      </span>
+      <a href="{{ route('psikolog.jadwal') }}" class="metric-action-link" style="white-space:nowrap; flex-shrink:0;">
         Tinjau Sekarang
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </a>
@@ -64,16 +99,18 @@
 
     <div class="metric-footer-note">
       @if(!empty($nextSession))
-        <span>{{ \Carbon\Carbon::parse($nextSession->tanggal_konsultasi)->translatedFormat('d M') }} • {{ substr($nextSession->waktu_mulai, 0, 5) }} WIB ({{ $nextSession->siswa->nama ?? 'Siswa' }})</span>
+        <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:170px;" title="{{ $nextSession->siswa->nama ?? 'Siswa' }}">
+          {{ \Carbon\Carbon::parse($nextSession->tanggal_konsultasi)->translatedFormat('d M') }} &bull; {{ substr($nextSession->waktu_mulai, 0, 5) }} WIB ({{ $nextSession->siswa->nama ?? 'Siswa' }})
+        </span>
         @if(!empty($nextSession->link_zoom))
-          <a href="{{ $nextSession->link_zoom }}" target="_blank" class="metric-action-link">
+          <a href="{{ $nextSession->link_zoom }}" target="_blank" class="metric-action-link" style="white-space:nowrap; flex-shrink:0;">
             Buka Zoom
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
           </a>
         @endif
       @else
-        <span>Belum ada jadwal sesi mendatang</span>
-        <a href="{{ route('psikolog.jadwal') }}" class="metric-action-link">
+        <span>Belum ada jadwal sesi</span>
+        <a href="{{ route('psikolog.jadwal') }}" class="metric-action-link" style="white-space:nowrap; flex-shrink:0;">
           + Buka Slot
         </a>
       @endif
@@ -101,7 +138,7 @@
 
     <div class="metric-footer-note">
       <span>{{ $sesiSelesaiCount ?? 0 }} Rekomendasi Terbit</span>
-      <a href="{{ route('psikolog.riwayat') }}" class="metric-action-link">
+      <a href="{{ route('psikolog.riwayat') }}" class="metric-action-link" style="white-space:nowrap; flex-shrink:0;">
         Lihat Riwayat
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </a>
@@ -111,7 +148,7 @@
 </div>
 
 <!-- =========================================================================
-     SPLIT GRID: JADWAL MENDATANG (Kiri) & RINGKASAN AKTIVITAS (Kanan)
+     3. SPLIT GRID: JADWAL MENDATANG (Kiri) & RINGKASAN AKTIVITAS (Kanan)
      ========================================================================= -->
 <div class="beranda-split-grid">
 
@@ -153,7 +190,7 @@
             </div>
             <div class="session-time-pill">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-              <span>{{ \Carbon\Carbon::parse($nextSession->tanggal_konsultasi)->translatedFormat('d M Y') }} • {{ substr($nextSession->waktu_mulai, 0, 5) }} - {{ substr($nextSession->waktu_selesai, 0, 5) }} WIB</span>
+              <span>{{ \Carbon\Carbon::parse($nextSession->tanggal_konsultasi)->translatedFormat('d M Y') }} &bull; {{ substr($nextSession->waktu_mulai, 0, 5) }} - {{ substr($nextSession->waktu_selesai, 0, 5) }} WIB</span>
             </div>
           </div>
 
@@ -161,7 +198,7 @@
             <div class="student-avatar-circle">{{ $iniSiswa }}</div>
             <div class="student-info">
               <h4>{{ $siswaNama }}</h4>
-              <p>{{ $nextSession->siswa->sekolah ?? 'Sekolah Siswa' }} • {{ $nextSession->siswa->kelas ?? 'Kelas Siswa' }}</p>
+              <p>{{ $nextSession->siswa->sekolah ?? 'Sekolah Siswa' }} &bull; {{ $nextSession->siswa->kelas ?? 'Kelas Siswa' }}</p>
             </div>
           </div>
 
@@ -173,21 +210,22 @@
           <div class="session-actions-bar">
             @if(!empty($nextSession->link_zoom))
               <a href="{{ $nextSession->link_zoom }}" target="_blank" class="btn-zoom-primary" style="text-decoration:none;">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M23 7l-7 5 7 5V7z"></path>
                   <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                 </svg>
                 <span>Masuk Zoom Sesi</span>
               </a>
               <button type="button" class="btn-secondary-link" onclick="navigator.clipboard.writeText('{{ $nextSession->link_zoom }}'); alert('Link Zoom berhasil disalin!');">
-                Salin Link Zoom
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>Salin Link</span>
               </button>
               <a href="{{ route('psikolog.jadwal') }}" class="btn-secondary-link" style="text-decoration:none;">
-                Detail Sesi
+                <span>Detail Sesi</span>
               </a>
             @else
               <a href="{{ route('psikolog.jadwal') }}" class="btn-secondary-link" style="text-decoration:none;">
-                Detail Sesi
+                <span>Detail Sesi</span>
               </a>
             @endif
           </div>
@@ -205,10 +243,15 @@
         </div>
       @endif
 
-      <!-- Helper Notice -->
-      <div style="background: #FAFCFE; border: 1px dashed var(--c-border); border-radius: 8px; padding: 12px 14px; margin-top: 14px; display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; color: var(--c-text-muted);">
-        <span>Ingin menambah kuota slot konsultasi untuk siswa lain?</span>
-        <a href="{{ route('psikolog.jadwal') }}" style="color: var(--c-primary); font-weight: 700; text-decoration:none;">+ Buka Slot Baru</a>
+      <!-- Helper Notice Bar (Clean & Non-breaking) -->
+      <div class="beranda-helper-notice">
+        <div class="helper-notice-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>Ingin menambah kuota slot jadwal konsultasi?</span>
+        </div>
+        <a href="{{ route('psikolog.jadwal') }}" class="helper-notice-btn">
+          + Buka Slot Baru
+        </a>
       </div>
     </div>
   </div>
@@ -225,7 +268,7 @@
         <span class="card-title-text">Ringkasan Aktivitas</span>
       </div>
 
-      <span style="font-size: 12px; font-weight: 700; color: var(--c-text-muted); background: var(--c-bg); padding: 3px 8px; border-radius: 4px;">
+      <span style="font-size: 12px; font-weight: 700; color: var(--c-text-muted); background: #F1F5F9; padding: 3px 8px; border-radius: 4px;">
         {{ \Carbon\Carbon::now()->translatedFormat('F Y') }}
       </span>
     </div>
@@ -242,12 +285,12 @@
             <div class="mini-stat-icon" style="background:#FFF9E6; color:#B48200;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             </div>
-            <div>
+            <div class="mini-stat-text-group">
               <div class="mini-stat-name">Pengajuan Menunggu</div>
-              <div style="font-size:11px; color:var(--c-text-muted);">Memerlukan persetujuan Anda</div>
+              <div class="mini-stat-sub">Perlu persetujuan Anda</div>
             </div>
           </div>
-          <div class="mini-stat-value">{{ $bookingBaruCount ?? 0 }} Sesi</div>
+          <div class="mini-stat-pill amber">{{ $bookingBaruCount ?? 0 }} Sesi</div>
         </div>
 
         <!-- 2. Sesi Terjadwal -->
@@ -256,12 +299,12 @@
             <div class="mini-stat-icon" style="background:#EAF2F8; color:var(--c-primary);">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
             </div>
-            <div>
+            <div class="mini-stat-text-group">
               <div class="mini-stat-name">Sesi Terkonfirmasi</div>
-              <div style="font-size:11px; color:#10B981; font-weight:700;">Jadwal Zoom Siap</div>
+              <div class="mini-stat-sub">Jadwal Zoom Siap</div>
             </div>
           </div>
-          <div class="mini-stat-value">{{ $sesiMendatangCount ?? 0 }} Sesi</div>
+          <div class="mini-stat-pill primary">{{ $sesiMendatangCount ?? 0 }} Sesi</div>
         </div>
 
         <!-- 3. Sesi Selesai -->
@@ -270,12 +313,12 @@
             <div class="mini-stat-icon" style="background:#EBFDF2; color:#027A48;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
             </div>
-            <div>
+            <div class="mini-stat-text-group">
               <div class="mini-stat-name">Konseling Tuntas</div>
-              <div style="font-size:11px; color:var(--c-primary); font-weight:700;">Riwayat Evaluasi</div>
+              <div class="mini-stat-sub">Riwayat Evaluasi</div>
             </div>
           </div>
-          <div class="mini-stat-value">{{ $sesiSelesaiCount ?? 0 }} Sesi</div>
+          <div class="mini-stat-pill emerald">{{ $sesiSelesaiCount ?? 0 }} Sesi</div>
         </div>
       </div>
 
@@ -283,11 +326,11 @@
       <div class="quick-tools-grid" style="margin-top: 20px;">
         <a href="{{ route('psikolog.jadwal') }}" class="quick-tool-btn" style="text-decoration:none;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          Buka Slot Baru
+          <span>Buka Slot Baru</span>
         </a>
         <a href="{{ route('psikolog.riwayat') }}" class="quick-tool-btn" style="text-decoration:none;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-          Rekap Riwayat
+          <span>Rekap Riwayat</span>
         </a>
       </div>
 

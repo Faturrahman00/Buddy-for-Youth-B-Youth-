@@ -74,6 +74,87 @@
     'C': { name: 'Conventional', color: '#455A64', bg: '#ECEFF1' },
   };
 
+  const DEFAULT_RIASEC_INFO = {
+    R: {
+      code: 'R',
+      name: 'Realistic',
+      headline: 'Praktis, teknis, dan suka bekerja langsung',
+      description: 'Anda cenderung tertarik pada aktivitas yang melibatkan praktik, penggunaan alat, pengoperasian mesin, atau penyelesaian masalah secara langsung.',
+      jurusan: ['Teknik Mesin', 'Teknik Elektro', 'Teknik Sipil', 'Teknik Otomotif', 'Teknologi Pertanian', 'Teknik Informatika'],
+      karier: ['Insinyur Sistem', 'Teknisi Mekatronika', 'Spesialis Jaringan IT', 'Ahli Konstruksi', 'Praktisi Lapangan'],
+      lingkungan: 'Kegiatan praktik, kerja lapangan, laboratorium teknik, serta lingkungan tugas dengan hasil konkret.',
+      badge_color: '#2E7D32',
+      badge_bg: '#E8F5E9',
+      color: '#2E7D32',
+      bg: '#E8F5E9',
+    },
+    I: {
+      code: 'I',
+      name: 'Investigative',
+      headline: 'Analitis, ingin tahu, dan suka mencari jawaban',
+      description: 'Anda cenderung tertarik memahami bagaimana sesuatu bekerja, mencari penyebab suatu masalah, menganalisis data, dan menemukan solusi berbasis bukti.',
+      jurusan: ['Teknik Informatika', 'Sains Data / AI', 'Sistem Informasi', 'Matematika & Statistika', 'Kedokteran & Biomedis', 'Farmasi'],
+      karier: ['Data Scientist / AI Engineer', 'Software Engineer', 'Peneliti Akademik', 'Dokter Spesialis', 'Analis Sistem'],
+      lingkungan: 'Laboratorium riset, pusat analisis data, pusat teknologi informasi, dan ruang akademik inovatif.',
+      badge_color: '#1565C0',
+      badge_bg: '#E3F2FD',
+      color: '#1565C0',
+      bg: '#E3F2FD',
+    },
+    A: {
+      code: 'A',
+      name: 'Artistic',
+      headline: 'Kreatif, imajinatif, dan ekspresif',
+      description: 'Anda cenderung tertarik mengekspresikan ide, perasaan, dan gagasan melalui media visual, bahasa, desain, audio, atau konsep tanpa batas yang terikat aturan kaku.',
+      jurusan: ['Desain Komunikasi Visual (DKV)', 'Arsitektur', 'Desain Produk', 'Seni Media Rekam & Animasi', 'Sastra & Komunikasi Kreatif'],
+      karier: ['Product / UI-UX Designer', 'Creative Director', 'Arsitek Konseptual', 'Animator 3D / Ilustrator', 'Content Producer'],
+      lingkungan: 'Studio kreatif, industri desain dan multimedia, biro arsitektur, agensi periklanan, dan panggung karya.',
+      badge_color: '#7B1FA2',
+      badge_bg: '#F3E5F5',
+      color: '#7B1FA2',
+      bg: '#F3E5F5',
+    },
+    S: {
+      code: 'S',
+      name: 'Social',
+      headline: 'Peduli, suportif, dan suka membantu orang lain',
+      description: 'Anda cenderung tertarik berinteraksi dengan orang lain, membantu memecahkan masalah pribadi/sosial, mengajar, serta membimbing pertumbuhan sesama.',
+      jurusan: ['Psikologi', 'Bimbingan Konseling / Pendidikan', 'Ilmu Keperawatan & Kesehatan Masyarakat', 'Ilmu Komunikasi', 'Hubungan Internasional'],
+      karier: ['Psikolog Konselor', 'Pengajar / Dosen', 'Spesialis Human Capital / HR', 'Konsultan Hubungan Masyarakat', 'Pekerja Sosial Medis'],
+      lingkungan: 'Klinik konsultasi psikologis, sekolah dan kampus, lembaga kesehatan sosial, serta organisasi pemberdayaan manusia.',
+      badge_color: '#00897B',
+      badge_bg: '#E0F2F1',
+      color: '#00897B',
+      bg: '#E0F2F1',
+    },
+    E: {
+      code: 'E',
+      name: 'Enterprising',
+      headline: 'Percaya diri, persuasif, dan berjiwa pemimpin',
+      description: 'Anda cenderung tertarik memimpin kelompok, mengarahkan proyek, memengaruhi orang lain, inisiasi bisnis, dan mengambil keputusan strategis bernilai tinggi.',
+      jurusan: ['Manajemen Bisnis & Kewirausahaan', 'Ekonomi Pembangunan', 'Ilmu Komunikasi Korporat', 'Ilmu Hukum Bisnis', 'Pemasaran Digital'],
+      karier: ['Founder / Startup CEO', 'Business Development Manager', 'Konsultan Strategi Bisnis', 'Legal Specialist', 'Project Manager'],
+      lingkungan: 'Ruang direksi perusahaan modern, pusat negosiasi bisnis, inkubator wirausaha, serta lembaga keuangan dinamis.',
+      badge_color: '#E65100',
+      badge_bg: '#FFF3E0',
+      color: '#E65100',
+      bg: '#FFF3E0',
+    },
+    C: {
+      code: 'C',
+      name: 'Conventional',
+      headline: 'Teratur, teliti, dan menyukai kejelasan prosedur',
+      description: 'Anda cenderung tertarik pada pekerjaan yang membutuhkan ketepatan, struktur yang rapi, kepatuhan prosedur, ketelitian data, dan manajemen arsip teratur.',
+      jurusan: ['Akuntansi Keuangan', 'Teknologi Informasi & Tata Kelola Data', 'Manajemen Rekayasa Sistem', 'Ilmu Aktuaria', 'Administrasi Publik'],
+      karier: ['Auditor Finansial / Akuntan Publik', 'Database Administrator', 'Analis Risiko Aktuaria', 'Compliance Specialist', 'Data Governance Officer'],
+      lingkungan: 'Lembaga perbankan, kantor akuntan publik (KAP), departemen kepatuhan korporasi, serta pusat manajemen data terstruktur.',
+      badge_color: '#455A64',
+      badge_bg: '#ECEFF1',
+      color: '#455A64',
+      bg: '#ECEFF1',
+    },
+  };
+
   // ── State ───────────────────────────────────────────────────────────────
   let currentIndex = 0;
   let answers = {};
@@ -351,13 +432,47 @@
     const topListContainer = document.getElementById('topTypesCardsList');
     if (topListContainer) {
       topListContainer.innerHTML = '';
-      topInfo.forEach((type, idx) => {
+      (topInfo || []).forEach((rawType, idx) => {
+        const codeChar = (rawType.code || '').toUpperCase().trim();
+        const fallback = DEFAULT_RIASEC_INFO[codeChar] || {};
+        const winFallback = (window.BYOUTH_RIASEC_INFO && window.BYOUTH_RIASEC_INFO[codeChar]) || {};
+
+        let jur = rawType.jurusan || rawType.typical_fields || winFallback.jurusan || winFallback.typical_fields || fallback.jurusan || [];
+        if (!Array.isArray(jur)) jur = [jur];
+        jur = jur.map(j => String(j || '').trim()).filter(j => j && j !== 'undefined' && j !== 'null');
+        if (jur.length === 0) {
+          jur = fallback.jurusan || ['Program Studi Relevan'];
+        }
+
+        let kar = rawType.karier || winFallback.karier || fallback.karier || [];
+        if (!Array.isArray(kar)) kar = [kar];
+        kar = kar.map(k => String(k || '').trim()).filter(k => k && k !== 'undefined' && k !== 'null');
+        if (kar.length === 0) {
+          kar = fallback.karier || ['Praktisi Bidang Terkait'];
+        }
+
+        let ling = rawType.lingkungan || winFallback.lingkungan || fallback.lingkungan;
+        if (!ling || ling === 'undefined' || ling === 'null') {
+          ling = fallback.lingkungan || 'Lingkungan akademik dan profesional yang kolaboratif.';
+        }
+
+        const type = {
+          code: codeChar || rawType.code || 'RIASEC',
+          name: rawType.name || winFallback.name || fallback.name || codeChar,
+          headline: rawType.headline || winFallback.headline || fallback.headline || `Karakteristik Tipe ${codeChar}`,
+          description: rawType.description || winFallback.description || fallback.description || '',
+          badge_color: rawType.badge_color || winFallback.badge_color || fallback.badge_color || '#30618C',
+          jurusan: jur,
+          karier: kar,
+          lingkungan: ling,
+        };
+
         const card = document.createElement('div');
         card.className = `type-detail-card ${idx === 0 ? 'primary-rank' : ''}`;
         card.style.setProperty('--type-accent', type.badge_color || '#30618C');
 
-        const jurusanHtml = (type.jurusan || []).map(j => `<li>${j}</li>`).join('');
-        const karierHtml = (type.karier || []).map(k => `<li>${k}</li>`).join('');
+        const jurusanHtml = type.jurusan.map(j => `<li>${j}</li>`).join('');
+        const karierHtml = type.karier.map(k => `<li>${k}</li>`).join('');
 
         card.innerHTML = `
           <div class="type-detail-header">
@@ -416,29 +531,39 @@
         const card = document.createElement('div');
         card.className = `rec-card ${isPrimary ? 'primary-rec' : ''}`;
 
-        const karierList = rec.prospek_karier
-          ? rec.prospek_karier.split(',').map(s => s.trim())
-          : ['Profesional Bidang Terkait'];
+        const namaProdi = rec.nama_prodi || rec.nama || rec.prodi || rec.program_studi?.nama_prodi || rec.programStudi?.nama_prodi || 'Program Studi Pilihan';
+        const alasanProdi = rec.alasan || rec.deskripsi || (rec.program_studi && (rec.program_studi.deskripsi || rec.program_studi.deskripsi_prodi)) || 'Program studi yang sesuai dengan profil minat Holland RIASEC Anda.';
+        const skorProdi = parseFloat(rec.skor) || 85;
+
+        let karierList = rec.prospek_karier || (rec.program_studi && rec.program_studi.prospek_karier);
+        if (typeof karierList === 'string') {
+          karierList = karierList.split(',').map(s => s.trim()).filter(s => s && s !== 'undefined');
+        } else if (Array.isArray(karierList)) {
+          karierList = karierList.map(s => String(s || '').trim()).filter(s => s && s !== 'undefined');
+        } else {
+          karierList = [];
+        }
+        if (!karierList.length) karierList = ['Profesional Bidang Terkait', 'Praktisi Industri'];
 
         card.innerHTML = `
           ${isPrimary ? `<span class="rec-top-badge">Rekomendasi Utama AI</span>` : ''}
           <div class="rec-cluster">Program Studi Pilihan</div>
 
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
-            <span class="rec-match ${rec.skor >= 90 ? 'high' : ''}">
-              ${rec.skor}% Kecocokan
+            <span class="rec-match ${skorProdi >= 90 ? 'high' : ''}">
+              ${skorProdi}% Kecocokan
             </span>
             ${useRaport && rec.skor_akademik ? `<span style="font-size:11px; font-weight:700; color:#059669; background:#D1FAE5; padding:2px 8px; border-radius:100px;">Rapor: ${rec.skor_akademik}</span>` : ''}
           </div>
 
-          <h4 class="rec-title">${rec.nama_prodi}</h4>
+          <h4 class="rec-title">${namaProdi}</h4>
           
           <div class="rec-ai-badge">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             Rekomendasi Pilihan
           </div>
 
-          <p class="rec-desc">${rec.alasan || rec.deskripsi}</p>
+          <p class="rec-desc">${alasanProdi}</p>
 
           <div class="rec-karier-label">Prospek Karier Terkait:</div>
           <div class="rec-tags">
@@ -639,26 +764,43 @@
       if (!topCodes.length) topCodes = ['I', 'S', 'R'];
 
       const topInfo = topCodes.map(c => {
-        const char = c.toUpperCase();
-        const info = (window.BYOUTH_RIASEC_INFO && window.BYOUTH_RIASEC_INFO[char]) || typeColorMap[char] || {};
+        const char = c.toUpperCase().trim();
+        const info = (window.BYOUTH_RIASEC_INFO && window.BYOUTH_RIASEC_INFO[char]) || DEFAULT_RIASEC_INFO[char] || typeColorMap[char] || {};
+        const fallback = DEFAULT_RIASEC_INFO[char] || {};
+
+        let jur = info.jurusan || info.typical_fields || fallback.jurusan || ['Program Studi Relevan'];
+        if (!Array.isArray(jur)) jur = [jur];
+        jur = jur.map(j => String(j || '').trim()).filter(j => j && j !== 'undefined' && j !== 'null');
+        if (jur.length === 0) jur = fallback.jurusan || ['Program Studi Relevan'];
+
+        let kar = info.karier || fallback.karier || ['Praktisi Bidang Terkait'];
+        if (!Array.isArray(kar)) kar = [kar];
+        kar = kar.map(k => String(k || '').trim()).filter(k => k && k !== 'undefined' && k !== 'null');
+        if (kar.length === 0) kar = fallback.karier || ['Praktisi Bidang Terkait'];
+
+        let ling = info.lingkungan || fallback.lingkungan;
+        if (!ling || ling === 'undefined' || ling === 'null') {
+          ling = fallback.lingkungan || 'Lingkungan akademik dan profesional yang kolaboratif.';
+        }
+
         return {
           code: char,
-          name: info.name || char,
-          headline: info.headline || `Karakteristik Tipe ${char}`,
-          description: info.description || `Profil minat Holland dimensi ${char}.`,
-          jurusan: info.jurusan || ['Program Studi Relevan'],
-          karier: info.karier || ['Praktisi Bidang Terkait'],
-          lingkungan: info.lingkungan || 'Lingkungan akademik dan profesional yang kolaboratif.',
-          badge_color: info.badge_color || info.color || '#30618C',
-          badge_bg: info.badge_bg || info.bg || '#EBF3FA',
+          name: info.name || fallback.name || char,
+          headline: info.headline || fallback.headline || `Karakteristik Tipe ${char}`,
+          description: info.description || fallback.description || `Profil minat Holland dimensi ${char}.`,
+          jurusan: jur,
+          karier: kar,
+          lingkungan: ling,
+          badge_color: info.badge_color || fallback.badge_color || info.color || '#30618C',
+          badge_bg: info.badge_bg || fallback.badge_bg || info.bg || '#EBF3FA',
         };
       });
 
       const recList = latest.rekomendasi || [];
       const formattedRecs = recList.map(r => ({
         prodi_id: r.id_prodi || r.prodi_id,
-        nama_prodi: r.program_studi?.nama_prodi || r.nama_prodi || 'Program Studi Pilihan',
-        kode_prodi: r.program_studi?.kode_prodi || r.kode_prodi || '',
+        nama_prodi: r.program_studi?.nama_prodi || r.programStudi?.nama_prodi || r.nama_prodi || r.nama || r.prodi || 'Program Studi Pilihan',
+        kode_prodi: r.program_studi?.kode_prodi || r.programStudi?.kode_prodi || r.kode_prodi || '',
         deskripsi: r.alasan || r.program_studi?.deskripsi || r.program_studi?.deskripsi_prodi || '',
         prospek_karier: r.prospek_karier || r.program_studi?.prospek_karier || '',
         skor: parseFloat(r.skor) || 90,

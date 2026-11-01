@@ -1,20 +1,35 @@
 @php
     $active = $active ?? 'beranda';
+    $pendingCount = 0;
+    try {
+        $currentPsikologId = Auth::guard('psikolog')->id() ?? Auth::id();
+        if ($currentPsikologId) {
+            $pendingCount = \App\Models\Konsultasi::where('id_psikolog', $currentPsikologId)->where('status_booking', 'menunggu')->count();
+        }
+    } catch (\Throwable $e) {}
 @endphp
 
 <aside class="sidebar" id="sidebar" aria-label="Sidebar Psikolog">
   <div class="sidebar-brand">
-    <a href="{{ route('psikolog.dashboard') }}" style="display:flex; align-items:center; gap:12px; text-decoration:none; width:100%;">
-      <div class="brand-logo-img" style="width:38px; height:38px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+    <a href="{{ route('psikolog.dashboard') }}" class="brand-link" style="display:flex; align-items:center; gap:10px; text-decoration:none; flex:1; min-width:0;">
+      <div class="brand-logo-img" style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
         <img src="{{ asset('foto/logo.png') }}" alt="Buddy For Youth Logo" style="width:100%; height:100%; object-fit:contain;">
       </div>
-      <div class="brand-info">
-        <div class="brand-title">
-          B-Youth <span class="brand-badge">Psikolog</span>
+      <div class="brand-info" style="display:flex; flex-direction:column; min-width:0; overflow:hidden; flex-shrink:0;">
+        <div class="brand-title" style="display:flex; align-items:center; gap:6px; white-space:nowrap; flex-shrink:0;">
+          <span class="brand-name" style="white-space:nowrap !important; font-weight:800; color:var(--c-primary); flex-shrink:0;">B&#8209;Youth</span>
+          <span class="brand-badge" style="white-space:nowrap !important; flex-shrink:0;">Psikolog</span>
         </div>
-        <span class="brand-subtitle">Konseling &amp; Validasi Karier</span>
+        <span class="brand-subtitle" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:11px; color:var(--c-text-muted); line-height:1.2; margin-top:2px;" title="Konseling & Validasi Karier">Konseling &amp; Validasi Karier</span>
       </div>
     </a>
+    <!-- Tombol Tutup Sidebar untuk Layar HP / Kecil -->
+    <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Tutup menu sidebar" title="Tutup menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
   </div>
 
   <!-- Navigation Menu List -->
@@ -40,7 +55,11 @@
         <line x1="3" y1="10" x2="21" y2="10"></line>
       </svg>
       <span>Kelola Jadwal Konsultasi</span>
-      <span class="nav-badge-count" title="1 Pengajuan Menunggu">1</span>
+      @if($pendingCount > 0)
+        <span class="nav-badge-count" title="{{ $pendingCount }} Pengajuan Menunggu">{{ $pendingCount }}</span>
+      @elseif($active === 'jadwal')
+        <span class="nav-indicator-dot" title="Halaman Aktif"></span>
+      @endif
     </a>
 
     <!-- 3. Riwayat Konsultasi -->

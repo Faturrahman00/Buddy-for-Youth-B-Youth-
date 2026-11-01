@@ -73,14 +73,16 @@
   <div class="data-card">
     <div class="table-integrated-toolbar">
       <div class="table-toolbar-info">
-        <div class="data-card-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          <span>Daftar Sesi Konsultasi Psikologi</span>
+        <div class="table-toolbar-header-row">
+          <div class="data-card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Daftar Sesi Konsultasi Psikologi</span>
+          </div>
           <span class="data-count-badge" data-count-for="riwayatKonsulTableBody">{{ $riwayatList->count() }} Sesi Terdata</span>
         </div>
         <div class="table-toolbar-desc">Kerahasiaan data bimbingan konseling terenkripsi aman</div>

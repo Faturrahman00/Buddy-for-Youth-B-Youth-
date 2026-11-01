@@ -6,6 +6,69 @@
 
 @section('content')
 
+<!-- =========================================================================
+     SUMMARY STATS GRID (MATCHING SISWA PORTAL)
+     ========================================================================= -->
+<div class="stats-summary-grid">
+  <!-- 1. Slot Tersedia -->
+  <div class="stat-summary-card">
+    <div class="stat-icon-wrapper green">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+    </div>
+    <div class="stat-summary-info">
+      <div class="stat-val">{{ $totalTersedia ?? 0 }} Slot</div>
+      <div class="stat-label">Slot Tersedia</div>
+    </div>
+  </div>
+
+  <!-- 2. Sesi Disetujui -->
+  <div class="stat-summary-card">
+    <div class="stat-icon-wrapper blue">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+    </div>
+    <div class="stat-summary-info">
+      <div class="stat-val">{{ $totalDisetujui ?? 0 }} Sesi</div>
+      <div class="stat-label">Sesi Terkonfirmasi</div>
+    </div>
+  </div>
+
+  <!-- 3. Pengajuan Menunggu -->
+  <div class="stat-summary-card">
+    <div class="stat-icon-wrapper amber">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+    </div>
+    <div class="stat-summary-info">
+      <div class="stat-val">{{ $totalMenunggu ?? 0 }} Pengajuan</div>
+      <div class="stat-label">Menunggu Verifikasi</div>
+    </div>
+  </div>
+
+  <!-- 4. Total Slot Terpublikasi -->
+  <div class="stat-summary-card">
+    <div class="stat-icon-wrapper purple">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+        <path d="M2 17l10 5 10-5"></path>
+        <path d="M2 12l10 5 10-5"></path>
+      </svg>
+    </div>
+    <div class="stat-summary-info">
+      <div class="stat-val">{{ $totalSlot ?? 0 }} Slot</div>
+      <div class="stat-label">Total Slot Jadwal</div>
+    </div>
+  </div>
+</div>
 
 <!-- =========================================================================
      SUBTABS NAVIGATION
@@ -39,7 +102,7 @@
      TAB PANEL 1: KELOLA JADWAL
      ========================================================================= -->
 <div class="tab-content-panel" id="tabPanelKelolaJadwal">
-  <div class="jadwal-two-columns" style="grid-template-columns: 460px 1fr; align-items: start; gap: 24px;">
+  <div class="jadwal-two-columns">
 
     <!-- LEFT COLUMN: KALENDER INTERAKTIF & FORM BUKA SLOT -->
     <div style="display:flex; flex-direction:column; gap:20px;">
@@ -152,42 +215,42 @@
 
     <!-- RIGHT COLUMN: LIST SLOT AKTIF -->
     <div class="psikolog-card">
-      <div class="card-header-wrap" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div class="card-header-wrap">
         <div class="card-title-group">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2">
             <polyline points="9 11 12 14 22 4"></polyline>
             <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
           </svg>
           <span class="card-title-text">Slot Jadwal Terpublikasi</span>
-          <span class="tab-badge" id="totalSlotCountBadge" style="background:#F1F5F9; color:var(--c-text-body); font-size:12px; font-weight:700;">{{ $totalSlot ?? 0 }} Slot</span>
+          <span class="tab-badge" id="totalSlotCountBadge">{{ $totalSlot ?? 0 }} Slot</span>
           
           <!-- Indikator Filter Tanggal Kalender (Klik untuk batalkan filter tanggal) -->
-          <span id="activeFilterBadge" style="display:none; background:#EFF8FF; color:#175CD3; border:1px solid #B2DDFF; border-radius:6px; padding:3px 8px; font-size:11.5px; font-weight:700; align-items:center; gap:4px; cursor:pointer;" title="Klik untuk menghapus filter tanggal kalender">
+          <span id="activeFilterBadge" class="filter-chip-date" style="display:none;" title="Klik untuk menghapus filter tanggal kalender">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             <span id="filterDateLabel">Semua</span>
-            <span style="font-size:12px; font-weight:bold; margin-left:2px;">&times;</span>
+            <span class="chip-close-icon">&times;</span>
           </span>
         </div>
 
-        <!-- Search & Filter Controls (Disatukan pada card slot, tanpa tombol reset, murni JS) -->
-        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-          <div class="search-input-wrap" style="width:200px; margin:0;">
-            <div class="search-icon">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </div>
-            <input type="text" id="inputSearchSlot" placeholder="Cari jam / siswa..." style="padding-left:34px; height:36px; font-size:12.5px;">
+        <!-- Search & Filter Controls (Unified Design System) -->
+        <div class="slot-toolbar-controls">
+          <div class="table-search-box slot-search-box">
+            <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="inputSearchSlot" class="table-search-input" placeholder="Cari jam / siswa...">
           </div>
 
-          <select class="select-filter-custom" id="selectFilterStatusSlot" style="height:36px; font-size:12.5px; padding:0 30px 0 12px;">
-            <option value="all">Semua Status</option>
-            <option value="tersedia">Tersedia</option>
-            <option value="disetujui">Disetujui</option>
-            <option value="menunggu">Menunggu</option>
-            <option value="selesai">Selesai</option>
-          </select>
+          <div class="table-filter-group slot-filter-group">
+            <select class="table-filter-select" id="selectFilterStatusSlot">
+              <option value="all">Semua Status</option>
+              <option value="tersedia">Tersedia</option>
+              <option value="disetujui">Disetujui</option>
+              <option value="menunggu">Menunggu</option>
+              <option value="selesai">Selesai</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -216,40 +279,44 @@
               $tgl = \Carbon\Carbon::parse($slot->tanggal_konsultasi);
               $status = $slot->status_booking;
             @endphp
-            <div class="slot-card-item" data-tanggal="{{ $tgl->format('Y-m-d') }}" data-slot-status="{{ $status }}" data-searchable="{{ $tgl->format('Y-m-d') }} {{ substr($slot->waktu_mulai, 0, 5) }} {{ substr($slot->waktu_selesai, 0, 5) }} {{ $slot->siswa->nama ?? '' }} {{ $slot->siswa->sekolah ?? '' }} {{ $slot->link_zoom ?? '' }} {{ $status }}" style="display:flex; justify-content:space-between; align-items:center; padding:16px; border:1px solid var(--c-border-light); border-radius:10px; margin-bottom:12px; background:#fff; width:100%; box-sizing:border-box;">
-              <div class="slot-left-info" style="display:flex; align-items:center; gap:14px;">
-                <div class="slot-date-badge" style="background:#F1F5F9; border-radius:8px; padding:8px 12px; text-align:center;">
-                  <span class="day-txt" style="display:block; font-size:11px; font-weight:700; color:var(--c-text-muted);">{{ $tgl->translatedFormat('D') }}</span>
-                  <span class="date-txt" style="display:block; font-size:14px; font-weight:800; color:var(--c-text-heading);">{{ $tgl->format('d M') }}</span>
+            <div class="slot-card-item" data-tanggal="{{ $tgl->format('Y-m-d') }}" data-slot-status="{{ $status }}" data-searchable="{{ $tgl->format('Y-m-d') }} {{ substr($slot->waktu_mulai, 0, 5) }} {{ substr($slot->waktu_selesai, 0, 5) }} {{ $slot->siswa->nama ?? '' }} {{ $slot->siswa->sekolah ?? '' }} {{ $slot->link_zoom ?? '' }} {{ $status }}">
+              <div class="slot-card-top">
+                <div class="slot-date-badge">
+                  <span class="day-txt">{{ $tgl->translatedFormat('D') }}</span>
+                  <span class="date-txt">{{ $tgl->format('d M') }}</span>
                 </div>
                 <div class="slot-detail-meta">
-                  <h5 style="margin:0 0 4px; font-size:14px; font-weight:700;">
-                    {{ substr($slot->waktu_mulai, 0, 5) }} - {{ substr($slot->waktu_selesai, 0, 5) }} WIB
+                  <div class="slot-meta-header">
+                    <span class="slot-time-text">{{ substr($slot->waktu_mulai, 0, 5) }} - {{ substr($slot->waktu_selesai, 0, 5) }} WIB</span>
                     @if($status === 'tersedia')
-                      <span class="status-tag tersedia" style="background:#EBFDF2; color:#027A48; font-size:11px; padding:2px 7px; border-radius:4px; margin-left:6px;">Tersedia</span>
+                      <span class="status-tag tersedia">Tersedia</span>
                     @elseif($status === 'disetujui')
-                      <span class="status-tag disetujui" style="background:#EFF8FF; color:#175CD3; font-size:11px; padding:2px 7px; border-radius:4px; margin-left:6px;">Disetujui</span>
+                      <span class="status-tag disetujui">Disetujui</span>
                     @elseif($status === 'menunggu')
-                      <span class="status-tag pending" style="background:#FFF9E6; color:#7A5400; font-size:11px; padding:2px 7px; border-radius:4px; margin-left:6px;">Menunggu Siswa</span>
+                      <span class="status-tag pending">Menunggu Siswa</span>
                     @elseif($status === 'selesai')
-                      <span class="status-tag" style="background:#F1F5F9; color:#475467; font-size:11px; padding:2px 7px; border-radius:4px; margin-left:6px;">Selesai</span>
+                      <span class="status-tag selesai">Selesai</span>
                     @else
                       <span class="status-tag">{{ ucfirst($status) }}</span>
                     @endif
-                  </h5>
+                  </div>
                   @if($slot->siswa)
-                    <p style="margin:0; font-size:12px; color:var(--c-primary); font-weight:600;">
-                      Siswa: {{ $slot->siswa->nama }} ({{ $slot->siswa->sekolah ?? 'Sekolah' }})
-                    </p>
+                    <div class="slot-student-info">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      <span><strong>{{ $slot->siswa->nama }}</strong> ({{ $slot->siswa->sekolah ?? 'Sekolah' }})</span>
+                    </div>
+                  @elseif($slot->link_zoom)
+                    <div class="slot-zoom-info">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                      <span class="zoom-link-text">{{ $slot->link_zoom }}</span>
+                    </div>
                   @else
-                    <p style="margin:0; font-size:12px; color:var(--c-text-muted);">
-                      Link: {{ $slot->link_zoom ?? 'Belum ada link' }}
-                    </p>
+                    <div class="slot-empty-info">Slot terbuka untuk bimbingan siswa</div>
                   @endif
                 </div>
               </div>
 
-              <div class="slot-actions-group" style="display:flex; gap:6px; align-items:center;">
+              <div class="slot-actions-group">
                 @if($slot->siswa)
                   @php
                     $slotPayload = [
@@ -267,38 +334,39 @@
                         'alasan_tolak' => $slot->alasan_tolak ?? '',
                     ];
                   @endphp
-                  <button type="button" class="btn-secondary-link btn-open-detail-psikolog"
+                  <button type="button" class="btn-slot-action outline btn-open-detail-psikolog"
                     data-detail="{{ json_encode($slotPayload) }}"
-                    style="padding:5px 10px; font-size:12px; display:inline-flex; align-items:center; gap:4px;"
                     title="Lihat Detail & Catatan Sesi">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                    Detail
+                    <span>Detail</span>
                   </button>
                 @endif
 
                 @if($slot->link_zoom)
-                  <button type="button" class="btn-secondary-link" onclick="navigator.clipboard.writeText('{{ $slot->link_zoom }}'); alert('Tautan Zoom berhasil disalin!');" title="Salin Tautan Zoom" style="padding:5px 10px; font-size:12px;">
-                    Salin Zoom
+                  <button type="button" class="btn-slot-action outline" onclick="navigator.clipboard.writeText('{{ $slot->link_zoom }}'); alert('Tautan Zoom berhasil disalin!');" title="Salin Tautan Zoom">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>Salin Zoom</span>
                   </button>
                 @endif
 
                 @if($status === 'disetujui')
-                  <button type="button" class="btn-secondary-link btn-trigger-selesai"
+                  <button type="button" class="btn-slot-action success btn-trigger-selesai"
                     data-id="{{ $slot->id_konsultasi }}"
                     data-siswa="{{ $slot->siswa->nama ?? 'Siswa' }}"
                     data-meta="{{ $tgl->translatedFormat('l, d F Y') }} • {{ substr($slot->waktu_mulai, 0, 5) }} - {{ substr($slot->waktu_selesai, 0, 5) }} WIB"
-                    data-catatan="{{ $slot->catatan ?? '' }}"
-                    style="color:#027A48; border-color:#A6F4C5; padding:5px 10px; font-size:12px; font-weight:700;">
-                    Tandai Selesai
+                    data-catatan="{{ $slot->catatan ?? '' }}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Tandai Selesai</span>
                   </button>
                 @endif
 
                 @if($status === 'tersedia')
-                  <form action="{{ route('psikolog.jadwal.destroy', $slot->id_konsultasi) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus slot ini?');">
+                  <form action="{{ route('psikolog.jadwal.destroy', $slot->id_konsultasi) }}" method="POST" style="display:inline; margin:0;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus slot ini?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn-secondary-link" style="color:#c53030; padding:5px 10px; font-size:12px;">
-                      Hapus
+                    <button type="submit" class="btn-slot-action danger">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                      <span>Hapus</span>
                     </button>
                   </form>
                 @endif
