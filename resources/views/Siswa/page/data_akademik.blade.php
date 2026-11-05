@@ -172,6 +172,381 @@
     margin-top: 8px;
     font-weight: 600;
   }
+
+  /* ── Optimalisasi Tabel Daftar Nilai Rapor Siswa ── */
+  .academic-table-card {
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(48, 97, 140, 0.05);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  /* Toolbar Tabel Rapi 1 Baris Sejajar */
+  .academic-table-card .table-integrated-toolbar {
+    padding: 18px 22px;
+    background: #FFFFFF;
+    border-bottom: 1.5px solid #EDF2F7;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: nowrap;
+  }
+
+  .academic-table-card .table-toolbar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .academic-table-card .table-toolbar-header-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+  }
+
+  .academic-table-card .data-card-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--c-text-heading, #1A2535);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    margin: 0;
+  }
+
+  .academic-table-card .data-count-badge {
+    font-size: 11.5px;
+    padding: 3px 9px;
+    background: #EFF6FF;
+    color: var(--c-primary, #30618C);
+    border: 1px solid #BFDBFE;
+    border-radius: 999px;
+    font-weight: 700;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .academic-table-card .table-toolbar-desc {
+    font-size: 12px;
+    color: #64748B;
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+  }
+
+  .academic-table-card .table-toolbar-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    justify-content: flex-end;
+  }
+
+  .academic-table-card .table-search-box {
+    width: 185px;
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  .academic-table-card .table-search-input {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px 0 34px;
+    font-size: 13px;
+    background: #F8FAFC;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 9px;
+    outline: none;
+    color: #1E293B;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  .academic-table-card .table-search-input:focus {
+    background: #FFFFFF;
+    border-color: #30618C;
+    box-shadow: 0 0 0 3px rgba(48, 97, 140, 0.12);
+  }
+
+  .academic-table-card .table-filter-group {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  .academic-table-card .table-filter-select {
+    height: 38px;
+    padding: 0 28px 0 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #334155;
+    background: #F8FAFC url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B8299' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 9px center;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 9px;
+    outline: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  .academic-table-card .table-filter-select:focus {
+    background-color: #FFFFFF;
+    border-color: #30618C;
+    box-shadow: 0 0 0 3px rgba(48, 97, 140, 0.12);
+  }
+
+  /* ── Tabel Presisi: 100% Fit Tanpa Terpotong ── */
+  #tableAkademik {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+  }
+
+  #tableAkademik th {
+    background: #F8FAFC;
+    color: #475569;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    padding: 12px 8px;
+    border-bottom: 1.5px solid #E2E8F0;
+    white-space: nowrap;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #tableAkademik td {
+    padding: 11px 8px;
+    border-bottom: 1px solid #EDF2F7;
+    vertical-align: middle;
+    color: var(--c-text-body, #334155);
+    font-size: 13px;
+    overflow: hidden;
+  }
+
+  #tableAkademik tbody tr {
+    transition: background-color 0.18s ease;
+  }
+
+  #tableAkademik tbody tr:hover {
+    background-color: #F8FAFD;
+  }
+
+  /* Kolom-kolom Proporsional Persentase Pas 100% */
+  #tableAkademik .col-no {
+    width: 6%;
+    min-width: 34px;
+    max-width: 44px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--c-text-muted, #64748B);
+    padding-left: 6px;
+    padding-right: 2px;
+  }
+
+  #tableAkademik .col-mapel {
+    width: 34%;
+    text-align: left;
+    padding-left: 8px;
+  }
+
+  #tableAkademik .col-sem {
+    width: 15%;
+    text-align: left;
+  }
+
+  #tableAkademik .col-num {
+    width: 11%;
+    text-align: center;
+  }
+
+  #tableAkademik .col-akhir {
+    width: 11%;
+    text-align: center;
+  }
+
+  #tableAkademik .col-aksi {
+    width: 12%;
+    text-align: right;
+    padding-right: 12px;
+  }
+
+  /* Tipografi Mata Pelajaran */
+  .row-mapel-name {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--c-text-heading, #1A2535);
+    line-height: 1.3;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .row-mapel-sub {
+    font-size: 11px;
+    color: var(--c-text-muted, #64748B);
+    line-height: 1.3;
+    margin-top: 1px;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Pill Semester */
+  .row-semester-pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #334155;
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+    padding: 2.5px 8px;
+    border-radius: 6px;
+    white-space: nowrap !important;
+  }
+
+  /* Chip Nilai Rapor */
+  .row-score-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 26px;
+    padding: 0 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+
+  .row-score-chip.zero {
+    color: #94A3B8;
+    background: #F8FAFC;
+    border: 1px dashed #CBD5E1;
+  }
+
+  .row-score-chip.filled {
+    color: #0F172A;
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+  }
+
+  /* Chip Nilai Akhir */
+  .row-final-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 26px;
+    padding: 0 8px;
+    font-size: 13px;
+    font-weight: 800;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+
+  .row-final-chip.zero {
+    color: #94A3B8;
+    background: #F8FAFC;
+    border: 1px dashed #CBD5E1;
+  }
+
+  .row-final-chip.filled {
+    color: var(--c-primary, #30618C);
+    background: #EBF3FA;
+    border: 1px solid #BFDBFE;
+  }
+
+  .row-final-chip.high {
+    color: #047857;
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+  }
+
+  /* Tombol Aksi */
+  .btn-action-akademik {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    white-space: nowrap !important;
+    border: 1px solid transparent;
+    text-decoration: none;
+  }
+
+  .btn-action-akademik.primary {
+    background: #30618C;
+    color: #FFFFFF;
+    border-color: #30618C;
+    box-shadow: 0 1px 3px rgba(48, 97, 140, 0.2);
+  }
+
+  .btn-action-akademik.primary:hover {
+    background: #23486A;
+    border-color: #23486A;
+    box-shadow: 0 3px 8px rgba(48, 97, 140, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .btn-action-akademik.outline {
+    background: #FFFFFF;
+    color: #1E293B;
+    border-color: #CBD5E1;
+  }
+
+  .btn-action-akademik.outline:hover {
+    background: #F8FAFD;
+    border-color: #30618C;
+    color: #30618C;
+    transform: translateY(-1px);
+  }
+
+  /* Responsive Mobile (< 640px) */
+  @media (max-width: 639px) {
+    .academic-table-card .table-integrated-toolbar {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 10px !important;
+      padding: 14px 16px !important;
+    }
+    .academic-table-card .table-toolbar-desc {
+      white-space: normal !important;
+    }
+    .academic-table-card .table-toolbar-actions {
+      width: 100% !important;
+      justify-content: stretch !important;
+    }
+    .academic-table-card .table-search-box {
+      flex: 1 1 auto !important;
+      width: auto !important;
+    }
+    .academic-table-card .table-filter-group {
+      flex: 0 0 auto !important;
+    }
+  }
 </style>
 @endpush
 
@@ -266,7 +641,7 @@
   </div>
 
   <!-- Table Container with Integrated Search & Filter -->
-  <div class="data-card">
+  <div class="data-card academic-table-card">
     <div class="table-integrated-toolbar">
       <div class="table-toolbar-info">
         <div class="table-toolbar-header-row">
@@ -312,13 +687,13 @@
       <table class="byouth-table" id="tableAkademik">
         <thead>
           <tr>
-            <th style="width: 50px;">No</th>
-            <th>Mata Pelajaran</th>
-            <th style="width: 140px; white-space: nowrap;">Semester</th>
-            <th style="text-align: center; width: 130px; white-space: nowrap;">Pengetahuan</th>
-            <th style="text-align: center; width: 130px; white-space: nowrap;">Keterampilan</th>
-            <th style="text-align: center; width: 120px; white-space: nowrap;">Nilai Akhir</th>
-            <th style="text-align: right; width: 120px; white-space: nowrap;">Aksi</th>
+            <th class="col-no">No</th>
+            <th class="col-mapel">Mata Pelajaran</th>
+            <th class="col-sem">Semester</th>
+            <th class="col-num">Pengetahuan</th>
+            <th class="col-num">Keterampilan</th>
+            <th class="col-akhir">Nilai Akhir</th>
+            <th class="col-aksi">Aksi</th>
           </tr>
         </thead>
         <tbody id="akademikTableBody">
@@ -344,23 +719,31 @@
                 data-mapel="{{ $mapelKey }}" 
                 data-pengetahuan="{{ $p }}" 
                 data-keterampilan="{{ $k }}">
-              <td class="row-number" style="font-weight:700; color:var(--c-text-muted);">{{ $no++ }}</td>
-              <td>
-                <div class="row-mapel-name" style="font-weight:700; color:var(--c-text-heading);">{{ $meta['alias'] ?? $r->mata_pelajaran }}</div>
-                <div class="row-mapel-sub" style="font-size:12px; color:var(--c-text-muted);">
-                  {{ $meta['sub'] }}
-                </div>
+              <td class="col-no row-number">{{ $no++ }}</td>
+              <td class="col-mapel">
+                <div class="row-mapel-name">{{ $meta['alias'] ?? $r->mata_pelajaran }}</div>
+                <div class="row-mapel-sub">{{ $meta['sub'] }}</div>
               </td>
-              <td style="white-space: nowrap;"><span class="row-semester-val" style="font-weight:600; white-space: nowrap;">{{ $sem }}</span></td>
-              <td class="row-pengetahuan-val" style="text-align: center; font-weight:700;">{{ number_format($p, 0) }}</td>
-              <td class="row-keterampilan-val" style="text-align: center; font-weight:700;">{{ number_format($k, 0) }}</td>
-              <td class="row-akhir-val" style="text-align: center; font-weight:800; color:var(--c-primary); font-size:15px;">
-                {{ number_format($akhir, 1) }}
+              <td class="col-sem">
+                <span class="row-semester-pill row-semester-val">{{ $sem }}</span>
               </td>
-              <td style="text-align: right;">
+              <td class="col-num">
+                <span class="row-pengetahuan-val row-score-chip {{ $p > 0 ? 'filled' : 'zero' }}">{{ number_format($p, 0) }}</span>
+              </td>
+              <td class="col-num">
+                <span class="row-keterampilan-val row-score-chip {{ $k > 0 ? 'filled' : 'zero' }}">{{ number_format($k, 0) }}</span>
+              </td>
+              <td class="col-akhir">
+                <span class="row-akhir-val row-final-chip {{ $akhir >= 85 ? 'high' : ($akhir > 0 ? 'filled' : 'zero') }}">{{ number_format($akhir, 1) }}</span>
+              </td>
+              <td class="col-aksi">
                 <div class="action-btn-group" style="justify-content: flex-end; gap: 6px;">
-                  <button type="button" class="btn-table-action outline btn-edit-row">
-                    {{ $isFilled ? 'Ubah Nilai' : 'Isi Nilai' }}
+                  <button type="button" class="btn-action-akademik btn-edit-row {{ $isFilled ? 'outline' : 'primary' }}" title="{{ $isFilled ? 'Ubah nilai rapor ini' : 'Isi nilai rapor ini' }}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    <span>{{ $isFilled ? 'Ubah' : 'Isi Nilai' }}</span>
                   </button>
                 </div>
               </td>
@@ -370,9 +753,15 @@
       </table>
     </div>
 
-    <div style="padding:16px 20px; border-top:1px solid var(--c-border-light); font-size:13px; color:var(--c-text-muted); display:flex; justify-content:space-between; align-items:center;">
-      <div>Setiap semester memiliki 4 mata pelajaran pokok (default nilai 0). Klik tombol Ubah/Isi Nilai untuk memperbarui nilai rapor.</div>
-      <div style="font-weight:700; color:var(--c-primary);">5 Semester Tersedia</div>
+    <div style="padding:14px 20px; border-top:1px solid var(--c-border-light, #E2E8F0); background:#FAFCFE; font-size:12.5px; color:var(--c-text-muted); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <span>Setiap semester memiliki 4 mata pelajaran pokok (default nilai 0). Klik <strong>Isi Nilai</strong> atau <strong>Ubah</strong> untuk memperbarui.</span>
+      </div>
+      <div style="font-weight:700; color:var(--c-primary); display:flex; align-items:center; gap:6px;">
+        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10B981;"></span>
+        <span>5 Semester Tersedia</span>
+      </div>
     </div>
   </div>
 @endsection

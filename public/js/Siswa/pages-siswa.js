@@ -393,13 +393,22 @@ document.addEventListener('DOMContentLoaded', () => {
           if (semEl) semEl.textContent = sem;
 
           const pEl = targetRow.querySelector('.row-pengetahuan-val');
-          if (pEl) pEl.textContent = Math.round(p);
+          if (pEl) {
+            pEl.textContent = Math.round(p);
+            pEl.className = 'row-pengetahuan-val row-score-chip ' + (p > 0 ? 'filled' : 'zero');
+          }
 
           const kEl = targetRow.querySelector('.row-keterampilan-val');
-          if (kEl) kEl.textContent = Math.round(k);
+          if (kEl) {
+            kEl.textContent = Math.round(k);
+            kEl.className = 'row-keterampilan-val row-score-chip ' + (k > 0 ? 'filled' : 'zero');
+          }
 
           const akhirEl = targetRow.querySelector('.row-akhir-val');
-          if (akhirEl) akhirEl.textContent = parseFloat(akhir).toFixed(1);
+          if (akhirEl) {
+            akhirEl.textContent = parseFloat(akhir).toFixed(1);
+            akhirEl.className = 'row-akhir-val row-final-chip ' + (akhir >= 85 ? 'high' : (akhir > 0 ? 'filled' : 'zero'));
+          }
 
           const predikatEl = targetRow.querySelector('.row-predikat-val');
           if (predikatEl) {
@@ -407,7 +416,17 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
           const btnAction = targetRow.querySelector('.btn-edit-row');
-          if (btnAction) btnAction.textContent = 'Ubah Nilai';
+          if (btnAction) {
+            btnAction.className = 'btn-action-akademik btn-edit-row outline';
+            btnAction.setAttribute('title', 'Ubah nilai rapor ini');
+            btnAction.innerHTML = `
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span>Ubah</span>
+            `;
+          }
         }
 
         // Perbarui metrik kartu atas

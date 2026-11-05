@@ -82,9 +82,9 @@ button, a, input, select, textarea {
 }
 
 /* ==========================================================================
-   2. MOBILE & SMALL TABLET VIEWPORT (max-width: 900px)
+   2. TABLET & MOBILE GLOBAL NAVIGATION (max-width: 1024px)
    ========================================================================== */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .sidebar {
     position: fixed !important;
     top: 0 !important;
@@ -211,20 +211,208 @@ button, a, input, select, textarea {
   }
 
   .topbar {
-    padding: 0 16px !important;
+    padding: 0 18px !important;
     height: 64px !important;
   }
 
   .topbar-title {
-    font-size: 18px !important;
+    font-size: 17.5px !important;
   }
 
   .user-role-small {
     display: none !important;
   }
+}
 
+/* ==========================================================================
+   2b. DEDICATED TABLET OPTIMIZATION (601px - 1024px)
+   ========================================================================== */
+@media (min-width: 601px) and (max-width: 1024px) {
   .content-container {
-    padding: 16px 14px !important;
+    padding: 20px 20px !important;
+  }
+
+  /* Toolbar Rapi 1 Baris Sejajar di Tablet */
+  .table-integrated-toolbar {
+    padding: 16px 20px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .table-toolbar-info {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  .table-toolbar-header-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: auto !important;
+  }
+
+  .data-card-title {
+    font-size: 15.5px !important;
+    white-space: nowrap !important;
+  }
+
+  .data-count-badge {
+    font-size: 11px !important;
+    padding: 2.5px 8px !important;
+    height: 22px !important;
+  }
+
+  .table-toolbar-desc {
+    font-size: 11.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+  }
+
+  .table-toolbar-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    justify-content: flex-end !important;
+  }
+
+  .table-search-box {
+    width: 175px !important;
+    flex: 0 0 auto !important;
+  }
+
+  .table-search-input {
+    height: 36px !important;
+    font-size: 12.5px !important;
+    padding: 0 10px 0 32px !important;
+  }
+
+  .table-filter-group {
+    flex: 0 0 auto !important;
+    width: auto !important;
+  }
+
+  .table-filter-select {
+    height: 36px !important;
+    font-size: 12px !important;
+    padding: 0 26px 0 10px !important;
+    width: auto !important;
+  }
+
+  /* Tabel Presisi Tanpa Terpotong & Tanpa Scroll Paksa di Tablet */
+  .table-responsive {
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  #tableAkademik {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  #tableAkademik th {
+    padding: 10px 6px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.04em !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  #tableAkademik td {
+    padding: 10px 6px !important;
+    font-size: 12.5px !important;
+    vertical-align: middle !important;
+    overflow: hidden !important;
+  }
+
+  #tableAkademik .col-no {
+    width: 6% !important;
+    min-width: 32px !important;
+    padding-left: 6px !important;
+    padding-right: 2px !important;
+    font-size: 11.5px !important;
+    text-align: center !important;
+  }
+
+  #tableAkademik .col-mapel {
+    width: 34% !important;
+    text-align: left !important;
+  }
+
+  #tableAkademik .col-sem {
+    width: 15% !important;
+    text-align: left !important;
+  }
+
+  #tableAkademik .col-num {
+    width: 11% !important;
+    text-align: center !important;
+  }
+
+  #tableAkademik .col-akhir {
+    width: 11% !important;
+    text-align: center !important;
+  }
+
+  #tableAkademik .col-aksi {
+    width: 12% !important;
+    padding-right: 8px !important;
+    text-align: right !important;
+  }
+
+  .btn-action-akademik {
+    padding: 5px 8px !important;
+    font-size: 11px !important;
+    gap: 4px !important;
+  }
+
+  /* Ringkasan & Grafik Metrik */
+  .stats-summary-grid-compact,
+  .stats-summary-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+  }
+
+  .stat-summary-card {
+    padding: 14px 16px !important;
+  }
+
+  .chart-academic-wrapper {
+    padding: 18px 20px !important;
+    border-radius: 14px !important;
+  }
+
+  .academic-metric-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .metric-bar-card {
+    padding: 12px 14px !important;
+  }
+
+  /* Psikolog Kelola Jadwal & Slot */
+  .jadwal-two-columns,
+  .beranda-split-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .slot-card-item {
+    padding: 14px 14px !important;
   }
 }
 
