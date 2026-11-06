@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# Modul Text Generation untuk menghasilkan narasi rekomendasi program studi
 """
 =============================================================================
 B-YOUTH: MODUL RULE-BASED TEXT GENERATION (text_generation.py)
