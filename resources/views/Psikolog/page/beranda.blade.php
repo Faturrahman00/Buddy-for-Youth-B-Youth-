@@ -1,3 +1,5 @@
+<!-- Dashboard Psikolog -->
+
 @extends('Psikolog.layout.app', [
     'title' => 'Beranda Psikolog — Buddy For Youth (B-Youth)',
     'pageTitle' => 'Beranda',
