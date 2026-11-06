@@ -1,5 +1,5 @@
 <?php
-
+# Controller yang menangani semua hal yang berkaitan dengan data program studi
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
