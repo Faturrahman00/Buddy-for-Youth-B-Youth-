@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# Modul Cosine Similarity untuk menghitung tingkat kemiripan orientasi
+
 """
 =============================================================================
 B-YOUTH: MODUL COSINE SIMILARITY (cosine_similarity.py)

@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# Modul Forward Chaining untuk menentukan rumpun ilmu dan dukungan rekomendasi program studi
+
 """
 =============================================================================
 B-YOUTH: MODUL FORWARD CHAINING (forward_chaining.py)
