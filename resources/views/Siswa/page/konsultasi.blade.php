@@ -1,3 +1,5 @@
+//konsultasi.blade.php
+
 @extends('Siswa.layouts.app', [
     'title' => 'Konsultasi — Buddy For Youth (B-Youth)',
     'pageTitle' => 'Konsultasi',
