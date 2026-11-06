@@ -88,7 +88,7 @@ class JadwalController extends Controller
 
         return redirect()->route('psikolog.jadwal')->with('success', 'Slot konsultasi baru berhasil ditambahkan.');
     }
-
+    # Fungsi untuk menyetujui pengajuan booking siswa
     public function setujui(Request $request, $id)
     {
         $psikolog = $this->currentPsikolog();
@@ -111,7 +111,7 @@ class JadwalController extends Controller
 
         return redirect()->route('psikolog.jadwal')->with('success', 'Booking siswa telah disetujui.');
     }
-
+    # Fungsi untuk menolak pengajuan booking siswa
     public function tolak(Request $request, $id)
     {
         $psikolog = $this->currentPsikolog();
