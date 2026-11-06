@@ -1,3 +1,4 @@
+<!-- Halaman Dashboard Admin -->
 @extends('Admin.layout.app')
 
 @section('content')

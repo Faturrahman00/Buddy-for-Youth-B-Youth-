@@ -1,4 +1,5 @@
 <?php
+#Controller untuk menangani semua hal yang berkaitan dengan data dashboard admin
 
 namespace App\Http\Controllers\Admin;
 
