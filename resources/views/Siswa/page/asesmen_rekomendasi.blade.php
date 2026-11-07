@@ -6,7 +6,7 @@
   - Slider 0: Petunjuk Pengerjaan & Nilai Rapor (Opsional)
   - Slider 1-42: Pengerjaan Soal Asesmen 1 per 1
   - Slider 43: Catatan Penting tentang Hasil Tes Anda (Disclaimer & Rekomendasi Psikolog)
-  - Slider 44: Tampilan Hasil (Holland Code, 3 Tipe Tertinggi/Seri, Rekomendasi AI)
+  - Slider 44: Tampilan Hasil (Holland Code, 3 Tipe Tertinggi, Rekomendasi AI)
 --}}
 @extends('Siswa.layouts.app', [
     'title'     => 'Asesmen & Rekomendasi — Buddy For Youth (B-Youth)',

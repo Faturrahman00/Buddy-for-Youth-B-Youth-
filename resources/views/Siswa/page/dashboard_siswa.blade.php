@@ -8,13 +8,13 @@
 ])
 
 @section('content')
-  <!-- 1. Welcome Banner Card -->
+  <!-- 1.Welcome Banner Card -->
   @include('Siswa.components.welcome-banner')
 
-  <!-- 2. 4 Summary Cards Row -->
+  <!-- 2.4 Summary Cards Row -->
   @include('Siswa.components.summary-cards')
 
-  <!-- 3. Lower Section: Roadmap Next Steps + Upcoming Schedule -->
+  <!-- 3.Lower Section: Roadmap Next Steps + Upcoming Schedule -->
   <section class="dashboard-lower-grid">
     <!-- Left Column: Selesaikan Langkah Selanjutnya -->
     @include('Siswa.components.next-steps')

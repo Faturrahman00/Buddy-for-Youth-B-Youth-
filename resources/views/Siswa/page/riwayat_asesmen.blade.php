@@ -1,5 +1,5 @@
 {{-- 
-  B-YOUTH: RIWAYAT ASESMEN PAGE (Siswa)
+  B-YOUTH: RIWAYAT ASESMEN PAGE
   File: resources/views/Siswa/page/riwayat_asesmen.blade.php
   Matches Wireframe 3: Tanggal, Durasi, Status, Rekomendasi, Aksi + Search, Filter, Pagination
 --}}
