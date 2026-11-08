@@ -1,4 +1,3 @@
-//Register Page
 <!DOCTYPE html>
 <html lang="id">
 <head>
